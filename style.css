@@ -1,0 +1,318 @@
+@font-face {
+  font-family: Slack; /* Гарнитура шрифта */
+  src: url(fonts/Slack-Light.ttf); /* Путь к файлу со шрифтом */
+}
+
+
+
+.start{
+  width: 100%;
+
+
+}
+  
+  
+  .main {
+    margin-top: 3px;
+    margin-left: 3px;
+    margin-right: 3px;
+    background-color: black;
+    line-height: 17px;
+    
+
+
+  }
+
+  .conteiner-fluid{
+    height: 100%;
+
+
+  }
+
+  .row{
+    height: 100%;
+    --bs-gutter-x: 0rem;
+    
+  }
+
+  .col{
+  }
+
+  .col-logo{
+    min-width: 157px;
+     
+
+  }
+
+  .threejs{
+    
+    margin-top: 3px;
+
+  }
+
+  .picture{
+    width: 100%;
+    
+
+
+  }
+
+  .banner{
+    background: url(.png), radial-gradient(69.64% 66.53% at 50% 50.08%, #000000 0%, #80C442 0.01%, #1137C6 45.83%, #BC2649 100%); 
+    width: auto;
+    height: 128px;
+    margin-top: 3px;
+    border-top-left-radius: 30px;
+    border-bottom-right-radius: 30px;
+    
+  }
+
+  
+  
+  .logo{
+    min-width: 157px;
+    width: 157px;
+    height: 56px;
+    border-style: solid;
+    border-width: 2px;
+    border-color: white;
+    border-radius: 1000px;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+
+    
+    
+    
+  }
+
+  .logotext{
+    font-family: Slack, 'Slack Ligt';
+    margin: 0px;
+    color: white;
+    font-weight: 300;
+    font-size: 29px;
+    top: 50%;
+
+    
+
+
+  }
+
+
+  .cardtext{
+    width: auto;
+    height: 128px;
+    margin-left: 20px;
+    padding-top: 20px;
+    
+    
+  }
+  .text1{
+    color: rgb(255, 255, 255);
+    font-style: normal;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 0px;
+    text-align: justify;
+    text-transform: uppercase;
+    
+
+  }
+
+  .block1{
+    position: absolute;
+    color: rgb(0, 136, 255);
+    width: 387px;
+    height: 128px;
+
+
+
+  }
+
+  .menu{
+    background: url(.png), linear-gradient(180deg, #BC2649 27.08%, #BC2649 44.79%, #000000 100%), #B22851;
+    border-radius: 50px 0px 50px 0px;
+    width: auto;
+    height: 132px;
+    margin-right: 3px;
+    margin-top: 3px;
+
+  }
+
+  .menutext{
+    color: #000000;
+    font-family: 'Slack';
+    font-style: normal;
+    font-weight: 300;
+    font-size: 26px;
+    line-height: 31px;
+    text-transform: lowercase;
+    padding-top: 10px;
+    
+
+
+  }
+
+  .cardtext{
+
+
+
+  }
+  
+  .menu2{
+    background: url(.png), linear-gradient(180deg, #3300FF 0%, #000000 100%), #3300FF;
+    border-radius: 0px 50px 20px;
+    width: auto;
+    height: 132px;
+    margin-top: 3px;
+
+
+  }
+
+  .menutext2{
+    color: #ffffff;
+    font-family: 'Slack';
+    font-style: normal;
+    font-weight: 300;
+    font-size: 26px;
+    line-height: 31px;
+    text-transform: lowercase;
+    padding-top: 10px;
+    
+
+
+  }
+
+
+  .menu3{
+    border-style: solid;
+    border-width: 2px;
+    border-color: white;
+    border-radius: 1000px;
+    border-radius: 0px 50px 0px 50px;
+    width: auto;
+    height: 88px;
+    margin-right: 3px;
+    margin-top: 3px;
+
+  }
+  
+  .menu4{
+    border-style: solid;
+    border-width: 2px;
+    border-color: white;
+    border-radius: 50px 0px 50px;
+    width: auto;
+    height: 88px;
+    margin-top: 3px;
+
+
+  }
+
+ .space{
+  height: 108px;
+ }
+
+
+
+  
+
+\
+.all {
+  height: 400px;
+  width: 100%;
+  background: rgb(199, 255, 146);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 50px;
+  flex-wrap: wrap;
+
+}
+
+
+.header {
+  border: 1px solid red;
+  padding: 15px;
+  ]
+}
+
+
+
+.firts {
+  background-color: rgb(255, 255, 255);
+  padding-left: 50px;
+  padding-right: 50px;
+  font-family: verdana
+}
+
+
+.one {
+
+  float: left;
+  background: rgb(10, 173, 31);
+  height: 200px;
+  width: 500px;
+  border: 5px solid rgb(0, 0, 0);
+  box-sizing: border-box;
+
+
+
+}
+
+.two {
+
+  float: left;
+  background: rgb(30, 0, 197);
+  height: 200px;
+  width: 20%;
+  border: 5px solid rgb(0, 0, 0);
+  box-sizing: border-box;
+
+}
+
+.three {
+
+  float: left;
+  background: rgb(241, 66, 212);
+  height: 200px;
+  width: 20%;
+  border: 5px solid rgb(0, 0, 0);
+  box-sizing: border-box;
+
+}
+
+.four {
+
+  float: left;
+  background: rgb(199, 255, 146);
+  height: 200px;
+  width: 20%;
+  border: 5px solid rgb(0, 0, 0);
+  box-sizing: border-box;
+
+}
+
+.text {
+  margin-left: 70px;
+  flex-wrap: wrap;
+
+}
+
+
+.but {
+  margin-left: 70px;
+  float: left;
+  background: rgb(255, 0, 34);
+  height: 40px;
+  width: 30%;
+  border-radius: 15px;
+}
+
+.but:hover {
+  border: 10px solid rgb(255, 0, 34);
+}
+
+\
