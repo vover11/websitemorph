@@ -1,231 +1,230 @@
 @font-face {
-  font-family: Slack; /* Гарнитура шрифта */
-  src: url(fonts/Slack-Light.ttf); /* Путь к файлу со шрифтом */
+  font-family: Slack;
+  /* Гарнитура шрифта */
+  src: url(fonts/Slack-Light.ttf);
+  /* Путь к файлу со шрифтом */
   font-family: Sissi Display;
   src: url(SissiDisplay-Trial.otf);
+  font-family: Catalogue;
+  src: url(Catalogue-Medium.otf);
 
 
 }
 
 
 
-.start{
+.start {
   width: 100%;
 
 }
-  
-  
-  .main {
-    margin-top: 3px;
-    margin-left: 3px;
-    margin-right: 3px;
-    background-color: #080808;
-    line-height: 17px;
-    
 
 
-  }
-
-  .conteiner-fluid{
-    height: 100%;
-
-
-  }
-
-  .row{
-    height: 100%;
-    --bs-gutter-x: 0rem;
-    
-  }
-
-  .col{
-  }
-
-  .col-logo{
-    min-width: 157px;
-     
-
-  }
-
-  .threejs{
-    
-    margin-top: 3px;
-
-  }
-
-  .picture{
-    width: 100%;
-    
-
-
-  }
-
-  .banner{
-    background: url(.png), radial-gradient(69.64% 66.53% at 50% 50.08%, #000000 0%, #80C442 0.01%, #1137C6 45.83%, #BC2649 100%); 
-    width: auto;
-    height: 128px;
-    margin-top: 3px;
-    border-top-left-radius: 30px;
-    border-bottom-right-radius: 30px;
-    
-  }
-
-  
-  
-  .logo{
-    min-width: 157px;
-    width: 157px;
-    height: 56px;
-    border-style: solid;
-    border-width: 2px;
-    border-color: white;
-    border-radius: 1000px;
-    display: flex;
-    justify-content: center;
-    text-align: center;
-    align-items: center;
-
-    
-    
-    
-  }
-
-  .logotext{
-    font-family: Slack, 'Slack Ligt';
-    margin: 0px;
-    color: white;
-    font-weight: 300;
-    font-size: 29px;
-    top: 50%;
-
-    
-
-
-  }
-
-
-  .cardtext{
-    width: auto;
-    height: 128px;
-    margin-left: 20px;
-    padding-top: 20px;
-    
-    
-  }
-  .text1{
-    color: rgb(255, 255, 255);
-    font-style: normal;
-    font-weight: 400;
-    font-size: 13px;
-    line-height: 0px;
-    text-align: justify;
-    text-transform: uppercase;
-    
-
-  }
-
-  .block1{
-    position: absolute;
-    color: rgb(0, 136, 255);
-    width: 387px;
-    height: 128px;
+.main {
+  margin-top: 3px;
+  margin-left: 3px;
+  margin-right: 3px;
+  background-color: #080808;
+  line-height: 17px;
 
 
 
-  }
+}
 
-  .menu{
-    background: url(.png), linear-gradient(180deg, #BC2649 27.08%, #BC2649 44.79%, #000000 100%), #B22851;
-    border-radius: 50px 0px 50px 0px;
-    width: auto;
-    height: 132px;
-    margin-right: 3px;
-    margin-top: 3px;
-    position: relative;
-
-  }
-
-  .menutext{
-    color: #000000;
-    font-family: 'Sissi display';
-    font-style: normal;
-    font-weight: 300;
-    font-size: 20px;
-    line-height: 31px;
-    text-transform: lowercase;
-    padding-top: 10px;
-    
+.conteiner-fluid {
+  height: 100%;
 
 
-  }
+}
 
-  .cardtext{
+.row {
+  height: 100%;
+  --bs-gutter-x: 0rem;
 
+}
 
+.col {}
 
-  }
-  
-  .menu2{
-    background: url(.png), linear-gradient(180deg, #3300FF 0%, #000000 100%), #3300FF;
-    border-radius: 0px 50px 20px;
-    width: auto;
-    height: 132px;
-    margin-top: 3px;
+.col-logo {
+  min-width: 157px;
 
 
-  }
+}
 
-  .menutext2{
-    color: #ffffff;
-    font-family: 'Sissi display';
-    font-style: normal;
-    font-weight: 300;
-    font-size: 20px;
-    line-height: 31px;
-    text-transform: lowercase;
-    padding-top: 10px;
-    
+.threejs {
+
+  margin-top: 3px;
+
+}
+
+.picture {
+  width: 100%;
 
 
-  }
+
+}
+
+.banner {
+  background: url(.png), radial-gradient(69.64% 66.53% at 50% 50.08%, #1137C6 45.83%, #BC2649 100%);
+  height: 128px;
+  margin-top: 3px;
+  border-top-left-radius: 30px;
+  border-bottom-right-radius: 30px;
+
+}
 
 
-  .menu3{
-    border-style: solid;
-    border-width: 2px;
-    border-color: white;
-    border-radius: 1000px;
-    border-radius: 0px 50px 0px 50px;
-    width: auto;
-    height: 88px;
-    margin-right: 3px;
-    margin-top: 3px;
 
-  }
-  
-  .menu4{
-    border-style: solid;
-    border-width: 2px;
-    border-color: white;
-    border-radius: 50px 0px 50px;
-    width: auto;
-    height: 88px;
-    margin-top: 3px;
+.logo {
+  min-width: 157px;
+  width: 157px;
+  height: 56px;
+  border-style: solid;
+  border-width: 2px;
+  border-color: white;
+  border-radius: 1000px;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
 
 
-  }
 
- .space{
+
+}
+
+.logotext {
+  font-family: Slack, 'Slack Ligt';
+  margin: 0px;
+  color: white;
+  font-weight: 300;
+  font-size: 29px;
+  top: 50%;
+
+
+
+
+}
+
+
+.cardtext {
+  width: auto;
+  height: 128px;
+  margin-left: 20px;
+  padding-top: 20px;
+
+
+}
+
+.text1 {
+  color: rgb(255, 255, 255);
+  font-style: normal;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 0px;
+  text-align: justify;
+  text-transform: uppercase;
+
+
+}
+
+.block1 {
+  position: absolute;
+  color: rgb(0, 136, 255);
+  width: 387px;
+  height: 128px;
+
+
+
+}
+
+.menu {
+  background: url(.png), linear-gradient(180deg, #BC2649 27.08%, #BC2649 44.79%, #000000 100%), #B22851;
+  border-radius: 50px 0px 50px 0px;
+  width: auto;
+  height: 132px;
+  margin-right: 3px;
+  margin-top: 3px;
+  position: relative;
+
+}
+
+.menutext {
+  color: #000000;
+  font-family: 'Sissi display';
+  font-style: normal;
+  font-weight: 300;
+  font-size: 20px;
+  line-height: 31px;
+  text-transform: lowercase;
+  padding-top: 10px;
+
+
+
+}
+
+.cardtext {}
+
+.menu2 {
+  background: url(.png), linear-gradient(180deg, #3300FF 0%, #000000 100%), #3300FF;
+  border-radius: 0px 50px 20px;
+  width: auto;
+  height: 132px;
+  margin-top: 3px;
+
+
+}
+
+.menutext2 {
+  color: #ffffff;
+  font-family: 'Sissi display';
+  font-style: normal;
+  font-weight: 300;
+  font-size: 20px;
+  line-height: 31px;
+  text-transform: lowercase;
+  padding-top: 10px;
+
+
+
+}
+
+
+.menu3 {
+  border-style: solid;
+  border-width: 2px;
+  border-color: white;
+  border-radius: 1000px;
+  border-radius: 0px 50px 0px 50px;
+  width: auto;
+  height: 88px;
+  margin-right: 3px;
+  margin-top: 3px;
+
+}
+
+.menu4 {
+  border-style: solid;
+  border-width: 2px;
+  border-color: white;
+  border-radius: 50px 0px 50px;
+  width: auto;
+  height: 88px;
+  margin-top: 3px;
+
+
+}
+
+.space {
   height: 108px;
- }
+}
 
- .now {
+.now {
   background-color: rgba(218, 28, 28, 0);
   height: 100%;
   box-sizing: border-box;
   margin: 0px;
-  
-  
+
+
 
 }
 
@@ -246,12 +245,9 @@ canvas {
 .wrapper .wrapper__container {
   width: 100%;
   height: 100%
-  
-
-  
 }
 
-.wrapper #defaultCanvas0   {
+.wrapper #defaultCanvas0 {
   width: 100% !important;
   height: 100% !important;
   margin: 0px;
@@ -262,13 +258,15 @@ canvas {
 
 .flip-card {
   background-color: rgba(218, 28, 28, 0);
-  height: 200px;
+  width: 100%;
+  height: 245px;
   perspective: 1000px;
   display: inline-block;
   display: flex;
   justify-content: center;
   border-radius: 30px;
   margin-top: 3px;
+
 }
 
 .flip-card-inner {
@@ -279,24 +277,40 @@ canvas {
   transition: transform 0.6s;
   transform-style: preserve-3d;
   
+
 }
 
 .flip-card:hover .flip-card-inner {
   transform: rotateY(180deg);
 }
 
-.flip-card-front, .flip-card-back {
+.flip-card-front,
+.flip-card-back {
   position: absolute;
   width: 100%;
   height: 100%;
   backface-visibility: hidden;
+  
+
+
 }
 
 .flip-card-front {
+  margin: auto;
   background-color: #3300FF;
   color: black;
   border-radius: 30px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   
+  
+
+  
+
+
+
 }
 
 .flip-card-back {
@@ -304,11 +318,38 @@ canvas {
   color: white;
   transform: rotateY(180deg);
   border-radius: 30px;
-} 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
 
 .flip-card.flipped .flip-card-inner {
   transform: rotateY(180deg);
+
+}
+
+.circle {
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  border-radius: 100px/50px;
+  background: url(.png), radial-gradient(69.64% 66.53% at 50% 50.08%, #000000 0%, #80C442 0.01%, #1137C6 45.83%, #BC2649 100%);
+  position: absolute;
+  width: 200px;
+  height: 100px;
+  font-family: 'Catalogue';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 27px;
+  line-height: 32px;
+  letter-spacing: 0.02em;
+  text-transform: lowercase;
+  color: white;
+  transform: rotate(-18.26deg);
+
 }
 
 \
