@@ -7,12 +7,12 @@
 
 @font-face {
   font-family: Sissi Display;
-  src: url(SissiDisplay-Trial.otf);
+  src: url(fonts/SissiDisplay-Trial.otf);
 }
 
 @font-face {
   font-family: Catalogue;
-  src: url(Catalogue-Medium.otf);
+  src: url(fonts/Catalogue-Medium.otf);
 }
 
 
