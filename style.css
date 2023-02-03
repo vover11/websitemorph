@@ -156,6 +156,14 @@
 
 }
 
+#element1 {
+  position: relative;
+  transition: all 1s ease-in-out;
+}
+
+#element1.clicked {
+  transform: translateY(20px);
+}
 
 
 
