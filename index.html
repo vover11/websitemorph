@@ -90,7 +90,14 @@
                 </div>
 
                 <div class="col-4">
-                    <div class="menu2">
+                    <div class="menu2" id="element2">
+                        <script>
+                            var element = document.getElementById("element2");
+
+                            element.addEventListener("click", function () {
+                                element.classList.toggle("clicked");
+                            });
+                        </script>
                         <div class="cardtext">
                             <span class="menutext2">design</span>
                         </div>
@@ -140,7 +147,7 @@
                             </div>
 
                             <div class="picture_star">
-                                <img url=(../images/star 8.png")>
+                                <img src="images/star 8.png">
                             </div>
                         </div>
                         <div class="card-back">

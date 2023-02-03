@@ -194,6 +194,16 @@
 
 }
 
+#element2 {
+  position: relative;
+  transition: all 1s ease-in-out;
+}
+
+#element2.clicked {
+  transform: translateY(20px);
+}
+
+
 .menutext2 {
   color: #ffffff;
   font-family: 'Sissi display';
