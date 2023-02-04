@@ -34,41 +34,52 @@
     }
   </style>
   <script>
-    const sliderContainer = document.querySelector(".slider-container");
-    let startX = 0;
-    let currentX = 0;
-    let isScrolling = false;
-    let swipeDirection = 0; // 0 for no swipe, 1 for right swipe, -1 for left swipe
+const containers = document.querySelectorAll('.slider-container');
+let currentContainer = 0;
+
+document.addEventListener('touchstart', (e) => {
+  const touch = e.touches[0];
+  let startX = touch.clientX;
+  let endX;
+  let diffX;
   
-    sliderContainer.addEventListener("touchstart", e => {
-      startX = e.touches[0].clientX;
-      isScrolling = true;
-      swipeDirection = 0;
-    });
-  
-    sliderContainer.addEventListener("touchmove", e => {
-      if (!isScrolling) return;
-      currentX = e.touches[0].clientX - startX;
-      if (currentX > 0) {
-        swipeDirection = 1;
-      } else if (currentX < 0) {
-        swipeDirection = -1;
+  const handleTouchMove = (e) => {
+    const touch = e.touches[0];
+    endX = touch.clientX;
+    diffX = startX - endX;
+    
+    containers.forEach((container, index) => {
+      if (index === currentContainer) {
+        container.style.transform = `translateX(${-diffX}px)`;
+      } else if (index === currentContainer + 1) {
+        container.style.transform = `translateX(${-100% + diffX}px)`;
+      } else if (index === currentContainer - 1) {
+        container.style.transform = `translateX(${100% + diffX}px)`;
       }
-      sliderContainer.style.transform = `translateX(${-100 + currentX / window.innerWidth * 100}%)`;
     });
+  };
   
-    sliderContainer.addEventListener("touchend", e => {
-      isScrolling = false;
-      if (swipeDirection === -1) {
-        const translateX = parseInt(sliderContainer.style.transform.split(/[()]/)[1]) / 100;
-        if (translateX < -50) {
-          sliderContainer.style.transform = `translateX(-100%)`;
-        } else {
-          sliderContainer.style.transform = `translateX(0%)`;
-        }
+  const handleTouchEnd = (e) => {
+    if (diffX > 50) {
+      currentContainer--;
+    } else if (diffX < -50) {
+      currentContainer++;
+    }
+    
+    containers.forEach((container, index) => {
+      if (index === currentContainer) {
+        container.style.transform = `translateX(0%)`;
       } else {
-        sliderContainer.style.transform = `translateX(0%)`;
+        container.style.transform = `translateX(${index < currentContainer ? '-100%' : '100%'})`;
       }
     });
+    
+    document.removeEventListener('touchmove', handleTouchMove);
+    document.removeEventListener('touchend', handleTouchEnd);
+  };
+  
+  document.addEventListener('touchmove', handleTouchMove);
+  document.addEventListener('touchend', handleTouchEnd);
+});
   </script>
 <body>
