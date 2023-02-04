@@ -17,18 +17,29 @@
 
 <body class="main">
     <div class="slider">
-        <div class="card">Card 1</div>
-        <div class="card">Card 2</div>
-        <div class="card">Card 3</div>
+        <div class="card1" id="card01">Card 1</div>
+        <div class="card2">Card 2</div>
+        <div class="card3">Card 3</div>
     </div>
     <style>
         .slider {
             overflow-x: scroll;
             white-space: nowrap;
             -webkit-overflow-scrolling: touch;
+            width: 100%;
+            height: 600px;
         }
 
-        .card {
+        .card1 {
+            display: inline-block;
+            width: 100%;
+            height: 500px;
+            background-color: #ccc;
+            text-align: center;
+            margin-right: 10px;
+        }
+
+        .card2 {
             display: inline-block;
             width: calc(100% / 3);
             height: 200px;
@@ -36,6 +47,17 @@
             text-align: center;
             margin-right: 10px;
         }
+
+        .card3 {
+            display: inline-block;
+            width: calc(100% / 3);
+            height: 200px;
+            background-color: #ccc;
+            text-align: center;
+            margin-right: 10px;
+        }
+
+ 
     </style>
 
     <script>
