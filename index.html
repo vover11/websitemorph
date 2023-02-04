@@ -1,85 +1,71 @@
 <body class="main">
-  <div class="slider">
-    <div class="slider-container">
-      <div class="slide1"></div>
-      <div class="slide2"></div>
+    <div class="slider">
+        <div class="card">Card 1</div>
+        <div class="card">Card 2</div>
+        <div class="card">Card 3</div>
     </div>
-  </div>
-  <style>
-    .slider {
-      background-color: aqua;
-      overflow: hidden;
-      width: 100%;
-      height: 200px;
-    }
-  
-    .slider-container {
-      background-color: blueviolet;  
-      display: flex;
-      width: 200%;
-      height: 100%;
-      transition: transform 0.5s;
-    }
-  
-    .slide1 {
-      background-color: blue;
-      width: 50%;
-      height: 100%;
-    }
-    
-    .slide2 {
-      background-color: red;  
-      width: 50%;
-      height: 100%;
-    }
-  </style>
-  <script>
-const containers = document.querySelectorAll('.slider-container');
-let currentContainer = 0;
+    <style>
+        .slider {
+            overflow-x: scroll;
+            white-space: nowrap;
+            -webkit-overflow-scrolling: touch;
+            width: 100%;
+            height: 200px;
+        }
 
-document.addEventListener('touchstart', (e) => {
-  const touch = e.touches[0];
-  let startX = touch.clientX;
-  let endX;
-  let diffX;
-  
-  const handleTouchMove = (e) => {
-    const touch = e.touches[0];
-    endX = touch.clientX;
-    diffX = startX - endX;
-    
-    containers.forEach((container, index) => {
-      if (index === currentContainer) {
-        container.style.transform = `translateX(${-diffX}px)`;
-      } else if (index === currentContainer + 1) {
-        container.style.transform = `translateX(${-100% + diffX}px)`;
-      } else if (index === currentContainer - 1) {
-        container.style.transform = `translateX(${100% + diffX}px)`;
-      }
-    });
-  };
-  
-  const handleTouchEnd = (e) => {
-    if (diffX > 50) {
-      currentContainer--;
-    } else if (diffX < -50) {
-      currentContainer++;
-    }
-    
-    containers.forEach((container, index) => {
-      if (index === currentContainer) {
-        container.style.transform = `translateX(0%)`;
-      } else {
-        container.style.transform = `translateX(${index < currentContainer ? '-100%' : '100%'})`;
-      }
-    });
-    
-    document.removeEventListener('touchmove', handleTouchMove);
-    document.removeEventListener('touchend', handleTouchEnd);
-  };
-  
-  document.addEventListener('touchmove', handleTouchMove);
-  document.addEventListener('touchend', handleTouchEnd);
-});
-  </script>
-<body>
+        .card {
+            display: inline-block;
+            width: calc(100% / 3);
+            height: 200px;
+            background-color: #ccc;
+            text-align: center;
+            margin-right: 10px;
+        }
+    </style>
+
+    <script>
+        // Add touch events for mobile devices
+        const slider = document.querySelector('.slider');
+        let isDown = false;
+        let startX;
+        let scrollLeft;
+
+        slider.addEventListener('mousedown', (e) => {
+            isDown = true;
+            slider.classList.add('active');
+            startX = e.pageX - slider.offsetLeft;
+            scrollLeft = slider.scrollLeft;
+        });
+        slider.addEventListener('mouseleave', () => {
+            isDown = false;
+            slider.classList.remove('active');
+        });
+        slider.addEventListener('mouseup', () => {
+            isDown = false;
+            slider.classList.remove('active');
+        });
+        slider.addEventListener('mousemove', (e) => {
+            if (!isDown) return;
+            e.preventDefault();
+            const x = e.pageX - slider.offsetLeft;
+            const walk = (x - startX) * 3;
+            slider.scrollLeft = scrollLeft - walk;
+        });
+
+    </script>
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/three@0.120.1/build/three.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+
+    <script src="sketch.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.1/p5.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.1/addons/p5.sound.min.js"></script>
+
+
+
+
+</body>
