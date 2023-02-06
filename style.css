@@ -15,6 +15,9 @@
   src: url(fonts/Catalogue-Medium.otf);
 }
 
+.card{
+  background-color: rgba(255, 255, 255, 0);
+}
 
 
 .start {
@@ -384,27 +387,31 @@
   color: white;
   transform: rotate(-18.26deg);
   border: 2px solid #FFFFFF;
+  position: relative;
 
 }
 
 .picture_star{
 
-  position: absolute;
+  position: absolute; 
   left: 130px;
   top: 210px;
+  
+  
 }
 
 .picture_star1{
-
-  position: absolute;
+  position: absolute; 
   left: 250px;
   top: 40px;
+  
+
 }
 
 
 
 .card1 {
-  background-color: rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, 0);
   margin-top: 3px;
   width: 100%;
   height: 300px;
@@ -468,7 +475,7 @@
 }
 
 .logocardweb{
-  margin-top: 162px;
+ margin-top: 52px;
  background: #727272;
  width: 100%;
  height: 270px;
@@ -488,6 +495,9 @@
 
 
 }
+
+
+
 
 
 /* Это CSS свойство использует селектор :active для изменения прозрачности (opacity) кнопки при нажатии. Когда кнопка активна, ее прозрачность уменьшается до 0.5. */
@@ -533,100 +543,269 @@ button:active {
 
 
 
-\
-.all {
-  height: 400px;
+.flip-card {
+  background-color: rgba(218, 28, 28, 0);
   width: 100%;
-  background: rgb(199, 255, 146);
+  height: 245px;
+  perspective: 1000px;
+  display: inline-block;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+  border-radius: 30px;
+  margin-top: 3px;
+
+}
+
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+
+
+}
+
+.flip-card1 {
+  background-color: rgba(218, 28, 28, 0);
+  width: 100%;
+  height: 245px;
+  perspective: 1000px;
+  display: inline-block;
+  display: flex;
+  justify-content: center;
+  border-radius: 30px;
+  margin-top: 3px;
+
+}
+
+.flip-card:hover .flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+.flip-card-front,
+.flip-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+
+
+
+}
+
+.flip-card-back {
+  background-color: #3300FF;
+  color: rgba(255, 255, 255, 0);
+  transform: rotateY(180deg);
+  border-radius: 30px;
+  display: flex;
   align-items: center;
-  margin-top: 50px;
-  flex-wrap: wrap;
-
+  justify-content: center;
 }
 
+.circle {
 
-.header {
-  border: 1px solid red;
-  padding: 15px;
-  ]
-}
-
-
-
-.firts {
-  background-color: rgb(255, 255, 255);
-  padding-left: 50px;
-  padding-right: 50px;
-  font-family: verdana
-}
-
-
-.one {
-
-  float: left;
-  background: rgb(10, 173, 31);
-  height: 200px;
-  width: 500px;
-  border: 5px solid rgb(0, 0, 0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   box-sizing: border-box;
-
-
-
-}
-
-.two {
-
-  float: left;
-  background: rgb(30, 0, 197);
-  height: 200px;
-  width: 20%;
-  border: 5px solid rgb(0, 0, 0);
-  box-sizing: border-box;
-
-}
-
-.three {
-
-  float: left;
-  background: rgb(241, 66, 212);
-  height: 200px;
-  width: 20%;
-  border: 5px solid rgb(0, 0, 0);
-  box-sizing: border-box;
+  border-radius: 100% 50%;
+  /* background: url(.png), radial-gradient(69.64% 66.53% at 50% 50.08%, #000000 0%, #80C442 0.01%, #1137C6 45.83%, #BC2649 100%); */
+  position: absolute;
+  width: 320px;
+  height: 160px;
+  font-family: 'Catalogue';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 27px;
+  line-height: 32px;
+  letter-spacing: 0.02em;
+  text-transform: lowercase;
+  color: white;
+  transform: rotate(-18.26deg);
+  border: 2px solid #FFFFFF;
+  position: relative;
 
 }
 
-.four {
+.picture_star{
 
-  float: left;
-  background: rgb(199, 255, 146);
-  height: 200px;
-  width: 20%;
-  border: 5px solid rgb(0, 0, 0);
-  box-sizing: border-box;
-
+  position: absolute; 
+  left: 130px;
+  top: 210px;
+  
+  
 }
 
-.text {
-  margin-left: 70px;
-  flex-wrap: wrap;
+.picture_star1{
+  position: absolute; 
+  left: 250px;
+  top: 40px;
+  
 
 }
 
 
-.but {
-  margin-left: 70px;
-  float: left;
-  background: rgb(255, 0, 34);
-  height: 40px;
-  width: 30%;
-  border-radius: 15px;
+
+.card-front, .card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  transition: transform 1s;
+  
 }
 
-.but:hover {
-  border: 10px solid rgb(255, 0, 34);
+.card-back {
+  transform: rotateY(180deg);
 }
 
-\
+.flipped .card-front {
+  transform: rotateY(180deg);
+}
+
+.flipped .card-back {
+  transform: rotateY(0deg);
+}
+
+.card-front{
+  width: 100%;
+  height: 300px;
+  background-color: #3300FF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+}
+
+.card-back{
+  width: 100%;
+  height: 300px;
+  background-color: #3300FF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 13px;
+  text-transform: lowercase;
+  text-align: center;
+  
+
+}
+
+
+
+
+.logocardweb{
+ margin-top: 52px;
+ background: #727272;
+ width: 100%;
+ height: 270px;
+ border-radius: 30px 30px 0px 0px;
+
+}
+
+.cardbutton{
+  background-color: #3300FF;
+  margin-top: 3px;
+  width: 100%;
+  height: 59px;
+  border-radius: 0px 0px 30px 30px;
+  border: 0px;
+  color: white;
+ 
+
+
+}
+
+.slider {
+  overflow-x: scroll;
+  white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
+  width: 100%;
+  height: 100%;
+}
+
+.card1 {
+  display: inline-block;
+  width: 100%;
+  height: auto;
+  background-color: rgba(204, 204, 204, 0);
+  text-align: center;
+  margin-right: 10px;
+}
+
+.card2 {
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+  background-color: #cccccc00;
+  text-align: center;
+  margin-right: 10px;
+}
+
+.card3 {
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+  background-color: #cccccc00;
+  text-align: center;
+  margin-right: 10px;
+}
+
+.card {
+  background-color: rgba(0, 0, 0, 0);
+  margin-top: 3px;
+  width: 100%;
+  height: 300px;
+  position: relative;
+  perspective: 1000px;
+  border-radius: 30px;
+}
+
+
+
+
+
+/* Это CSS свойство использует селектор :active для изменения прозрачности (opacity) кнопки при нажатии. Когда кнопка активна, ее прозрачность уменьшается до 0.5. */
+button {
+  opacity: 1;
+}
+
+button:active {
+  opacity: 0.5;
+}
+/*  */
+
+
+#websiteteamcon{
+  display: flex;
+  margin-top: 74px;
+
+}
+
+.websiteteam {
+  margin-right: 3px;
+  margin-top: 3px;
+  min-width: 98px;
+  width: 98px;
+  height: 36px;
+  border-style: solid;
+  border: 1px solid #FFFFFF;
+  border-radius: 50px 0px 50px 50px;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+  font-family: 'Slack';
+  font-style: normal;
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 19px;
+  text-transform: lowercase;
+
+
+}
+
