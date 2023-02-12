@@ -149,17 +149,17 @@
         </div>
 
         <div class="slider">
-            <div class="card1">
+            <div class="card-card">
                 <div class="logocardweb"></div>
                 <div class="card" class="slide">
-                    <script>
+                    <!-- <script>
                         const cards = document.querySelectorAll('.card');
                         cards.forEach(function (card) {
                             card.addEventListener('click', function () {
                                 card.classList.toggle('flipped');
                             });
                         });
-                    </script>
+                    </script> -->
                     <div class="card-front">
                         <div class="circle">
                             Magazine
@@ -185,86 +185,83 @@
 
             </div>
 
-            <div class="card2">
-                <div class="card1">
-                    <div class="logocardweb"></div>
-                    <div class="card" class="slide">
-                        <script>
-                            const card2 = document.querySelector('.card2');
-                            card2.addEventListener('click', function () {
-                                card2.classList.toggle('flipped');
-                            });
-                        </script>
-                        <div class="card-front">
-                            <div class="circle">
-                                Magazine
-                            </div>
-                            <div class="picture_star1">
-                                <img src="images/star.png">
-                            </div>
-                            <div class="picture_star">
-                                <img src="images/star.png">
-                            </div>
+            <div class="card-card">
+                <div class="logocardweb"></div>
+                <div class="card" class="slide">
+                    <script>
+
+                    </script>
+                    <div class="card-front">
+                        <div class="circle">
+                            Magazine
                         </div>
-                        <div class="card-back">
-                            <span class="backcardtext">
-                                Ваш бизнес готов к полной цифровой <br>
-                                трансформации? индивидуальный <br>
-                                интернет-магазин, созданный с учетом <br>
-                                всех ваших бизнес-потребностей <br>
-                            </span>
+                        <div class="picture_star1">
+                            <img src="images/star.png">
+                        </div>
+                        <div class="picture_star">
+                            <img src="images/star.png">
                         </div>
                     </div>
-                    <div class="row g-0">
-                        <div class="col">
-                            <button class="cardbutton">ОСТАВИТЬ ЗАЯВКУ</button>
-                        </div>
+                    <div class="card-back">
+                        <span class="backcardtext">
+                            ПРОАНАЛИЗИРУЕМ нишу и потребности,<br>  
+                            чтобы создать уникальный интерфейс,<br> 
+                            который поможет вам продемонстрировать<br> 
+                            конкурентные преимущества<br>
+                        </span>
+                    </div>
+                </div>
+                <div class="row g-0">
+                    <div class="col">
+                        <button class="cardbutton">ОСТАВИТЬ ЗАЯВКУ</button>
                     </div>
                 </div>
 
+
             </div>
-            <div class="card3">
-                <div class="card1">
-                    <div class="row g-0">
-                        <div class="col">
-                            <div class="logocardweb"></div>
+            <div class="card-card">
+
+
+
+                <div class="logocardweb"></div>
+
+
+                <div class="card" class="slide">
+                    <script>
+                        const card = document.querySelectorAll('.card');
+                        for (let i = 0; i < card.length; i++) {
+                            card[i].addEventListener('click', function () {
+                                card[i].classList.toggle('flipped');
+                            });
+                        }
+                    </script>
+                    <div class="card-front">
+                        <div class="circle">
+                            Magazine
                         </div>
-                    </div>   
-                    <div class="card" class="slide">
-                        <script>
-                            const card = document.querySelectorAll('.card3');
-                            for (let i = 0; i < card.length; i++) {
-                                card[i].addEventListener('click', function () {
-                                    card[i].classList.toggle('flipped');
-                                });
-                            }
-                        </script>
-                        <div class="card-front">
-                            <div class="circle">
-                                Magazine
-                            </div>
-                            <div class="picture_star1">
-                                <img src="images/star.png">
-                            </div>
-                            <div class="picture_star">
-                                <img src="images/star.png">
-                            </div>
+                        <div class="picture_star1">
+                            <img src="images/star.png">
                         </div>
-                        <div class="card-back">
-                            <span class="backcardtext">
-                                Ваш бизнес готов к полной цифровой <br>
-                                трансформации? индивидуальный <br>
-                                интернет-магазин, созданный с учетом <br>
-                                всех ваших бизнес-потребностей <br>
-                            </span>
+                        <div class="picture_star">
+                            <img src="images/star.png">
                         </div>
                     </div>
-                    <div class="row g-0">
-                        <div class="col">
-                            <button class="cardbutton">ОСТАВИТЬ ЗАЯВКУ</button>
-                        </div>
+                    <div class="card-back">
+                        <span class="backcardtext">
+                            веб-портал для управления бизнесом,<br> 
+                            который будет интуитивно понятен<br> 
+                            для сотрудников и клиентов.<br> 
+                            Оптимизируйте бизнес-процессы<br>
+                            и повышайте производительность компании<br>
+                        </span>
                     </div>
                 </div>
+                <div class="row g-0">
+                    <div class="col">
+                        <button class="cardbutton">ОСТАВИТЬ ЗАЯВКУ</button>
+                    </div>
+                </div>
+
             </div>
         </div>
 
