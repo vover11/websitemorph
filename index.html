@@ -135,6 +135,8 @@
     </section>
 
     <section>
+
+
         <div class="row g-0">
             <div class="col" id="websiteteamcon">
                 <div class="websiteteam">
@@ -145,13 +147,10 @@
                 </div>
             </div>
         </div>
-        <div class="row g-0">
-            <div class="col">
-                <div class="logocardweb"></div>
-            </div>
-        </div>
+
         <div class="slider">
             <div class="card1">
+                <div class="logocardweb"></div>
                 <div class="card" class="slide">
                     <script>
                         const cards = document.querySelectorAll('.card');
@@ -181,16 +180,16 @@
                         </span>
                     </div>
                 </div>
-                <div class="row g-0">
-                    <div class="col">
-                        <button class="cardbutton">ОСТАВИТЬ ЗАЯВКУ</button>
-                    </div>
-                </div>
+
+                <button class="cardbutton">ОСТАВИТЬ ЗАЯВКУ</button>
+
             </div>
+
             <div class="card2">
                 <div class="card1">
+                    <div class="logocardweb"></div>
                     <div class="card" class="slide">
-                        <script> 
+                        <script>
                             const card2 = document.querySelector('.card2');
                             card2.addEventListener('click', function () {
                                 card2.classList.toggle('flipped');
@@ -222,10 +221,15 @@
                         </div>
                     </div>
                 </div>
-    
+
             </div>
             <div class="card3">
                 <div class="card1">
+                    <div class="row g-0">
+                        <div class="col">
+                            <div class="logocardweb"></div>
+                        </div>
+                    </div>   
                     <div class="card" class="slide">
                         <script>
                             const card = document.querySelectorAll('.card3');
@@ -263,15 +267,15 @@
                 </div>
             </div>
         </div>
-    
-    
+
+
         <script>
             // Add touch events for mobile devices
             const slider = document.querySelector('.slider');
             let isDown = false;
             let startX;
             let scrollLeft;
-    
+
             slider.addEventListener('mousedown', (e) => {
                 isDown = true;
                 slider.classList.add('active');
@@ -293,10 +297,10 @@
                 const walk = (x - startX) * 3;
                 slider.scrollLeft = scrollLeft - walk;
             });
-    
+
         </script>
-    
-       
+
+
 
         <!-- <div class="row g-0">
             <div class="col">

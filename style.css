@@ -15,8 +15,13 @@
   src: url(fonts/Catalogue-Medium.otf);
 }
 
+@font-face {
+  font-family: CSTM Xprmntl;
+  src: url(fonts/CSTMXprmntl02Bold-Bold-Trial.otf);
+}
+
 .card{
-  background-color: rgba(255, 255, 255, 0);
+  background-color: rgba(0, 0, 0, 0);
 }
 
 
@@ -173,7 +178,7 @@
 
 .menutext {
   color: #000000;
-  font-family: 'Sissi display';
+  font-family: 'CSTM Xprmntl';
   font-style: normal;
   font-weight: 300;
   font-size: 20px;
@@ -409,17 +414,6 @@
 }
 
 
-
-.card1 {
-  background-color: rgba(0, 0, 0, 0);
-  margin-top: 3px;
-  width: 100%;
-  height: 300px;
-  position: relative;
-  perspective: 1000px;
-  border-radius: 30px;
-}
-
 .card-front, .card-back {
   position: absolute;
   width: 100%;
@@ -595,130 +589,9 @@ button:active {
 
 }
 
-.flip-card-back {
-  background-color: #3300FF;
-  color: rgba(255, 255, 255, 0);
-  transform: rotateY(180deg);
-  border-radius: 30px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.circle {
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-sizing: border-box;
-  border-radius: 100% 50%;
-  /* background: url(.png), radial-gradient(69.64% 66.53% at 50% 50.08%, #000000 0%, #80C442 0.01%, #1137C6 45.83%, #BC2649 100%); */
-  position: absolute;
-  width: 320px;
-  height: 160px;
-  font-family: 'Catalogue';
-  font-style: normal;
-  font-weight: 500;
-  font-size: 27px;
-  line-height: 32px;
-  letter-spacing: 0.02em;
-  text-transform: lowercase;
-  color: white;
-  transform: rotate(-18.26deg);
-  border: 2px solid #FFFFFF;
-  position: relative;
-
-}
-
-.picture_star{
-
-  position: absolute; 
-  left: 130px;
-  top: 210px;
-  
-  
-}
-
-.picture_star1{
-  position: absolute; 
-  left: 250px;
-  top: 40px;
-  
-
-}
 
 
 
-.card-front, .card-back {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  backface-visibility: hidden;
-  transition: transform 1s;
-  
-}
-
-.card-back {
-  transform: rotateY(180deg);
-}
-
-.flipped .card-front {
-  transform: rotateY(180deg);
-}
-
-.flipped .card-back {
-  transform: rotateY(0deg);
-}
-
-.card-front{
-  width: 100%;
-  height: 300px;
-  background-color: #3300FF;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  
-}
-
-.card-back{
-  width: 100%;
-  height: 300px;
-  background-color: #3300FF;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  font-size: 13px;
-  text-transform: lowercase;
-  text-align: center;
-  
-
-}
-
-
-
-
-.logocardweb{
- margin-top: 52px;
- background: #727272;
- width: 100%;
- height: 270px;
- border-radius: 30px 30px 0px 0px;
-
-}
-
-.cardbutton{
-  background-color: #3300FF;
-  margin-top: 3px;
-  width: 100%;
-  height: 59px;
-  border-radius: 0px 0px 30px 30px;
-  border: 0px;
-  color: white;
- 
-
-
-}
 
 .slider {
   overflow-x: scroll;
@@ -786,26 +659,4 @@ button:active {
 
 }
 
-.websiteteam {
-  margin-right: 3px;
-  margin-top: 3px;
-  min-width: 98px;
-  width: 98px;
-  height: 36px;
-  border-style: solid;
-  border: 1px solid #FFFFFF;
-  border-radius: 50px 0px 50px 50px;
-  display: flex;
-  justify-content: center;
-  text-align: center;
-  align-items: center;
-  font-family: 'Slack';
-  font-style: normal;
-  font-weight: 300;
-  font-size: 16px;
-  line-height: 19px;
-  text-transform: lowercase;
-
-
-}
 
