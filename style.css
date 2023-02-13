@@ -179,7 +179,7 @@
 
 .menutext {
   color: #000000;
-  font-family: Slack, 'Slack Ligt';
+  font-family: 'Sissi display';
   font-style: normal;
   font-weight: 300;
   font-size: 20px;
@@ -254,7 +254,7 @@
 }
 
 .space {
-  height: 108px;
+  height: 180px;
 }
 
 .now {
