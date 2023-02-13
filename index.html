@@ -181,7 +181,7 @@
                                 </span>
                             </div>
                         </div>
-                        <div class="buttonall"> 
+                        <div class="buttonall">
                             <button class="cardbutton">ОСТАВИТЬ ЗАЯВКУ</button>
                             <img src="https://i.postimg.cc/NfymvGhC/User-Hand-Up.png" class="img2">
                         </div>
@@ -212,7 +212,7 @@
                                 </span>
                             </div>
                         </div>
-                        <div class="buttonall"> 
+                        <div class="buttonall">
                             <button class="cardbutton">ОСТАВИТЬ ЗАЯВКУ</button>
                             <img src="https://i.postimg.cc/NfymvGhC/User-Hand-Up.png" class="img2">
                         </div>
@@ -255,7 +255,7 @@
                         </div>
 
 
-                        <div class="buttonall"> 
+                        <div class="buttonall">
                             <button class="cardbutton">ОСТАВИТЬ ЗАЯВКУ</button>
                             <img src="https://i.postimg.cc/NfymvGhC/User-Hand-Up.png" class="img2">
                         </div>
@@ -342,14 +342,29 @@
                             могли быстро и эффективно управлять<br>
                             своим бизнесом.<br>
                         </span>
+                        <script>
+                            $(document).ready(function () {
+                                var expanded = false;
+                                $("#marketbutton").click(function () {
+                                    if (expanded) {
+                                        $(".marketplases").animate({ height: '-=150px' });
+                                        expanded = false;
+                                    } else {
+                                        $(".marketplases").animate({ height: '+=150px' });
+                                        expanded = true;
+                                    }
+                                });
+                            });
+                        </script>
                     </div>
+                    <button id="marketbutton"></button>
                 </div>
                 <div class="buttonall">
-                <img src="https://i.postimg.cc/NfymvGhC/User-Hand-Up.png" class="img2">
-                <button class="cardbutton">ОСТАВИТЬ ЗАЯВКУ</button>
+                    <img src="https://i.postimg.cc/NfymvGhC/User-Hand-Up.png" class="img2">
+                    <button class="cardbutton">ОСТАВИТЬ ЗАЯВКУ</button>
                 </div>
             </div>
-            
+
         </div>
     </section>
 
