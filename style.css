@@ -161,6 +161,7 @@
   margin-right: 3px;
   margin-top: 3px;
   position: relative;
+  filter: url(#noiseEffect);
 
 }
 
@@ -760,4 +761,37 @@ button:active {
   width: 100%;
   height: 40px;
   
+}
+
+.ux{
+  position: relative;
+  width: 100%;
+  height: 270px;
+  background-color: white;
+  border-radius: 30px;
+  margin-top: 53px;
+
+
+}
+
+.uxlogo{
+  position: absolute;
+  width: 120px;
+  height: 36px;
+  border-radius: 50px;
+  border-color: #070707;
+  border-style: solid;
+  border: 1px solid #000000;
+  top: 25px;
+  left: 25px;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+  font-family: 'Catalogue';
+  font-style: normal;
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 19px;
+  text-transform: lowercase;
 }
