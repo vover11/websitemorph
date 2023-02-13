@@ -16,7 +16,7 @@ renderer.setSize( w, h);
 renderer.setClearColor( 0xefefef, 1);
 
 var geometry = new THREE.TorusKnotGeometry(50, 6, 500, 16, 3, 2, 2);
-var material = new THREE.MeshNormalMaterial({wireframe:true});
+var material = new THREE.MeshBasicMaterial({color: 0x0000ff, wireframe:true}); // set the color of the material to blue (0x0000ff)
 var cube = new THREE.Mesh(geometry, material);
 scene.add(cube);
 
