@@ -298,6 +298,7 @@
 .canvasfirst {
   border-radius: 30px;
   background-color: #070707;
+  object-fit: contain;
 
 }
 
@@ -469,6 +470,18 @@
   border-radius: 30px;
 
 }
+
+#ThreeJS {
+  background-color: #fd020200;
+  width: 100% !important;
+  height: 300px !important;
+  border-radius: 30px;
+
+}
+
+
+
+
 
 .logocardweb {
   margin-top: 52px;
