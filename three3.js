@@ -1,4 +1,6 @@
 import { OrbitControls } from 'https://cdn.skypack.dev/three@v0.119.0/examples/jsm/controls/OrbitControls.js';
+// import * as THREE from "https://threejsfundamentals.org/threejs/resources/threejs/r127/build/three.module.js";
+// import { OrbitControls } from './js/OrbitControls.js';
 
 var container3d = document.querySelector('.container3d');
 
@@ -16,12 +18,13 @@ renderer.domElement.classList.add("canvasfirst");
 container3d.appendChild(renderer.domElement);
 const canvas = renderer.domElement;
 renderer.setSize(w, h);
-renderer.setClearColor(0x333333, 1);
+renderer.setClearColor(0xFFFFFF, 1);
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
-var geometry = new THREE.TorusKnotGeometry(50, 6, 500, 16, 3, 2, 2);
-var material = new THREE.MeshStandardMaterial({ color: 0x0000ff, roughness: 0.5, metalness: 1 });
+var geometry = new THREE.TorusKnotGeometry(50, 8, 500, 16, 3, 2, 2);
+var material = new THREE.MeshStandardMaterial({ color: 0x0000ff, emissive: 0x000033, roughness: 0.5, metalness: 3 });
+
 var mesh = new THREE.Mesh(geometry, material);
 mesh.castShadow = true;
 mesh.position.set(0, 30, 70);
@@ -33,11 +36,11 @@ var plane = new THREE.Mesh(planeGeometry, planeMaterial);
 plane.rotation.x = -Math.PI / 2; // rotate the plane to be horizontal
 plane.position.set(0, -50, 0);
 plane.receiveShadow = true; // enable receiving shadows for the plane
-mesh.castShadow = true; // enable casting shadows for the mesh
+// mesh.castShadow = true; // enable casting shadows for the mesh
 scene.add(plane);
 
 var light = new THREE.PointLight(0xFFFFFF, 1, 1000);
-light.position.set(0, 0, 150);
+light.position.set(0, 300, 0);
 light.castShadow = true; // enable casting shadows for the light
 light.shadow.mapSize.width = 1024;
 light.shadow.mapSize.height = 1024;
