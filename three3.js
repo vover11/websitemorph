@@ -1,4 +1,5 @@
 import { OrbitControls } from 'https://cdn.skypack.dev/three@v0.119.0/examples/jsm/controls/OrbitControls.js';
+// import { TWEEN } from 'https://cdnjs.cloudflare.com/ajax/libs/tween.js/18.6.4/tween.min.js';
 // import * as THREE from "https://threejsfundamentals.org/threejs/resources/threejs/r127/build/three.module.js";
 // import { OrbitControls } from './js/OrbitControls.js';
 
@@ -21,9 +22,44 @@ renderer.setSize(w, h);
 renderer.setClearColor(0xFFFFFF, 1);
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+renderer.outputEncoding = THREE.sRGBEncoding;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1;
+
+
+
 
 var geometry = new THREE.TorusKnotGeometry(50, 8, 500, 16, 3, 2, 2);
-var material = new THREE.MeshStandardMaterial({ color: 0x0000ff, emissive: 0x000033, roughness: 0.5, metalness: 3 });
+var material = new THREE.MeshStandardMaterial({ color: 0x0000ff, emissive: 0x00033, roughness: 0.5, metalness: 3 });
+// var material = new THREE.MeshStandardMaterial({ 
+//   color: 0x0000ff, // цвет
+//   roughness: 0, // шероховатость поверхности
+//   metalness: 1, // металлический блеск
+//   opacity: 0.5, // прозрачность
+//   transparent: true, // прозрачный материал
+//   envMapIntensity: 1.0, // интенсивность отражения окружающей среды
+  
+// });
+
+var textureLoader = new THREE.TextureLoader();
+
+var envMap = textureLoader.load('https://cdn.jsdelivr.net/gh/mrdoob/three.js/examples/textures/envmaps/room.jpg');
+envMap.mapping = THREE.CubeReflectionMapping;
+material.envMap = envMap;
+material.envMapIntensity = 1.0;
+
+
+
+
+// textureLoader.load('https://cdn.jsdelivr.net/gh/mrdoob/three.js/examples/textures/uv_grid_opengl.jpg', function(texture) {
+//   texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+//   texture.repeat.set(4, 4);
+
+//   var material = new THREE.MeshBasicMaterial({ map: texture });
+//   mesh.material = material;
+//   mesh.needsUpdate = true;
+// });
+
 
 var mesh = new THREE.Mesh(geometry, material);
 mesh.castShadow = true;
@@ -39,11 +75,70 @@ plane.receiveShadow = true; // enable receiving shadows for the plane
 // mesh.castShadow = true; // enable casting shadows for the mesh
 scene.add(plane);
 
+
+
+var cubeGeometry = new THREE.BoxGeometry(10, 10, 10);
+var cubeMaterial = new THREE.MeshStandardMaterial({ color: 0x0000ff, emissive: 0x00033, roughness: 0.5, metalness: 0 });
+
+// Create a wireframe material with black color
+var wireframeMaterial = new THREE.MeshBasicMaterial({ color: 0x000000, wireframe: true });
+
+var numCubes = 1000;
+var minSquareside = Math.ceil(Math.sqrt(numCubes));
+var squareSize = minSquareside * 10; // 10 is the size of each cube
+
+// Calculate the spacing between each cube in the square
+var spacing = squareSize / minSquareside;
+
+var cubes = [];
+
+for (var i = 0; i < numCubes; i++) {
+  var cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
+
+  // Set the wireframe material as the edges material for the cube
+  cube.add(new THREE.Mesh(cubeGeometry, wireframeMaterial));
+
+  // Calculate the x and y position of the cube based on its index in the square
+  var x = (i % minSquareside) * spacing - squareSize / 2 + spacing / 2;
+  var y = Math.floor(i / minSquareside) * spacing - squareSize / 2 + spacing / 2;
+
+  cube.position.set(x, -50, y);
+  scene.add(cube);
+
+  // Add the cube to the array of cubes
+  cubes.push(cube);
+}
+
+// Animate the cubes
+function animateCubes() {
+  cubes.forEach(function(cube) {
+    // Randomly scale the cube along the y-axis
+    cube.scale.y = Math.random() * 2 + 1;
+
+    // Return the cube to its original size after a delay
+    setTimeout(function() {
+      cube.scale.y = 1;
+    }, 500);
+
+  });
+  // Loop the animation
+  setTimeout(animateCubes, 1000);
+}
+
+// Start the animation loop
+animateCubes();
+
+
+
+
+
+
+
 var light = new THREE.PointLight(0xFFFFFF, 1, 1000);
 light.position.set(0, 300, 0);
 light.castShadow = true; // enable casting shadows for the light
-light.shadow.mapSize.width = 1024;
-light.shadow.mapSize.height = 1024;
+light.shadow.mapSize.width = 2048;
+light.shadow.mapSize.height = 2048;
 light.shadow.camera.near = 0.1;
 scene.add(light);
 
@@ -64,10 +159,11 @@ var controls = new OrbitControls(camera, renderer.domElement);
 
 var render = function () {
   requestAnimationFrame(render);
+  animateCubes();
 
   mesh.rotation.x += 0.01;
   mesh.rotation.y += 0.005;
-  mesh.rotation.z += 0.05;
+  mesh.rotation.z += 0.02;
 
   shadowMesh.position.x = mesh.position.x;
   shadowMesh.position.z = mesh.position.z;
@@ -77,5 +173,6 @@ var render = function () {
   controls.update();
 
   renderer.render(scene, camera);
+  
 };
 render();
