@@ -43,12 +43,6 @@ var material = new THREE.MeshStandardMaterial({ color: 0x0000ff, emissive: 0x000
 
 var textureLoader = new THREE.TextureLoader();
 
-var envMap = textureLoader.load('https://cdn.jsdelivr.net/gh/mrdoob/three.js/examples/textures/envmaps/room.jpg');
-envMap.mapping = THREE.CubeReflectionMapping;
-material.envMap = envMap;
-material.envMapIntensity = 1.0;
-
-
 
 
 // textureLoader.load('https://cdn.jsdelivr.net/gh/mrdoob/three.js/examples/textures/uv_grid_opengl.jpg', function(texture) {
@@ -63,7 +57,7 @@ material.envMapIntensity = 1.0;
 
 var mesh = new THREE.Mesh(geometry, material);
 mesh.castShadow = true;
-mesh.position.set(0, 30, 70);
+mesh.position.set(0, 40, 30);
 scene.add(mesh);
 
 var planeGeometry = new THREE.PlaneGeometry(500, 500);
@@ -73,7 +67,7 @@ plane.rotation.x = -Math.PI / 2; // rotate the plane to be horizontal
 plane.position.set(0, -50, 0);
 plane.receiveShadow = true; // enable receiving shadows for the plane
 // mesh.castShadow = true; // enable casting shadows for the mesh
-scene.add(plane);
+// scene.add(plane);
 
 
 
@@ -83,7 +77,7 @@ var cubeMaterial = new THREE.MeshStandardMaterial({ color: 0x0000ff, emissive: 0
 // Create a wireframe material with black color
 var wireframeMaterial = new THREE.MeshBasicMaterial({ color: 0x000000, wireframe: true });
 
-var numCubes = 1000;
+var numCubes = 500;
 var minSquareside = Math.ceil(Math.sqrt(numCubes));
 var squareSize = minSquareside * 10; // 10 is the size of each cube
 
@@ -92,11 +86,12 @@ var spacing = squareSize / minSquareside;
 
 var cubes = [];
 
+
 for (var i = 0; i < numCubes; i++) {
   var cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
 
-  // Set the wireframe material as the edges material for the cube
-  cube.add(new THREE.Mesh(cubeGeometry, wireframeMaterial));
+  // // Set the wireframe material as the edges material for the cube
+  // cube.add(new THREE.Mesh(cubeGeometry, wireframeMaterial));
 
   // Calculate the x and y position of the cube based on its index in the square
   var x = (i % minSquareside) * spacing - squareSize / 2 + spacing / 2;
@@ -113,16 +108,16 @@ for (var i = 0; i < numCubes; i++) {
 function animateCubes() {
   cubes.forEach(function(cube) {
     // Randomly scale the cube along the y-axis
-    cube.scale.y = Math.random() * 2 + 1;
+    cube.scale.y = Math.random() * 1 + 1;
 
     // Return the cube to its original size after a delay
     setTimeout(function() {
-      cube.scale.y = 1;
-    }, 500);
+      cube.scale.y = 2;
+    }, 50);
 
   });
   // Loop the animation
-  setTimeout(animateCubes, 1000);
+  setTimeout(animateCubes, 50);
 }
 
 // Start the animation loop
@@ -159,7 +154,7 @@ var controls = new OrbitControls(camera, renderer.domElement);
 
 var render = function () {
   requestAnimationFrame(render);
-  animateCubes();
+  // animateCubes();
 
   mesh.rotation.x += 0.01;
   mesh.rotation.y += 0.005;
