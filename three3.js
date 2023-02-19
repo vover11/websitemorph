@@ -12,7 +12,7 @@ var scene = new THREE.Scene();
 var clock = new THREE.Clock();
 
 var camera = new THREE.PerspectiveCamera(75, w / h, 0.1, 1000);
-camera.position.set(0, 100, 0);
+camera.position.set(0, 70, 0);
 
 var renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.domElement.id = "canvasfirst";
@@ -206,7 +206,7 @@ function animateLights() {
   // Масштабируем интенсивность света с использованием кривой синуса,
   // чтобы создать пульсацию
   var intensity = Math.abs(Math.sin(animationProgress * Math.PI));
-  pointLight.intensity = intensity * 50;
+  pointLight.intensity = intensity * 25;
 }
 
 
