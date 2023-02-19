@@ -40,7 +40,7 @@ renderer.toneMappingExposure = 1;
 
 
 var cubeGeometry = new THREE.BoxGeometry(10, 10, 10);
-var cubeMaterial = new THREE.MeshStandardMaterial({ color: 0x0000ff, emissive: 0x00033, roughness: 0.5, metalness: 0 });
+var cubeMaterial = new THREE.MeshStandardMaterial({ color: 0x0000ff, roughness: 0.5, metalness: 0 });
 var wireframeMaterial = new THREE.MeshBasicMaterial({ color: 0x000000, wireframe: true });
 
 var numCubes = 500;
@@ -156,25 +156,25 @@ scene.add(light);
 
 
 
-// // Создаем красную точечную лампу
-// var pointLight = new THREE.PointLight(0xff0000, 1, 300);
-// scene.add(pointLight);
+// Создаем красную точечную лампу
+var pointLight = new THREE.PointLight(0xff0000, 1, 300);
+scene.add(pointLight);
 
-// function animateLights() {
-//   var elapsed = clock.getElapsedTime();
+function animateLights() {
+  var elapsed = clock.getElapsedTime();
 
-//   // Определяем, на какой стадии анимации находится пульсирующий свет
-//   var animationDuration = 5;
-//   var animationProgress = (elapsed % animationDuration) / animationDuration;
+  // Определяем, на какой стадии анимации находится пульсирующий свет
+  var animationDuration = 5;
+  var animationProgress = (elapsed % animationDuration) / animationDuration;
 
-//   // Устанавливаем позицию света в центре поверхности пола кубов
-//   pointLight.position.set(0, 100, 0);
+  // Устанавливаем позицию света в центре поверхности пола кубов
+  pointLight.position.set(0, 100, 0);
 
-//   // Масштабируем интенсивность света с использованием кривой синуса,
-//   // чтобы создать пульсацию
-//   var intensity = Math.abs(Math.sin(animationProgress * Math.PI));
-//   pointLight.intensity = intensity * 50;
-// }
+  // Масштабируем интенсивность света с использованием кривой синуса,
+  // чтобы создать пульсацию
+  var intensity = Math.abs(Math.sin(animationProgress * Math.PI));
+  pointLight.intensity = intensity * 5;
+}
 
 
 var controls = new OrbitControls(camera, renderer.domElement);
@@ -183,7 +183,7 @@ var controls = new OrbitControls(camera, renderer.domElement);
 function render() {
   requestAnimationFrame(render);
   animateCubes();
-  // animateLights();
+  animateLights();
   controls.update();
   renderer.render(scene, camera);
   mesh.rotation.x += 0.01;
