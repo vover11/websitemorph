@@ -87,34 +87,35 @@ function animateCubes() {
 var raycaster = new THREE.Raycaster(); // Создаем луч для выбора объектов
 var mouse = new THREE.Vector2(); // Создаем вектор для хранения координат мыши
 
-// Добавляем обработчик события клика для каждого куба
+// Добавляем обработчик события клика/касания для каждого куба
 cubes.forEach(function(cube) {
-    cube.userData.animationStartTime = undefined; // Удаляем анимацию, чтобы не мешала выбору
-    cube.userData.scaleFactor = 1; // Сбрасываем множитель масштаба
-    cube.material.color.setHex(0x0000ff); // Устанавливаем начальный цвет
-    cube.interactive = true; // Делаем куб интерактивным
-    cube.on('pointerup', function() {
-      cube.material.color.setHex(Math.random() * 0xffffff); // Изменяем цвет на рандомный
-    });
+  cube.userData.animationStartTime = undefined; // Удаляем анимацию, чтобы не мешала выбору
+  cube.userData.scaleFactor = 1; // Сбрасываем множитель масштаба
+  cube.material.color.setHex(0x0000ff); // Устанавливаем начальный цвет
+  cube.interactive = true; // Делаем куб интерактивным
+  cube.on('pointerup', function() {
+    cube.material.color.setHex(Math.random() * 0xffffff); // Изменяем цвет на рандомный
+  });
 });
 
 function onPointerUp(event) {
-    // Обновляем координаты мыши в соответствии с положением клика или касания
-    mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-    mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-  
-    // Используем луч, чтобы определить, какой объект был выбран
-    raycaster.setFromCamera(mouse, camera);
-    var intersects = raycaster.intersectObjects(scene.children, true);
-  
-    // Если был выбран какой-то объект, вызываем его обработчик события клика
-    if (intersects.length > 0) {
-      intersects[0].object.dispatchEvent({ type: 'pointerup' });
-    }
+  // Получаем координаты касания на экране
+  var rect = renderer.domElement.getBoundingClientRect();
+  mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+  mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+
+  // Используем луч, чтобы определить, какой объект был выбран
+  raycaster.setFromCamera(mouse, camera);
+  var intersects = raycaster.intersectObjects(scene.children, true);
+
+  // Если был выбран какой-то объект, вызываем его обработчик события клика/касания
+  if (intersects.length > 0) {
+    intersects[0].object.dispatchEvent({ type: 'pointerup' });
+  }
 }
-  
-  // Добавляем обработчик события клика/касания на сцену
-  window.addEventListener('pointerup', onPointerUp, false);
+
+// Добавляем обработчик события клика/касания на сцену
+window.addEventListener('pointerup', onPointerUp, false);
 
 
 var light = new THREE.PointLight(0xFFFFFF, 1, 1000);
