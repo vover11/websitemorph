@@ -115,6 +115,11 @@ function onMouseClick(event) {
 
 // Добавляем обработчик события клика на сцену
 window.addEventListener('click', onMouseClick, false);
+window.addEventListener('touchstart', function(event) {
+  event.clientX = event.touches[0].clientX;
+  event.clientY = event.touches[0].clientY;
+  onMouseClick(event);
+}, false);
 
 
 
