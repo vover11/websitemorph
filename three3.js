@@ -96,6 +96,9 @@ cubes.forEach(function(cube) {
   cube.addEventListener('click', function() {
     cube.material.color.setHex(Math.random() * 0xffffff); // Изменяем цвет на рандомный
   });
+  cube.addEventListener('touchstart', function() {
+    cube.material.color.setHex(Math.random() * 0xffffff);
+  });
 });
 
 function onMouseClick(event) {
