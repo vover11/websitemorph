@@ -255,7 +255,7 @@
 }
 
 .space {
-  height: 320px;
+  height: 520px;
 }
 
 .now {
@@ -299,7 +299,7 @@
 .canvasfirst {
   border-radius: 30px;
   background-color: #070707;
-  object-fit: contain;
+  
 
 }
 
