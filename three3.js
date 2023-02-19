@@ -40,14 +40,21 @@ renderer.toneMappingExposure = 1;
 
 
 var cubeGeometry = new THREE.BoxGeometry(10, 10, 10);
-var cubeMaterial = new THREE.MeshStandardMaterial({ color: 0x0000ff, roughness: 0.5, metalness: 0 });
+var cubeMaterial = new THREE.MeshStandardMaterial({
+  color: 0x0000ff,
+  roughness: 0.5,
+  metalness: 0,
+
+});
+
+
+
 var wireframeMaterial = new THREE.MeshBasicMaterial({ color: 0x000000, wireframe: true });
 
 var numCubes = 1000;
 var minSquareside = Math.ceil(Math.sqrt(numCubes));
 var squareSize = minSquareside * 10; // 10 is the size of each cube
 var spacing = squareSize / minSquareside;
-
 
 
 var cubes = [];
@@ -75,7 +82,7 @@ function onScroll() {
 }
 
 function animateCubes() {
-    cube.userData.isAnimating = false; // Добавляем свойство isAnimating для каждого куба
+  cube.userData.isAnimating = false; // Добавляем свойство isAnimating для каждого куба
 
 }
 
@@ -83,103 +90,20 @@ var raycaster = new THREE.Raycaster(); // Создаем луч для выбо�
 var mouse = new THREE.Vector2(); // Создаем вектор для хранения координат мыши
 
 // Добавляем обработчик события клика для каждого куба
-cubes.forEach(function(cube) {
-    cube.userData = {}; // Создаем объект userData для каждого куба
-    animateCubes(cube); // Вызываем функцию animateCubes для каждого куба
-    cube.material.color.set(0x0000ff); // Устанавливаем начальный цвет
-    cube.interactive = true; // Делаем куб интерактивным
-    cube.addEventListener('click', function() {
-        cube.material.color.set(Math.random() * 0xffffff); // Изменяем цвет на рандомный
-    });
-    cube.addEventListener('touchstart', function(event) {
-        event.preventDefault(); // Предотвращаем переход в режим скроллинга веб-страницы при касании элемента
-        cube.material.color.set(Math.random() * 0xffffff);
-    });
+cubes.forEach(function (cube) {
+  cube.userData = {}; // Создаем объект userData для каждого куба
+  animateCubes(cube); // Вызываем функцию animateCubes для каждого куба
+  cube.material.color.set(0x0000ff); // Устанавливаем начальный цвет
+  cube.interactive = true; // Делаем куб интерактивным
+  cube.addEventListener('click', function () {
+    cube.material.color.set(Math.random() * 0xffffff); // Изменяем цвет на рандомный
+  });
+  cube.addEventListener('touchstart', function (event) {
+    event.preventDefault(); // Предотвращаем переход в режим скроллинга веб-страницы при касании элемента
+    cube.material.color.set(Math.random() * 0xffffff);
+  });
 
-    cube.addEventListener('click', function() {
-        if (!cube.userData.isAnimating) {
-            cube.userData.isAnimating = true;
-            var animationStartTime = clock.getElapsedTime(); // Запоминаем время начала анимации
-            var scaleFactor = 2 + Math.random() * 10; // Генерируем множитель для длины куба
-            function animate() {
-                var elapsed = clock.getElapsedTime() - animationStartTime;
-                var animationDuration = 3; // Длительность анимации
-                var animationProgress = elapsed / animationDuration;
-                if (animationProgress > 1) {
-                    animationProgress = 1;
-                    cube.userData.isAnimating = false;
-                }
-                var scale = cube.scale.clone();
-                // Изменяем масштаб по оси y в соответствии с прогрессом анимации
-                scale.y = Math.abs(Math.sin(animationProgress * Math.PI)) * scaleFactor;
-                cube.scale.copy(scale);
-                if (cube.userData.isAnimating) {
-                    requestAnimationFrame(animate);
-                }
-            }
-            animate();
-        }
-    });
-
-    cube.addEventListener('touchstart', function() {
-        if (!cube.userData.isAnimating) {
-            cube.userData.isAnimating = true;
-            var animationStartTime = clock.getElapsedTime(); // Запоминаем время начала анимации
-            var scaleFactor = 2 + Math.random() * 10; // Генерируем множитель для длины куба
-            function animate() {
-                var elapsed = clock.getElapsedTime() - animationStartTime;
-                var animationDuration = 3; // Длительность анимации
-                var animationProgress = elapsed / animationDuration;
-                if (animationProgress > 1) {
-                    animationProgress = 1;
-                    cube.userData.isAnimating = false;
-                }
-                var scale = cube.scale.clone();
-                // Изменяем масштаб по оси y в соответствии с прогрессом анимации
-                scale.y = Math.abs(Math.sin(animationProgress * Math.PI)) * scaleFactor;
-                cube.scale.copy(scale);
-                if (cube.userData.isAnimating) {
-                    requestAnimationFrame(animate);
-                }
-            }
-            animate();
-        }
-    });
-});
-
-function onMouseClick(event) {
-// Обновляем координаты мыши в соответствии с положением клика
-mouse.x = (event.clientX / w) * 2 - 1;
-mouse.y = -(event.clientY / h) * 2 + 1;
-
-// Используем луч, чтобы определить, какой объект был выбран
-raycaster.setFromCamera(mouse, camera);
-var intersects = raycaster.intersectObjects(scene.children, true);
-
-// Если был выбран какой-то объект, вызываем его обработчик события клика
-if (intersects.length > 0) {
-intersects[0].object.dispatchEvent({ type: 'click' });
-}
-}
-
-function onTouchStart(event) {
-    if (event.touches.length === 1) {
-      event.preventDefault();
-      // Обновляем координаты мыши в соответствии с положением касания
-      mouse.x = event.touches[0].pageX / w * 2 - 1;
-      mouse.y = -(event.touches[0].pageY / h) * 2 + 1;
-      // Используем луч, чтобы определить, какой объект был выбран
-      raycaster.setFromCamera(mouse, camera);
-      var intersects = raycaster.intersectObjects(scene.children, true);
-      // Если был выбран какой-то объект, вызываем его обработчик события клика
-      if (intersects.length > 0) {
-        intersects[0].object.dispatchEvent({ type: 'click' });
-      }
-    }
-}
-
-function animateCubesDown() {
-  cubes.forEach(function(cube) {
+  cube.addEventListener('click', function () {
     if (!cube.userData.isAnimating) {
       cube.userData.isAnimating = true;
       var animationStartTime = clock.getElapsedTime(); // Запоминаем время начала анимации
@@ -203,10 +127,93 @@ function animateCubesDown() {
       animate();
     }
   });
+
+  cube.addEventListener('touchstart', function () {
+    if (!cube.userData.isAnimating) {
+      cube.userData.isAnimating = true;
+      var animationStartTime = clock.getElapsedTime(); // Запоминаем время начала анимации
+      var scaleFactor = 2 + Math.random() * 10; // Генерируем множитель для длины куба
+      function animate() {
+        var elapsed = clock.getElapsedTime() - animationStartTime;
+        var animationDuration = 3; // Длительность анимации
+        var animationProgress = elapsed / animationDuration;
+        if (animationProgress > 1) {
+          animationProgress = 1;
+          cube.userData.isAnimating = false;
+        }
+        var scale = cube.scale.clone();
+        // Изменяем масштаб по оси y в соответствии с прогрессом анимации
+        scale.y = Math.abs(Math.sin(animationProgress * Math.PI)) * scaleFactor;
+        cube.scale.copy(scale);
+        if (cube.userData.isAnimating) {
+          requestAnimationFrame(animate);
+        }
+      }
+      animate();
+    }
+  });
+});
+
+function onMouseClick(event) {
+  // Обновляем координаты мыши в соответствии с положением клика
+  mouse.x = (event.clientX / w) * 2 - 1;
+  mouse.y = -(event.clientY / h) * 2 + 1;
+
+  // Используем луч, чтобы определить, какой объект был выбран
+  raycaster.setFromCamera(mouse, camera);
+  var intersects = raycaster.intersectObjects(scene.children, true);
+
+  // Если был выбран какой-то объект, вызываем его обработчик события клика
+  if (intersects.length > 0) {
+    intersects[0].object.dispatchEvent({ type: 'click' });
+  }
+}
+
+function onTouchStart(event) {
+  if (event.touches.length === 1) {
+    event.preventDefault();
+    // Обновляем координаты мыши в соответствии с положением касания
+    mouse.x = event.touches[0].pageX / w * 2 - 1;
+    mouse.y = -(event.touches[0].pageY / h) * 2 + 1;
+    // Используем луч, чтобы определить, какой объект был выбран
+    raycaster.setFromCamera(mouse, camera);
+    var intersects = raycaster.intersectObjects(scene.children, true);
+    // Если был выбран какой-то объект, вызываем его обработчик события клика
+    if (intersects.length > 0) {
+      intersects[0].object.dispatchEvent({ type: 'click' });
+    }
+  }
+}
+
+function animateCubesDown() {
+  cubes.forEach(function (cube) {
+    if (!cube.userData.isAnimating) {
+      cube.userData.isAnimating = true;
+      var animationStartTime = clock.getElapsedTime(); // Запоминаем время начала анимации
+      var scaleFactor = 1 + Math.random() * 20; // Генерируем множитель для длины куба
+      function animate() {
+        var elapsed = clock.getElapsedTime() - animationStartTime;
+        var animationDuration = 5; // Длительность анимации
+        var animationProgress = elapsed / animationDuration;
+        if (animationProgress > 1) {
+          animationProgress = 1;
+          cube.userData.isAnimating = false;
+        }
+        var scale = cube.scale.clone();
+        // Изменяем масштаб по оси y в соответствии с прогрессом анимации
+        scale.y = Math.abs(Math.sin(animationProgress * Math.PI)) * scaleFactor;
+        cube.scale.copy(scale);
+        if (cube.userData.isAnimating) {
+          requestAnimationFrame(animate);
+        }
+      }
+      animate();
+    }
+  });
 }
 
 function animateCubesUp() {
-  cubes.forEach(function(cube) {
+  cubes.forEach(function (cube) {
     if (!cube.userData.isAnimating) {
       cube.userData.isAnimating = true;
       var animationStartTime = clock.getElapsedTime(); // Запоминаем время начала анимации
@@ -236,10 +243,10 @@ function animateCubesUp() {
 window.addEventListener('click', onMouseClick, false);
 window.addEventListener('touchstart', onTouchStart, false);
 // Добавляем обработчик события touchstart на сцену
-window.addEventListener('touchstart', function(event) {
-event.clientX = event.touches[0].clientX;
-event.clientY = event.touches[0].clientY;
-onMouseClick(event);
+window.addEventListener('touchstart', function (event) {
+  event.clientX = event.touches[0].clientX;
+  event.clientY = event.touches[0].clientY;
+  onMouseClick(event);
 }, false);
 
 
@@ -278,8 +285,11 @@ function animateLights() {
 
 var controls = new OrbitControls(camera, renderer.domElement);
 
-  
+
+
 function render() {
+
+
   requestAnimationFrame(render);
   animateCubes();
   animateLights();
