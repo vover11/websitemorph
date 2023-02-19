@@ -9,6 +9,7 @@ var w = container3d.offsetWidth;
 var h = container3d.offsetHeight;
 
 var scene = new THREE.Scene();
+var clock = new THREE.Clock();
 
 var camera = new THREE.PerspectiveCamera(75, w / h, 0.1, 1000);
 camera.position.set(0, 0, 250);
@@ -26,14 +27,16 @@ renderer.outputEncoding = THREE.sRGBEncoding;
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
 renderer.toneMappingExposure = 1;
 
-var geometry = new THREE.TorusKnotGeometry(40, 8, 500, 16, 3, 2, 2);
-var material = new THREE.MeshStandardMaterial({ color: 0x0000ff, emissive: 0x00033, roughness: 0.5, metalness: 3 });
-var textureLoader = new THREE.TextureLoader();
+// var geometry = new THREE.TorusKnotGeometry(40, 8, 500, 16, 3, 2, 2);
+// var material = new THREE.MeshStandardMaterial({ color: 0x0000ff, emissive: 0x00033, roughness: 0.5, metalness: 3 });
+// var textureLoader = new THREE.TextureLoader();
 
-var mesh = new THREE.Mesh(geometry, material);
-mesh.castShadow = true;
-mesh.position.set(0, 40, 30);
-scene.add(mesh);
+// var mesh = new THREE.Mesh(geometry, material);
+// mesh.castShadow = true;
+// mesh.position.set(0, 40, 30);
+// scene.add(mesh);
+
+
 
 
 var cubeGeometry = new THREE.BoxGeometry(10, 10, 10);
@@ -44,6 +47,8 @@ var numCubes = 500;
 var minSquareside = Math.ceil(Math.sqrt(numCubes));
 var squareSize = minSquareside * 10; // 10 is the size of each cube
 var spacing = squareSize / minSquareside;
+
+
 
 var cubes = [];
 for (var i = 0; i < numCubes; i++) {
@@ -56,26 +61,13 @@ for (var i = 0; i < numCubes; i++) {
 }
 
 
-var light = new THREE.PointLight(0xFFFFFF, 1, 1000);
-light.position.set(0, 0, 0);
-light.castShadow = true;
-light.shadow.mapSize.width = 2048;
-light.shadow.mapSize.height = 2048;
-light.shadow.camera.near = 0.1;
-scene.add(light);
-
-var controls = new OrbitControls(camera, renderer.domElement);
-
-var clock = new THREE.Clock();
-
-
 
 function animateCubes() {
     var elapsed = clock.getElapsedTime();
     cubes.forEach(function(cube) {
     if (cube.userData.animationStartTime === undefined) {
     // Устанавливаем случайное начальное время для анимации в диапазоне от 0 до 3 секунд
-    cube.userData.animationStartTime = elapsed - Math.random() * 3;
+    cube.userData.animationStartTime = elapsed - Math.random() * 300;
     // Устанавливаем случайный множитель для длины каждого куба
     cube.userData.scaleFactor = 2 + Math.random() * 10;
     }
@@ -92,31 +84,77 @@ function animateCubes() {
     });
 }
 
-// Создаем красную точечную лампу
-var pointLight = new THREE.PointLight(0xff0000, 1, 300);
-scene.add(pointLight);
+var raycaster = new THREE.Raycaster(); // Создаем луч для выбора объектов
+var mouse = new THREE.Vector2(); // Создаем вектор для хранения координат мыши
 
-function animateLights() {
-  var elapsed = clock.getElapsedTime();
+// Добавляем обработчик события клика для каждого куба
+cubes.forEach(function(cube) {
+  cube.userData.animationStartTime = undefined; // Удаляем анимацию, чтобы не мешала выбору
+  cube.userData.scaleFactor = 1; // Сбрасываем множитель масштаба
+  cube.material.color.setHex(0x0000ff); // Устанавливаем начальный цвет
+  cube.interactive = true; // Делаем куб интерактивным
+  cube.on('click', function() {
+    cube.material.color.setHex(Math.random() * 0xffffff); // Изменяем цвет на рандомный
+  });
+});
 
-  // Определяем, на какой стадии анимации находится пульсирующий свет
-  var animationDuration = 5;
-  var animationProgress = (elapsed % animationDuration) / animationDuration;
+function onMouseClick(event) {
+  // Обновляем координаты мыши в соответствии с положением клика
+  mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+  mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 
-  // Устанавливаем позицию света в центре поверхности пола кубов
-  pointLight.position.set(0, 100, 0);
+  // Используем луч, чтобы определить, какой объект был выбран
+  raycaster.setFromCamera(mouse, camera);
+  var intersects = raycaster.intersectObjects(scene.children, true);
 
-  // Масштабируем интенсивность света с использованием кривой синуса,
-  // чтобы создать пульсацию
-  var intensity = Math.abs(Math.sin(animationProgress * Math.PI));
-  pointLight.intensity = intensity * 50;
+  // Если был выбран какой-то объект, вызываем его обработчик события клика
+  if (intersects.length > 0) {
+    intersects[0].object.dispatchEvent({ type: 'click' });
+  }
 }
+
+// Добавляем обработчик события клика на сцену
+window.addEventListener('click', onMouseClick, false);
+
+
+var light = new THREE.PointLight(0xFFFFFF, 1, 1000);
+light.position.set(0, 0, 0);
+light.castShadow = true;
+light.shadow.mapSize.width = 2048;
+light.shadow.mapSize.height = 2048;
+light.shadow.camera.near = 0.1;
+scene.add(light);
+
+
+
+// // Создаем красную точечную лампу
+// var pointLight = new THREE.PointLight(0xff0000, 1, 300);
+// scene.add(pointLight);
+
+// function animateLights() {
+//   var elapsed = clock.getElapsedTime();
+
+//   // Определяем, на какой стадии анимации находится пульсирующий свет
+//   var animationDuration = 5;
+//   var animationProgress = (elapsed % animationDuration) / animationDuration;
+
+//   // Устанавливаем позицию света в центре поверхности пола кубов
+//   pointLight.position.set(0, 100, 0);
+
+//   // Масштабируем интенсивность света с использованием кривой синуса,
+//   // чтобы создать пульсацию
+//   var intensity = Math.abs(Math.sin(animationProgress * Math.PI));
+//   pointLight.intensity = intensity * 50;
+// }
+
+
+var controls = new OrbitControls(camera, renderer.domElement);
 
   
 function render() {
   requestAnimationFrame(render);
   animateCubes();
-  animateLights();
+  // animateLights();
   controls.update();
   renderer.render(scene, camera);
   mesh.rotation.x += 0.01;
