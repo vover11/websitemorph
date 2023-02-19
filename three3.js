@@ -12,7 +12,8 @@ var scene = new THREE.Scene();
 var clock = new THREE.Clock();
 
 var camera = new THREE.PerspectiveCamera(75, w / h, 0.1, 1000);
-camera.position.set(0, 80, 0);
+camera.position.set(0, 100, 0); // установить камеру над плоскостью
+camera.lookAt(0, 0, 0); // направить камеру на центр плоскости
 
 var renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.domElement.id = "canvasfirst";
@@ -102,6 +103,7 @@ cubes.forEach(function (cube) {
     event.preventDefault(); // Предотвращаем переход в режим скроллинга веб-страницы при касании элемента
     cube.material.color.set(Math.random() * 0xffffff);
   });
+  
 
   cube.addEventListener('click', function () {
     if (!cube.userData.isAnimating) {
@@ -155,34 +157,38 @@ cubes.forEach(function (cube) {
 });
 
 function onMouseClick(event) {
-  // Обновляем координаты мыши в соответствии с положением клика
-  mouse.x = (event.clientX / w) * 2 - 1;
-  mouse.y = -(event.clientY / h) * 2 + 1;
-
-  // Используем луч, чтобы определить, какой объект был выбран
-  raycaster.setFromCamera(mouse, camera);
-  var intersects = raycaster.intersectObjects(scene.children, true);
-
-  // Если был выбран какой-то объект, вызываем его обработчик события клика
-  if (intersects.length > 0) {
-    intersects[0].object.dispatchEvent({ type: 'click' });
-  }
-}
-
-function onTouchStart(event) {
-  if (event.touches.length === 1) {
-    event.preventDefault();
-    // Обновляем координаты мыши в соответствии с положением касания
-    mouse.x = event.touches[0].pageX / w * 2 - 1;
-    mouse.y = -(event.touches[0].pageY / h) * 2 + 1;
+  canvas.addEventListener('click', function(event) {
+    // Обновляем координаты мыши в соответствии с положением клика
+    mouse.x = (event.clientX / w) * 2 - 1;
+    mouse.y = -(event.clientY / h) * 2 + 1;
+  
     // Используем луч, чтобы определить, какой объект был выбран
     raycaster.setFromCamera(mouse, camera);
-    var intersects = raycaster.intersectObjects(scene.children, true);
-    // Если был выбран какой-то объект, вызываем его обработчик события клика
+    var intersects = raycaster.intersectObjects(cubes, true);
+  
+    // Если был выбран какой-то куб, вызываем его обработчик события клика
     if (intersects.length > 0) {
+      event.stopPropagation(); // Предотвращаем всплытие события
       intersects[0].object.dispatchEvent({ type: 'click' });
     }
-  }
+  });
+}
+function onTouchStart(event) {
+  canvas.addEventListener('touchstart', function(event) {
+    // Обновляем координаты мыши в соответствии с положением клика
+    mouse.x = (event.clientX / w) * 2 - 1;
+    mouse.y = -(event.clientY / h) * 2 + 1;
+  
+    // Используем луч, чтобы определить, какой объект был выбран
+    raycaster.setFromCamera(mouse, camera);
+    var intersects = raycaster.intersectObjects(cubes, true);
+  
+    // Если был выбран какой-то куб, вызываем его обработчик события клика
+    if (intersects.length > 0) {
+      event.stopPropagation(); // Предотвращаем всплытие события
+      intersects[0].object.dispatchEvent({ type: 'click' });
+    }
+  });
 }
 
 function animateCubesDown() {
@@ -283,7 +289,7 @@ function animateLights() {
 }
 
 
-var controls = new OrbitControls(camera, renderer.domElement);
+// var controls = new OrbitControls(camera, renderer.domElement);
 
 
 
@@ -293,7 +299,7 @@ function render() {
   requestAnimationFrame(render);
   animateCubes();
   animateLights();
-  controls.update();
+  // controls.update();
   renderer.render(scene, camera);
   mesh.rotation.x += 0.01;
   mesh.rotation.y += 0.005;
