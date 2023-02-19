@@ -96,7 +96,8 @@ cubes.forEach(function(cube) {
   cube.addEventListener('click', function() {
     cube.material.color.setHex(Math.random() * 0xffffff); // Изменяем цвет на рандомный
   });
-  cube.addEventListener('touchstart', function() {
+  cube.addEventListener('touchstart', function(event) {
+    event.preventDefault(); // Предотвращаем переход в режим скроллинга веб-страницы при касании элемента
     cube.material.color.setHex(Math.random() * 0xffffff);
   });
 });
@@ -123,6 +124,7 @@ window.addEventListener('touchstart', function(event) {
   event.clientY = event.touches[0].clientY;
   onMouseClick(event);
 }, false);
+
 
 
 
