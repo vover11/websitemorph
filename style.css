@@ -27,6 +27,7 @@
 
 .start {
   width: 100%;
+  height: 100%;
 
 }
 
@@ -254,7 +255,7 @@
 }
 
 .space {
-  height: 180px;
+  height: 320px;
 }
 
 .now {
@@ -466,8 +467,9 @@
 .container3d {
   background-color: #fd020200;
   width: 100% !important;
-  height: 480px !important;
+  height: 780px !important;
   border-radius: 30px;
+  
 
 }
 
