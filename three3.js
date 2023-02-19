@@ -218,32 +218,32 @@ function animateCubesDown() {
   });
 }
 
-// function animateCubesUp() {
-//   cubes.forEach(function (cube) {
-//     if (!cube.userData.isAnimating) {
-//       cube.userData.isAnimating = true;
-//       var animationStartTime = clock.getElapsedTime(); // Запоминаем время начала анимации
-//       var scaleFactor = 2 + Math.random() * 10; // Генерируем множитель для длины куба
-//       function animate() {
-//         var elapsed = clock.getElapsedTime() - animationStartTime;
-//         var animationDuration = 3; // Длительность анимации
-//         var animationProgress = elapsed / animationDuration;
-//         if (animationProgress > 1) {
-//           animationProgress = 1;
-//           cube.userData.isAnimating = false;
-//         }
-//         var scale = cube.scale.clone();
-//         // Изменяем масштаб по оси y в соответствии с прогрессом анимации
-//         scale.y = Math.abs(Math.sin(animationProgress * Math.PI)) * scaleFactor;
-//         cube.scale.copy(scale);
-//         if (cube.userData.isAnimating) {
-//           requestAnimationFrame(animate);
-//         }
-//       }
-//       animate();
-//     }
-//   });
-// }
+function animateCubesUp() {
+  cubes.forEach(function (cube) {
+    if (!cube.userData.isAnimating) {
+      cube.userData.isAnimating = true;
+      var animationStartTime = clock.getElapsedTime(); // Запоминаем время начала анимации
+      var scaleFactor = 2 + Math.random() * 10; // Генерируем множитель для длины куба
+      function animate() {
+        var elapsed = clock.getElapsedTime() - animationStartTime;
+        var animationDuration = 3; // Длительность анимации
+        var animationProgress = elapsed / animationDuration;
+        if (animationProgress > 1) {
+          animationProgress = 1;
+          cube.userData.isAnimating = false;
+        }
+        var scale = cube.scale.clone();
+        // Изменяем масштаб по оси y в соответствии с прогрессом анимации
+        scale.y = Math.abs(Math.sin(animationProgress * Math.PI)) * scaleFactor;
+        cube.scale.copy(scale);
+        if (cube.userData.isAnimating) {
+          requestAnimationFrame(animate);
+        }
+      }
+      animate();
+    }
+  });
+}
 
 // Добавляем обработчик события клика на сцену
 window.addEventListener('click', onMouseClick, false);
