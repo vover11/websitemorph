@@ -43,7 +43,7 @@ var cubeGeometry = new THREE.BoxGeometry(10, 10, 10);
 var cubeMaterial = new THREE.MeshStandardMaterial({
   color: 0x0000ff,
   roughness: 0.5,
-  metalness: 0,
+  metalness: 2,
 
 });
 
