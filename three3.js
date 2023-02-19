@@ -104,8 +104,8 @@ cube.material.color.setHex(Math.random() * 0xffffff);
 
 function onMouseClick(event) {
 // Обновляем координаты мыши в соответствии с положением клика
-mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+mouse.x = (event.clientX / w) * 2 - 1;
+mouse.y = -(event.clientY / h) * 2 + 1;
 
 // Используем луч, чтобы определить, какой объект был выбран
 raycaster.setFromCamera(mouse, camera);
@@ -121,8 +121,8 @@ function onTouchStart(event) {
     if (event.touches.length === 1) {
       event.preventDefault();
       // Обновляем координаты мыши в соответствии с положением касания
-      mouse.x = event.touches[0].pageX / window.innerWidth * 2 - 1;
-      mouse.y = -(event.touches[0].pageY / window.innerHeight) * 2 + 1;
+      mouse.x = event.touches[0].pageX / w * 2 - 1;
+      mouse.y = -(event.touches[0].pageY / h) * 2 + 1;
       // Используем луч, чтобы определить, какой объект был выбран
       raycaster.setFromCamera(mouse, camera);
       var intersects = raycaster.intersectObjects(scene.children, true);
