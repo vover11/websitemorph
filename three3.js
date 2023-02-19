@@ -63,25 +63,8 @@ for (var i = 0; i < numCubes; i++) {
 
 
 function animateCubes() {
-    var elapsed = clock.getElapsedTime();
-    cubes.forEach(function(cube) {
-    if (cube.userData.animationStartTime === undefined) {
-    // Устанавливаем случайное начальное время для анимации в диапазоне от 0 до 3 секунд
-    cube.userData.animationStartTime = elapsed - Math.random() * 300;
-    // Устанавливаем случайный множитель для длины каждого куба
-    cube.userData.scaleFactor = 2 + Math.random() * 10;
-    }
-    var animationDuration = 3; // Длительность анимации
-    var animationProgress = (elapsed - cube.userData.animationStartTime) / animationDuration;
-    if (animationProgress > 3) {
-    animationProgress = 3;
-    cube.userData.animationStartTime = undefined;
-    }
-    var scale = cube.scale.clone();
-    // Изменяем масштаб по оси y в соответствии с прогрессом анимации
-    scale.y = Math.abs(Math.sin(animationProgress * Math.PI)) * cube.userData.scaleFactor;
-    cube.scale.copy(scale);
-    });
+    cube.userData.isAnimating = false; // Добавляем свойство isAnimating для каждого куба
+
 }
 
 var raycaster = new THREE.Raycaster(); // Создаем луч для выбора объектов
@@ -89,17 +72,67 @@ var mouse = new THREE.Vector2(); // Создаем вектор для хран�
 
 // Добавляем обработчик события клика для каждого куба
 cubes.forEach(function(cube) {
-cube.userData.animationStartTime = undefined; // Удаляем анимацию, чтобы не мешала выбору
-cube.userData.scaleFactor = 1; // Сбрасываем множитель масштаба
-cube.material.color.setHex(0x0000ff); // Устанавливаем начальный цвет
-cube.interactive = true; // Делаем куб интерактивным
-cube.addEventListener('click', function() {
-cube.material.color.setHex(Math.random() * 0xffffff); // Изменяем цвет на рандомный
-});
-cube.addEventListener('touchstart', function(event) {
-event.preventDefault(); // Предотвращаем переход в режим скроллинга веб-страницы при касании элемента
-cube.material.color.setHex(Math.random() * 0xffffff);
-});
+    cube.userData = {}; // Создаем объект userData для каждого куба
+    animateCubes(cube); // Вызываем функцию animateCubes для каждого куба
+    cube.material.color.set(0x0000ff); // Устанавливаем начальный цвет
+    cube.interactive = true; // Делаем куб интерактивным
+    cube.addEventListener('click', function() {
+        cube.material.color.set(Math.random() * 0xffffff); // Изменяем цвет на рандомный
+    });
+    cube.addEventListener('touchstart', function(event) {
+        event.preventDefault(); // Предотвращаем переход в режим скроллинга веб-страницы при касании элемента
+        cube.material.color.set(Math.random() * 0xffffff);
+    });
+
+    cube.addEventListener('click', function() {
+        if (!cube.userData.isAnimating) {
+            cube.userData.isAnimating = true;
+            var animationStartTime = clock.getElapsedTime(); // Запоминаем время начала анимации
+            var scaleFactor = 2 + Math.random() * 10; // Генерируем множитель для длины куба
+            function animate() {
+                var elapsed = clock.getElapsedTime() - animationStartTime;
+                var animationDuration = 3; // Длительность анимации
+                var animationProgress = elapsed / animationDuration;
+                if (animationProgress > 1) {
+                    animationProgress = 1;
+                    cube.userData.isAnimating = false;
+                }
+                var scale = cube.scale.clone();
+                // Изменяем масштаб по оси y в соответствии с прогрессом анимации
+                scale.y = Math.abs(Math.sin(animationProgress * Math.PI)) * scaleFactor;
+                cube.scale.copy(scale);
+                if (cube.userData.isAnimating) {
+                    requestAnimationFrame(animate);
+                }
+            }
+            animate();
+        }
+    });
+
+    cube.addEventListener('touchstart', function() {
+        if (!cube.userData.isAnimating) {
+            cube.userData.isAnimating = true;
+            var animationStartTime = clock.getElapsedTime(); // Запоминаем время начала анимации
+            var scaleFactor = 2 + Math.random() * 10; // Генерируем множитель для длины куба
+            function animate() {
+                var elapsed = clock.getElapsedTime() - animationStartTime;
+                var animationDuration = 3; // Длительность анимации
+                var animationProgress = elapsed / animationDuration;
+                if (animationProgress > 1) {
+                    animationProgress = 1;
+                    cube.userData.isAnimating = false;
+                }
+                var scale = cube.scale.clone();
+                // Изменяем масштаб по оси y в соответствии с прогрессом анимации
+                scale.y = Math.abs(Math.sin(animationProgress * Math.PI)) * scaleFactor;
+                cube.scale.copy(scale);
+                if (cube.userData.isAnimating) {
+                    requestAnimationFrame(animate);
+                }
+            }
+            animate();
+        }
+    });
 });
 
 function onMouseClick(event) {
@@ -173,7 +206,7 @@ function animateLights() {
   // Масштабируем интенсивность света с использованием кривой синуса,
   // чтобы создать пульсацию
   var intensity = Math.abs(Math.sin(animationProgress * Math.PI));
-  pointLight.intensity = intensity * 5;
+  pointLight.intensity = intensity * 50;
 }
 
 
