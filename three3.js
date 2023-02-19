@@ -117,9 +117,25 @@ intersects[0].object.dispatchEvent({ type: 'click' });
 }
 }
 
+function onTouchStart(event) {
+    if (event.touches.length === 1) {
+      event.preventDefault();
+      // Обновляем координаты мыши в соответствии с положением касания
+      mouse.x = event.touches[0].pageX / window.innerWidth * 2 - 1;
+      mouse.y = -(event.touches[0].pageY / window.innerHeight) * 2 + 1;
+      // Используем луч, чтобы определить, какой объект был выбран
+      raycaster.setFromCamera(mouse, camera);
+      var intersects = raycaster.intersectObjects(scene.children, true);
+      // Если был выбран какой-то объект, вызываем его обработчик события клика
+      if (intersects.length > 0) {
+        intersects[0].object.dispatchEvent({ type: 'click' });
+      }
+    }
+}
+
 // Добавляем обработчик события клика на сцену
 window.addEventListener('click', onMouseClick, false);
-
+window.addEventListener('touchstart', onTouchStart, false);
 // Добавляем обработчик события touchstart на сцену
 window.addEventListener('touchstart', function(event) {
 event.clientX = event.touches[0].clientX;
