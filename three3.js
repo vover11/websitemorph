@@ -12,7 +12,7 @@ var scene = new THREE.Scene();
 var clock = new THREE.Clock();
 
 var camera = new THREE.PerspectiveCamera(75, w / h, 0.1, 1000);
-camera.position.set(0, 0, 250);
+camera.position.set(0, 100, 0);
 
 var renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.domElement.id = "canvasfirst";
@@ -20,7 +20,7 @@ renderer.domElement.classList.add("canvasfirst");
 container3d.appendChild(renderer.domElement);
 const canvas = renderer.domElement;
 renderer.setSize(w, h);
-renderer.setClearColor(0xFFFFFF, 1);
+renderer.setClearColor(0x000000, 1);
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 renderer.outputEncoding = THREE.sRGBEncoding;
