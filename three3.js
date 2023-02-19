@@ -57,7 +57,7 @@ for (var i = 0; i < numCubes; i++) {
 
 
 var light = new THREE.PointLight(0xFFFFFF, 1, 1000);
-light.position.set(0, 300, 0);
+light.position.set(0, 0, 0);
 light.castShadow = true;
 light.shadow.mapSize.width = 2048;
 light.shadow.mapSize.height = 2048;
@@ -91,10 +91,32 @@ function animateCubes() {
     cube.scale.copy(scale);
     });
 }
+
+// Создаем красную точечную лампу
+var pointLight = new THREE.PointLight(0xff0000, 1, 300);
+scene.add(pointLight);
+
+function animateLights() {
+  var elapsed = clock.getElapsedTime();
+
+  // Определяем, на какой стадии анимации находится пульсирующий свет
+  var animationDuration = 5;
+  var animationProgress = (elapsed % animationDuration) / animationDuration;
+
+  // Устанавливаем позицию света в центре поверхности пола кубов
+  pointLight.position.set(0, 100, 0);
+
+  // Масштабируем интенсивность света с использованием кривой синуса,
+  // чтобы создать пульсацию
+  var intensity = Math.abs(Math.sin(animationProgress * Math.PI));
+  pointLight.intensity = intensity * 50;
+}
+
   
 function render() {
   requestAnimationFrame(render);
   animateCubes();
+  animateLights();
   controls.update();
   renderer.render(scene, camera);
   mesh.rotation.x += 0.01;
