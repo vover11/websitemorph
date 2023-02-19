@@ -12,7 +12,7 @@ var scene = new THREE.Scene();
 var clock = new THREE.Clock();
 
 var camera = new THREE.PerspectiveCamera(75, w / h, 0.1, 1000);
-camera.position.set(0, 70, 0);
+camera.position.set(0, 80, 0);
 
 var renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.domElement.id = "canvasfirst";
@@ -43,7 +43,7 @@ var cubeGeometry = new THREE.BoxGeometry(10, 10, 10);
 var cubeMaterial = new THREE.MeshStandardMaterial({ color: 0x0000ff, roughness: 0.5, metalness: 0 });
 var wireframeMaterial = new THREE.MeshBasicMaterial({ color: 0x000000, wireframe: true });
 
-var numCubes = 500;
+var numCubes = 1000;
 var minSquareside = Math.ceil(Math.sqrt(numCubes));
 var squareSize = minSquareside * 10; // 10 is the size of each cube
 var spacing = squareSize / minSquareside;
@@ -60,7 +60,19 @@ for (var i = 0; i < numCubes; i++) {
   cubes.push(cube);
 }
 
+var prevScrollY = 0;
 
+window.addEventListener('scroll', onScroll, false);
+
+function onScroll() {
+  var currentScrollY = window.scrollY;
+  if (currentScrollY > prevScrollY) {
+    animateCubesDown();
+  } else {
+    animateCubesUp();
+  }
+  prevScrollY = currentScrollY;
+}
 
 function animateCubes() {
     cube.userData.isAnimating = false; // Добавляем свойство isAnimating для каждого куба
@@ -164,6 +176,60 @@ function onTouchStart(event) {
         intersects[0].object.dispatchEvent({ type: 'click' });
       }
     }
+}
+
+function animateCubesDown() {
+  cubes.forEach(function(cube) {
+    if (!cube.userData.isAnimating) {
+      cube.userData.isAnimating = true;
+      var animationStartTime = clock.getElapsedTime(); // Запоминаем время начала анимации
+      var scaleFactor = 2 + Math.random() * 10; // Генерируем множитель для длины куба
+      function animate() {
+        var elapsed = clock.getElapsedTime() - animationStartTime;
+        var animationDuration = 3; // Длительность анимации
+        var animationProgress = elapsed / animationDuration;
+        if (animationProgress > 1) {
+          animationProgress = 1;
+          cube.userData.isAnimating = false;
+        }
+        var scale = cube.scale.clone();
+        // Изменяем масштаб по оси y в соответствии с прогрессом анимации
+        scale.y = Math.abs(Math.sin(animationProgress * Math.PI)) * scaleFactor;
+        cube.scale.copy(scale);
+        if (cube.userData.isAnimating) {
+          requestAnimationFrame(animate);
+        }
+      }
+      animate();
+    }
+  });
+}
+
+function animateCubesUp() {
+  cubes.forEach(function(cube) {
+    if (!cube.userData.isAnimating) {
+      cube.userData.isAnimating = true;
+      var animationStartTime = clock.getElapsedTime(); // Запоминаем время начала анимации
+      var scaleFactor = 2 + Math.random() * 10; // Генерируем множитель для длины куба
+      function animate() {
+        var elapsed = clock.getElapsedTime() - animationStartTime;
+        var animationDuration = 3; // Длительность анимации
+        var animationProgress = elapsed / animationDuration;
+        if (animationProgress > 1) {
+          animationProgress = 1;
+          cube.userData.isAnimating = false;
+        }
+        var scale = cube.scale.clone();
+        // Изменяем масштаб по оси y в соответствии с прогрессом анимации
+        scale.y = Math.abs(Math.sin(animationProgress * Math.PI)) * scaleFactor;
+        cube.scale.copy(scale);
+        if (cube.userData.isAnimating) {
+          requestAnimationFrame(animate);
+        }
+      }
+      animate();
+    }
+  });
 }
 
 // Добавляем обработчик события клика на сцену
