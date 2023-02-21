@@ -13,7 +13,7 @@ var scene = new THREE.Scene();
 var clock = new THREE.Clock();
 
 var camera = new THREE.PerspectiveCamera(75, w / h, 0.1, 1000);
-camera.position.set(0, 100, 0); // установить камеру над плоскостью
+camera.position.set(0, 150, 0); // установить камеру над плоскостью
 camera.lookAt(0, 0, 0); // направить камеру на центр плоскости
 
 var renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -51,10 +51,10 @@ renderer.toneMappingExposure = 1;
 
 
 
-var cubeGeometry = new THREE.BoxGeometry(10, 10, 10);
+var cubeGeometry = new THREE.BoxGeometry(9, 9, 9);
 var cubeMaterial = new THREE.MeshStandardMaterial({
   color: 0x0000ff,
-  roughness: 0.5,
+  roughness: 0.7,
   metalness: 2,
 
 });
@@ -73,6 +73,7 @@ var waveSpeed = 0.0001; // уменьшенная скорость движен�
 
 for (var i = 0; i < numCubes; i++) {
   var cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
+  cube.userData.initialScale = cube.scale.clone();
   var x = (i % minSquareside) * spacing - squareSize / 2 + spacing / 2;
   var y = 0; // начальная высота куба
   var z = Math.floor(i / minSquareside) * spacing - squareSize / 2 + spacing / 2;
@@ -161,14 +162,16 @@ cubes.forEach(function (cube) {
     if (!cube.userData.isAnimating) {
       cube.userData.isAnimating = true;
       var animationStartTime = clock.getElapsedTime(); // Запоминаем время начала анимации
-      var scaleFactor = 2 + Math.random() * 10; // Генерируем множитель для длины куба
+      var scaleFactor = 2 + Math.random() * 20; // Генерируем множитель для длины куба
+      var initialScale = cube.userData.initialScale;
       function animate() {
         var elapsed = clock.getElapsedTime() - animationStartTime;
-        var animationDuration = 3; // Длительность анимации
+        var animationDuration = 5; // Длительность анимации
         var animationProgress = elapsed / animationDuration;
         if (animationProgress > 1) {
           animationProgress = 1;
           cube.userData.isAnimating = false;
+          cube.scale.copy(initialScale); // Восстанавливаем начальный масштаб после анимации
         }
         var scale = cube.scale.clone();
         // Изменяем масштаб по оси y в соответствии с прогрессом анимации
@@ -186,14 +189,15 @@ cubes.forEach(function (cube) {
     if (!cube.userData.isAnimating) {
       cube.userData.isAnimating = true;
       var animationStartTime = clock.getElapsedTime(); // Запоминаем время начала анимации
-      var scaleFactor = 2 + Math.random() * 10; // Генерируем множитель для длины куба
+      var scaleFactor = 2 + Math.random() * 20; // Генерируем множитель для длины куба
       function animate() {
         var elapsed = clock.getElapsedTime() - animationStartTime;
-        var animationDuration = 3; // Длительность анимации
+        var animationDuration = 5; // Длительность анимации
         var animationProgress = elapsed / animationDuration;
         if (animationProgress > 1) {
           animationProgress = 1;
           cube.userData.isAnimating = false;
+          cube.scale.copy(initialScale); // Восстанавливаем начальный масштаб после анимации
         }
         var scale = cube.scale.clone();
         // Изменяем масштаб по оси y в соответствии с прогрессом анимации
@@ -243,12 +247,14 @@ function onTouchStart(event) {
   });
 }
 
+
 function animateCubesDown() {
   cubes.forEach(function (cube) {
     if (!cube.userData.isAnimating) {
       cube.userData.isAnimating = true;
       var animationStartTime = clock.getElapsedTime(); // Запоминаем время начала анимации
       var scaleFactor = 1 + Math.random() * 20; // Генерируем множитель для длины куба
+      var initialScale = cube.userData.initialScale; // Сохраняем начальный масштаб из userData
       function animate() {
         var elapsed = clock.getElapsedTime() - animationStartTime;
         var animationDuration = 5; // Длительность анимации
@@ -256,6 +262,7 @@ function animateCubesDown() {
         if (animationProgress > 1) {
           animationProgress = 1;
           cube.userData.isAnimating = false;
+          cube.scale.copy(initialScale); // Восстанавливаем начальный масштаб после анимации
         }
         var scale = cube.scale.clone();
         // Изменяем масштаб по оси y в соответствии с прогрессом анимации
@@ -269,20 +276,24 @@ function animateCubesDown() {
     }
   });
 }
+
+
 
 function animateCubesUp() {
   cubes.forEach(function (cube) {
     if (!cube.userData.isAnimating) {
       cube.userData.isAnimating = true;
       var animationStartTime = clock.getElapsedTime(); // Запоминаем время начала анимации
-      var scaleFactor = 2 + Math.random() * 10; // Генерируем множитель для длины куба
+      var scaleFactor = 1 + Math.random() * 20; // Генерируем множитель для длины куба
+      var initialScale = cube.userData.initialScale; // Сохраняем начальный масштаб из userData
       function animate() {
         var elapsed = clock.getElapsedTime() - animationStartTime;
-        var animationDuration = 3; // Длительность анимации
+        var animationDuration = 5; // Длительность анимации
         var animationProgress = elapsed / animationDuration;
         if (animationProgress > 1) {
           animationProgress = 1;
           cube.userData.isAnimating = false;
+          cube.scale.copy(initialScale); // Восстанавливаем начальный масштаб после анимации
         }
         var scale = cube.scale.clone();
         // Изменяем масштаб по оси y в соответствии с прогрессом анимации
@@ -296,7 +307,6 @@ function animateCubesUp() {
     }
   });
 }
-
 
 
 // Добавляем обработчик события клика на сцену
