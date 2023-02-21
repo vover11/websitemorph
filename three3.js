@@ -3,6 +3,7 @@ import { OrbitControls } from 'https://cdn.skypack.dev/three@v0.119.0/examples/j
 // import * as THREE from "https://threejsfundamentals.org/threejs/resources/threejs/r127/build/three.module.js";
 // import { OrbitControls } from './js/OrbitControls.js';
 
+
 var container3d = document.querySelector('.container3d');
 
 var w = container3d.offsetWidth;
@@ -28,6 +29,9 @@ renderer.outputEncoding = THREE.sRGBEncoding;
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
 renderer.toneMappingExposure = 1;
 
+
+
+
 // var geometry = new THREE.TorusKnotGeometry(40, 8, 500, 16, 3, 2, 2);
 // var material = new THREE.MeshStandardMaterial({ color: 0x0000ff, emissive: 0x00033, roughness: 0.5, metalness: 3 });
 // var textureLoader = new THREE.TextureLoader();
@@ -36,6 +40,13 @@ renderer.toneMappingExposure = 1;
 // mesh.castShadow = true;
 // mesh.position.set(0, 40, 30);
 // scene.add(mesh);
+
+
+
+
+
+
+
 
 
 
@@ -50,23 +61,61 @@ var cubeMaterial = new THREE.MeshStandardMaterial({
 
 
 
-var wireframeMaterial = new THREE.MeshBasicMaterial({ color: 0x000000, wireframe: true });
-
 var numCubes = 1000;
 var minSquareside = Math.ceil(Math.sqrt(numCubes));
 var squareSize = minSquareside * 10; // 10 is the size of each cube
 var spacing = squareSize / minSquareside;
 
-
 var cubes = [];
+var waveFrequency = 1;
+var waveAmplitude = 5;
+var waveSpeed = 0.0001; // уменьшенная скорость движения волны
+
 for (var i = 0; i < numCubes; i++) {
   var cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
   var x = (i % minSquareside) * spacing - squareSize / 2 + spacing / 2;
-  var y = Math.floor(i / minSquareside) * spacing - squareSize / 2 + spacing / 2;
-  cube.position.set(x, -50, y);
+  var y = 0; // начальная высота куба
+  var z = Math.floor(i / minSquareside) * spacing - squareSize / 2 + spacing / 2;
+  cube.position.set(x, y, z);
   scene.add(cube);
   cubes.push(cube);
 }
+
+function updateCubes() {
+  waveFrequency += waveSpeed;
+  for (var i = 0; i < numCubes; i++) {
+    var cube = cubes[i];
+    var x = (i % minSquareside) * spacing - squareSize / 2 + spacing / 2;
+    var y = Math.sin(i * waveFrequency) * waveAmplitude;
+    var z = Math.floor(i / minSquareside) * spacing - squareSize / 2 + spacing / 2;
+    var currentY = cube.position.y; // текущая высота куба
+    var targetY = y;
+    var lerpedY = THREE.Math.lerp(currentY, targetY, 0.1); // плавный переход
+    cube.position.set(x, lerpedY, z); // обновление позиции куба
+  }
+}
+
+function animate() {
+  requestAnimationFrame(animate);
+  updateCubes();
+  renderer.render(scene, camera);
+}
+
+animate();
+
+
+
+
+
+// var cubes = [];
+// for (var i = 0; i < numCubes; i++) {
+//   var cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
+//   var x = (i % minSquareside) * spacing - squareSize / 2 + spacing / 2;
+//   var y = Math.floor(i / minSquareside) * spacing - squareSize / 2 + spacing / 2;
+//   cube.position.set(x, -50, y);
+//   scene.add(cube);
+//   cubes.push(cube);
+// }
 
 var prevScrollY = 0;
 
@@ -90,6 +139,8 @@ function animateCubes() {
 var raycaster = new THREE.Raycaster(); // Создаем луч для выбора объектов
 var mouse = new THREE.Vector2(); // Создаем вектор для хранения координат мыши
 
+
+
 // Добавляем обработчик события клика для каждого куба
 cubes.forEach(function (cube) {
   cube.userData = {}; // Создаем объект userData для каждого куба
@@ -104,7 +155,8 @@ cubes.forEach(function (cube) {
     cube.material.color.set(Math.random() * 0xffffff);
   });
   
-
+  
+  
   cube.addEventListener('click', function () {
     if (!cube.userData.isAnimating) {
       cube.userData.isAnimating = true;
@@ -245,6 +297,8 @@ function animateCubesUp() {
   });
 }
 
+
+
 // Добавляем обработчик события клика на сцену
 window.addEventListener('click', onMouseClick, false);
 window.addEventListener('touchstart', onTouchStart, false);
@@ -295,10 +349,11 @@ function animateLights() {
 
 function render() {
 
-
+ 
   requestAnimationFrame(render);
   animateCubes();
   animateLights();
+  
   // controls.update();
   renderer.render(scene, camera);
   mesh.rotation.x += 0.01;
