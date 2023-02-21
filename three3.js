@@ -63,7 +63,7 @@ var cubeMaterial = new THREE.MeshStandardMaterial({
 
 var numCubes = 1000;
 var minSquareside = Math.ceil(Math.sqrt(numCubes));
-var squareSize = minSquareside * 10; // 10 is the size of each cube
+var squareSize = minSquareside * 9; // 10 is the size of each cube
 var spacing = squareSize / minSquareside;
 
 var cubes = [];
@@ -272,10 +272,17 @@ function animateCubesDown() {
           requestAnimationFrame(animate);
         }
       }
+      
       animate();
+      
     }
+
+    
+    
   });
 }
+
+
 
 
 
@@ -353,7 +360,7 @@ function animateLights() {
 }
 
 
-// var controls = new OrbitControls(camera, renderer.domElement);
+var controls = new OrbitControls(camera, renderer.domElement);
 
 
 
