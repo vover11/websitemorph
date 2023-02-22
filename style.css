@@ -37,6 +37,9 @@
   font-style: normal;
   font-weight: 300;
   font-size: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
 }
 
