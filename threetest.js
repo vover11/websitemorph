@@ -1,5 +1,5 @@
 
-
+import * as THREE from 'https://cdn.skypack.dev/three@0.131.2/build/three.module.js';
 import { OrbitControls } from 'https://cdn.skypack.dev/three@v0.119.0/examples/jsm/controls/OrbitControls.js';
 // import { TWEEN } from '	https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.3/TweenMax.min.js';
 // import * as THREE from "https://threejsfundamentals.org/threejs/resources/threejs/r127/build/three.module.js";
@@ -14,8 +14,10 @@ var h = container3d.offsetHeight;
 var scene = new THREE.Scene();
 var clock = new THREE.Clock();
 
+
+
 var camera = new THREE.PerspectiveCamera(75, w / h, 0.1, 1000);
-camera.position.set(0, 150, 0); // установить камеру над плоскостью
+camera.position.set(0, 170, 0); // установить камеру над плоскостью
 camera.lookAt(0, 0, 0); // направить камеру на центр плоскости
 
 var renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -34,6 +36,7 @@ renderer.toneMappingExposure = 1;
 
 
 
+
 // var geometry = new THREE.TorusKnotGeometry(40, 8, 500, 16, 3, 2, 2);
 // var material = new THREE.MeshStandardMaterial({ color: 0x0000ff, emissive: 0x00033, roughness: 0.5, metalness: 3 });
 // var textureLoader = new THREE.TextureLoader();
@@ -43,6 +46,7 @@ renderer.toneMappingExposure = 1;
 // mesh.position.set(0, 40, 30);
 // scene.add(mesh);
 
+// Создаем геометрию для кривой линии
 
 
 
@@ -53,29 +57,34 @@ renderer.toneMappingExposure = 1;
 
 
 
-var cubeGeometry = new THREE.BoxGeometry(9, 9, 9);
-var cubeMaterial = new THREE.MeshStandardMaterial({
-  color: 0x0000ff,
-  roughness: 0.7,
-  metalness: 2,
 
+
+var cubeGeometry = new THREE.BoxGeometry;
+var cubeMaterial = new THREE.MeshPhysicalMaterial({
+  color: 0x3300FF,
+  roughness: 1.7,
+  metalness: 3,
+  // emissive: 0x3300FF,
+  dithering: true
 });
 
 
 
 var numCubes = 1000;
 var minSquareside = Math.ceil(Math.sqrt(numCubes));
-var squareSize = minSquareside * 10; // 10 is the size of each cube
+var cubeSize = 10; // задаем размер куба
+var squareSize = minSquareside * (cubeSize + 1); // 5 - промежуток между кубами
 var spacing = squareSize / minSquareside;
 
 var cubes = [];
-var waveFrequency = 1;
+var waveFrequency = 4;
 var waveAmplitude = 5;
 var waveSpeed = 0.0001; // уменьшенная скорость движения волны
 
 for (var i = 0; i < numCubes; i++) {
   var cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
-  cube.userData.initialScale = cube.scale.clone();
+  cube.userData.initialScale = cube.scale.clone().divideScalar(cubeSize);
+  cube.scale.set(cubeSize, cubeSize, cubeSize);
   var x = (i % minSquareside) * spacing - squareSize / 2 + spacing / 2;
   var y = 0; // начальная высота куба
   var z = Math.floor(i / minSquareside) * spacing - squareSize / 2 + spacing / 2;
@@ -157,14 +166,14 @@ cubes.forEach(function (cube) {
     event.preventDefault(); // Предотвращаем переход в режим скроллинга веб-страницы при касании элемента
     cube.material.color.set(Math.random() * 0xffffff);
   });
-  
-  
-  
+
+
+
   cube.addEventListener('click', function () {
     if (!cube.userData.isAnimating) {
       cube.userData.isAnimating = true;
       var animationStartTime = clock.getElapsedTime(); // Запоминаем время начала анимации
-      var scaleFactor = 2 + Math.random() * 20; // Генерируем множитель для длины куба
+      var scaleFactor = 10 + Math.random() * 200; // Генерируем множитель для длины куба
       var initialScale = cube.userData.initialScale;
       function animate() {
         var elapsed = clock.getElapsedTime() - animationStartTime;
@@ -215,15 +224,15 @@ cubes.forEach(function (cube) {
 });
 
 function onMouseClick(event) {
-  canvas.addEventListener('click', function(event) {
+  canvas.addEventListener('click', function (event) {
     // Обновляем координаты мыши в соответствии с положением клика
     mouse.x = (event.clientX / w) * 2 - 1;
     mouse.y = -(event.clientY / h) * 2 + 1;
-  
+
     // Используем луч, чтобы определить, какой объект был выбран
     raycaster.setFromCamera(mouse, camera);
     var intersects = raycaster.intersectObjects(cubes, true);
-  
+
     // Если был выбран какой-то куб, вызываем его обработчик события клика
     if (intersects.length > 0) {
       event.stopPropagation(); // Предотвращаем всплытие события
@@ -232,15 +241,15 @@ function onMouseClick(event) {
   });
 }
 function onTouchStart(event) {
-  canvas.addEventListener('touchstart', function(event) {
+  canvas.addEventListener('touchstart', function (event) {
     // Обновляем координаты мыши в соответствии с положением клика
     mouse.x = (event.clientX / w) * 2 - 1;
     mouse.y = -(event.clientY / h) * 2 + 1;
-  
+
     // Используем луч, чтобы определить, какой объект был выбран
     raycaster.setFromCamera(mouse, camera);
     var intersects = raycaster.intersectObjects(cubes, true);
-  
+
     // Если был выбран какой-то куб, вызываем его обработчик события клика
     if (intersects.length > 0) {
       event.stopPropagation(); // Предотвращаем всплытие события
@@ -250,26 +259,29 @@ function onTouchStart(event) {
 }
 
 
+
 function animateCubesDown() {
   cubes.forEach(function (cube) {
     if (!cube.userData.isAnimating) {
+      cube.userData.initialSize = cubeSize;
       cube.userData.isAnimating = true;
-      var animationStartTime = clock.getElapsedTime(); // Запоминаем время начала анимации
-      var scaleFactor = 1 + Math.random() * 20; // Генерируем множитель для длины куба
-      var initialScale = cube.userData.initialScale; // Сохраняем начальный масштаб из userData
+      var animationStartTime = clock.getElapsedTime();
+      var scaleFactor = cubeSize * (10 + Math.random() * 20) / cube.userData.initialSize;
+      var initialScale = cube.scale.clone();
       function animate() {
         var elapsed = clock.getElapsedTime() - animationStartTime;
-        var animationDuration = 5; // Длительность анимации
+        var animationDuration = 4;
         var animationProgress = elapsed / animationDuration;
         if (animationProgress > 1) {
           animationProgress = 1;
           cube.userData.isAnimating = false;
-          cube.scale.copy(initialScale); // Восстанавливаем начальный масштаб после анимации
+          cube.scale.copy(initialScale).multiplyScalar(1);
+          checkCubeSize(cube);
+        } else {
+          var scale = cube.scale.clone();
+          scale.y = Math.abs(Math.sin(animationProgress * Math.PI)) * cube.userData.initialSize * scaleFactor;
+          cube.scale.copy(scale);
         }
-        var scale = cube.scale.clone();
-        // Изменяем масштаб по оси y в соответствии с прогрессом анимации
-        scale.y = Math.abs(Math.sin(animationProgress * Math.PI)) * scaleFactor;
-        cube.scale.copy(scale);
         if (cube.userData.isAnimating) {
           requestAnimationFrame(animate);
         }
@@ -277,6 +289,13 @@ function animateCubesDown() {
       animate();
     }
   });
+}
+
+
+function checkCubeSize(cube) {
+  if (cube.scale.x > cubeSize || cube.scale.y > cubeSize || cube.scale.z > cubeSize) {
+    cube.scale.copy(cube.userData.initialScale).multiplyScalar(cubeSize);
+  }
 }
 
 
@@ -284,23 +303,25 @@ function animateCubesDown() {
 function animateCubesUp() {
   cubes.forEach(function (cube) {
     if (!cube.userData.isAnimating) {
+      cube.userData.initialSize = cubeSize;
       cube.userData.isAnimating = true;
-      var animationStartTime = clock.getElapsedTime(); // Запоминаем время начала анимации
-      var scaleFactor = 1 + Math.random() * 20; // Генерируем множитель для длины куба
-      var initialScale = cube.userData.initialScale; // Сохраняем начальный масштаб из userData
+      var animationStartTime = clock.getElapsedTime();
+      var scaleFactor = cubeSize * (10 + Math.random() * 20) / cube.userData.initialSize;
+      var initialScale = cube.scale.clone();
       function animate() {
         var elapsed = clock.getElapsedTime() - animationStartTime;
-        var animationDuration = 5; // Длительность анимации
+        var animationDuration = 4;
         var animationProgress = elapsed / animationDuration;
         if (animationProgress > 1) {
           animationProgress = 1;
           cube.userData.isAnimating = false;
-          cube.scale.copy(initialScale); // Восстанавливаем начальный масштаб после анимации
+          cube.scale.copy(initialScale).multiplyScalar(1);
+          checkCubeSize(cube);
+        } else {
+          var scale = cube.scale.clone();
+          scale.y = Math.abs(Math.sin(animationProgress * Math.PI)) * cube.userData.initialSize * scaleFactor;
+          cube.scale.copy(scale);
         }
-        var scale = cube.scale.clone();
-        // Изменяем масштаб по оси y в соответствии с прогрессом анимации
-        scale.y = Math.abs(Math.sin(animationProgress * Math.PI)) * scaleFactor;
-        cube.scale.copy(scale);
         if (cube.userData.isAnimating) {
           requestAnimationFrame(animate);
         }
@@ -309,6 +330,7 @@ function animateCubesUp() {
     }
   });
 }
+
 
 
 // Добавляем обработчик события клика на сцену
@@ -325,7 +347,7 @@ window.addEventListener('touchstart', function (event) {
 
 
 var light = new THREE.PointLight(0xFFFFFF, 1, 1000);
-light.position.set(0, 0, 0);
+light.position.set(0, 15, 0);
 light.castShadow = true;
 light.shadow.mapSize.width = 2048;
 light.shadow.mapSize.height = 2048;
@@ -335,7 +357,7 @@ scene.add(light);
 
 
 // Создаем красную точечную лампу
-var pointLight = new THREE.PointLight(0xff0000, 1, 300);
+var pointLight = new THREE.PointLight(0xBC2649, 1, 130);
 scene.add(pointLight);
 
 function animateLights() {
@@ -351,22 +373,22 @@ function animateLights() {
   // Масштабируем интенсивность света с использованием кривой синуса,
   // чтобы создать пульсацию
   var intensity = Math.abs(Math.sin(animationProgress * Math.PI));
-  pointLight.intensity = intensity * 25;
+  pointLight.intensity = intensity * 20;
 }
 
 
-// var controls = new OrbitControls(camera, renderer.domElement);
+var controls = new OrbitControls(camera, renderer.domElement);
 
 
 
 function render() {
 
- 
+
   requestAnimationFrame(render);
   animateCubes();
   animateLights();
-  
-  // controls.update();
+  // animateLine();
+  controls.update();
   renderer.render(scene, camera);
   mesh.rotation.x += 0.01;
   mesh.rotation.y += 0.005;
