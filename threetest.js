@@ -421,7 +421,7 @@ function animateLights() {
 }
 
 
-var controls = new OrbitControls(camera, renderer.domElement);
+// var controls = new OrbitControls(camera, renderer.domElement);
 
 
 
@@ -436,6 +436,6 @@ function render() {
   composer.render();
 
   // Обновление контроллеров
-  controls.update();
+  // controls.update();
 }
 render();
