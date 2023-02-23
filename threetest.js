@@ -377,7 +377,7 @@ function animateLights() {
 }
 
 
-var controls = new OrbitControls(camera, renderer.domElement);
+// var controls = new OrbitControls(camera, renderer.domElement);
 
 
 
@@ -388,7 +388,7 @@ function render() {
   animateCubes();
   animateLights();
   // animateLine();
-  controls.update();
+  // controls.update();
   renderer.render(scene, camera);
   mesh.rotation.x += 0.01;
   mesh.rotation.y += 0.005;
