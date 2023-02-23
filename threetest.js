@@ -364,7 +364,7 @@ function animateLights() {
   var elapsed = clock.getElapsedTime();
 
   // Определяем, на какой стадии анимации находится пульсирующий свет
-  var animationDuration = 5;
+  var animationDuration = 8;
   var animationProgress = (elapsed % animationDuration) / animationDuration;
 
   // Устанавливаем позицию света в центре поверхности пола кубов
