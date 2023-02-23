@@ -346,8 +346,8 @@ window.addEventListener('touchstart', function (event) {
 
 
 
-var light = new THREE.PointLight(0xFFFFFF, 1, 1000);
-light.position.set(0, 30, 0);
+var light = new THREE.PointLight(0xFFFFFF, 1, 350);
+light.position.set(0, 300, 0);
 light.castShadow = true;
 light.shadow.mapSize.width = 2048;
 light.shadow.mapSize.height = 2048;
@@ -357,7 +357,7 @@ scene.add(light);
 
 
 // Создаем красную точечную лампу
-var pointLight = new THREE.PointLight(0xBC2649, 1, 150);
+var pointLight = new THREE.PointLight(0xBC2649, 1, 170);
 scene.add(pointLight);
 
 function animateLights() {
@@ -368,7 +368,8 @@ function animateLights() {
   var animationProgress = (elapsed % animationDuration) / animationDuration;
 
   // Устанавливаем позицию света в центре поверхности пола кубов
-  pointLight.position.set(0, 100, 0);
+  pointLight.position.set(0, -100, 0);
+  pointLight.position.set(0, 0, 0);
 
   // Масштабируем интенсивность света с использованием кривой синуса,
   // чтобы создать пульсацию
