@@ -17,7 +17,7 @@ var clock = new THREE.Clock();
 
 
 var camera = new THREE.PerspectiveCamera(75, w / h, 0.1, 1000);
-camera.position.set(0, 170, 0); // установить камеру над плоскостью
+camera.position.set(0, 150, 0); // установить камеру над плоскостью
 camera.lookAt(0, 0, 0); // направить камеру на центр плоскости
 
 var renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -62,8 +62,8 @@ renderer.toneMappingExposure = 1;
 var cubeGeometry = new THREE.BoxGeometry;
 var cubeMaterial = new THREE.MeshPhysicalMaterial({
   color: 0x3300FF,
-  roughness: 1.7,
-  metalness: 3,
+  roughness: 1,
+  metalness: 2,
   // emissive: 0x3300FF,
   dithering: true
 });
@@ -266,7 +266,7 @@ function animateCubesDown() {
       cube.userData.initialSize = cubeSize;
       cube.userData.isAnimating = true;
       var animationStartTime = clock.getElapsedTime();
-      var scaleFactor = cubeSize * (10 + Math.random() * 20) / cube.userData.initialSize;
+      var scaleFactor = cubeSize * (10 + Math.random() * 10) / cube.userData.initialSize;
       var initialScale = cube.scale.clone();
       function animate() {
         var elapsed = clock.getElapsedTime() - animationStartTime;
@@ -347,7 +347,7 @@ window.addEventListener('touchstart', function (event) {
 
 
 var light = new THREE.PointLight(0xFFFFFF, 1, 1000);
-light.position.set(0, 15, 0);
+light.position.set(0, 30, 0);
 light.castShadow = true;
 light.shadow.mapSize.width = 2048;
 light.shadow.mapSize.height = 2048;
@@ -357,7 +357,7 @@ scene.add(light);
 
 
 // Создаем красную точечную лампу
-var pointLight = new THREE.PointLight(0xBC2649, 1, 130);
+var pointLight = new THREE.PointLight(0xBC2649, 1, 150);
 scene.add(pointLight);
 
 function animateLights() {
@@ -373,7 +373,7 @@ function animateLights() {
   // Масштабируем интенсивность света с использованием кривой синуса,
   // чтобы создать пульсацию
   var intensity = Math.abs(Math.sin(animationProgress * Math.PI));
-  pointLight.intensity = intensity * 20;
+  pointLight.intensity = intensity * 25;
 }
 
 
