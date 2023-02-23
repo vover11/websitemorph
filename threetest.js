@@ -23,7 +23,7 @@ var clock = new THREE.Clock();
 
 
 var camera = new THREE.PerspectiveCamera(75, w / h, 0.1, 1000);
-camera.position.set(0, 150, 0); // установить камеру над плоскостью
+camera.position.set(0, 250, 0); // установить камеру над плоскостью
 camera.lookAt(0, 0, 0); // направить камеру на центр плоскости
 
 var renderer = new THREE.WebGLRenderer({ antialias: true });

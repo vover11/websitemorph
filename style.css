@@ -43,6 +43,15 @@
 
 }
 
+/* .cardd{
+	background-image: url("data:image/svg+xml,%3Csvg width='102' height='106' viewBox='0 0 102 106' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M83.2017 96.4841L93.3975 96.4837L93.399 45.5426L93.3996 28.5609L101.775 20.1616L101.775 0.0769528L51.8901 0.0784878L7.10294 0.079866L0.912628 6.65322L0.911862 31.8504L9.6505 42.8054L9.64897 92.4694L23.4852 105.25L43.1479 105.249L57.3491 92.4679L74.4629 92.4674L83.2017 96.4841Z' fill='%23D9D9D9'/%3E%3C/svg%3E");
+  width: 100px;
+  height: 100px;
+  position: absolute;
+  
+} */
+
+
 
 .start {
   width: 100%;
@@ -504,7 +513,7 @@
 .container3d {
   background-color: #fd020200;
   width: 100% !important;
-  height: 670px !important;
+  height: 1600px !important;
   border-radius: 30px;
   
 
