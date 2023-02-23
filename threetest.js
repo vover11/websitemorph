@@ -7,6 +7,8 @@ import { OrbitControls } from 'https://cdn.skypack.dev/three@v0.119.0/examples/j
 import { EffectComposer } from 'https://cdn.skypack.dev/three@0.131.2/examples/jsm/postprocessing/EffectComposer.js';
 import { RenderPass } from 'https://cdn.skypack.dev/three@0.131.2/examples/jsm/postprocessing/RenderPass.js';
 import { GlitchPass } from 'https://cdn.skypack.dev/three@0.131.2/examples/jsm/postprocessing/GlitchPass.js';
+import { BokehPass } from 'https://cdn.skypack.dev/three@0.131.2/examples/jsm/postprocessing/BokehPass.js';
+
 
 
 
@@ -37,6 +39,45 @@ renderer.outputEncoding = THREE.sRGBEncoding;
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
 renderer.toneMappingExposure = 1;
 
+
+// var composer = new EffectComposer(renderer);
+// composer.setSize(w, h);
+
+// // Добавляем проход для рендеринга сцены
+// var renderPass = new RenderPass(scene, camera);
+// composer.addPass(renderPass);
+
+
+// var glitchPass = new GlitchPass();
+// glitchPass.uniforms.time = { value: 0.0 }; // добавляем переменную time
+// glitchPass.uniforms.offset = { value: new THREE.Vector2(0.0, 0.0) }; // добавляем переменную offset
+// composer.addPass(glitchPass);
+
+// function update2() {
+//   // Обновляем время для анимации
+//   glitchPass.uniforms.time.value += 0.01;
+
+//   // Изменяем позицию шума, чтобы создать впечатление движения
+//   glitchPass.uniforms.offset.value = new THREE.Vector2(
+//     Math.random(), // случайное значение X
+//     Math.random() // случайное значение Y
+//   );
+
+//   // Рендеринг сцены
+//   composer.render();
+
+  
+  
+// }
+
+// // Запуск обновления
+// function animate2() {
+//   update2();
+//   requestAnimationFrame(animate2);
+// }
+// animate2();
+
+
 var composer = new EffectComposer(renderer);
 composer.setSize(w, h);
 
@@ -44,27 +85,24 @@ composer.setSize(w, h);
 var renderPass = new RenderPass(scene, camera);
 composer.addPass(renderPass);
 
-
-var glitchPass = new GlitchPass();
-glitchPass.uniforms.time = { value: 0.0 }; // добавляем переменную time
-glitchPass.uniforms.offset = { value: new THREE.Vector2(0.0, 0.0) }; // добавляем переменную offset
-composer.addPass(glitchPass);
+var bokehPass = new BokehPass(scene, camera, {
+  focus: 1,
+  aperture: 0.025,
+  maxblur: 0.06,
+  width: w,
+  height: h,
+  renderTargetDepth: true // добавляем карту глубины
+});
+composer.addPass(bokehPass);
 
 function update2() {
-  // Обновляем время для анимации
-  glitchPass.uniforms.time.value += 0.01;
-
-  // Изменяем позицию шума, чтобы создать впечатление движения
-  glitchPass.uniforms.offset.value = new THREE.Vector2(
-    Math.random(), // случайное значение X
-    Math.random() // случайное значение Y
-  );
-
+  // Изменяем параметры эффекта BokehPass
+  bokehPass.uniforms.focus.value = Math.sin(performance.now() / 2000);
+  bokehPass.uniforms.aperture.value = Math.abs(Math.sin(performance.now() / 1000)) * 0.025 + 0.01;
+  bokehPass.uniforms.maxblur.value = Math.abs(Math.sin(performance.now() / 1500)) * 0.03 + 0.002;
+  
   // Рендеринг сцены
   composer.render();
-
-  
-  
 }
 
 // Запуск обновления
@@ -73,6 +111,8 @@ function animate2() {
   requestAnimationFrame(animate2);
 }
 animate2();
+
+
 
 
 
@@ -389,7 +429,7 @@ window.addEventListener('touchstart', function (event) {
 
 
 
-var light = new THREE.PointLight(0xFFFFFF, 1, 350);
+var light = new THREE.PointLight(0xFFFFFF, 1, 370);
 light.position.set(0, 300, 0);
 light.castShadow = true;
 light.shadow.mapSize.width = 2048;
@@ -400,7 +440,7 @@ scene.add(light);
 
 
 // Создаем красную точечную лампу
-var pointLight = new THREE.PointLight(0xBC2649, 1, 170);
+var pointLight = new THREE.PointLight(0xBC2649, 1, 150);
 scene.add(pointLight);
 
 function animateLights() {
