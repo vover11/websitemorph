@@ -4,6 +4,10 @@ import { OrbitControls } from 'https://cdn.skypack.dev/three@v0.119.0/examples/j
 // import { TWEEN } from '	https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.3/TweenMax.min.js';
 // import * as THREE from "https://threejsfundamentals.org/threejs/resources/threejs/r127/build/three.module.js";
 // import { OrbitControls } from './js/OrbitControls.js';
+import { EffectComposer } from 'https://cdn.skypack.dev/three@0.131.2/examples/jsm/postprocessing/EffectComposer.js';
+import { RenderPass } from 'https://cdn.skypack.dev/three@0.131.2/examples/jsm/postprocessing/RenderPass.js';
+import { GlitchPass } from 'https://cdn.skypack.dev/three@0.131.2/examples/jsm/postprocessing/GlitchPass.js';
+
 
 
 var container3d = document.querySelector('.container3d');
@@ -32,6 +36,44 @@ renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 renderer.outputEncoding = THREE.sRGBEncoding;
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
 renderer.toneMappingExposure = 1;
+
+var composer = new EffectComposer(renderer);
+composer.setSize(w, h);
+
+// Добавляем проход для рендеринга сцены
+var renderPass = new RenderPass(scene, camera);
+composer.addPass(renderPass);
+
+
+var glitchPass = new GlitchPass();
+glitchPass.uniforms.time = { value: 0.0 }; // добавляем переменную time
+glitchPass.uniforms.offset = { value: new THREE.Vector2(0.0, 0.0) }; // добавляем переменную offset
+composer.addPass(glitchPass);
+
+function update2() {
+  // Обновляем время для анимации
+  glitchPass.uniforms.time.value += 0.01;
+
+  // Изменяем позицию шума, чтобы создать впечатление движения
+  glitchPass.uniforms.offset.value = new THREE.Vector2(
+    Math.random(), // случайное значение X
+    Math.random() // случайное значение Y
+  );
+
+  // Рендеринг сцены
+  composer.render();
+
+  
+  
+}
+
+// Запуск обновления
+function animate2() {
+  update2();
+  requestAnimationFrame(animate2);
+}
+animate2();
+
 
 
 
@@ -64,6 +106,7 @@ var cubeMaterial = new THREE.MeshPhysicalMaterial({
   color: 0x3300FF,
   roughness: 1,
   metalness: 2,
+  side: THREE.FrontSide,
   // emissive: 0x3300FF,
   dithering: true
 });
@@ -378,25 +421,21 @@ function animateLights() {
 }
 
 
-// var controls = new OrbitControls(camera, renderer.domElement);
+var controls = new OrbitControls(camera, renderer.domElement);
 
 
 
 function render() {
-
-
   requestAnimationFrame(render);
+
   animateCubes();
   animateLights();
   // animateLine();
-  // controls.update();
-  renderer.render(scene, camera);
-  mesh.rotation.x += 0.01;
-  mesh.rotation.y += 0.005;
-  mesh.rotation.z += 0.02;
 
-  shadowMesh.position.x = mesh.position.x;
-  shadowMesh.position.z = mesh.position.z;
-  shadowMesh.rotation.y = mesh.rotation.y;
+  // Рендеринг сцены через EffectComposer
+  composer.render();
+
+  // Обновление контроллеров
+  controls.update();
 }
 render();
