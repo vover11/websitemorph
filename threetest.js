@@ -320,16 +320,16 @@ window.addEventListener("touchstart", function(event) {
   startX = event.touches[0].clientX;
 });
 
-window.addEventListener("touchmove", function(event) {
-  if (Math.abs(event.touches[0].clientY - startY) > Math.abs(event.touches[0].clientX - startX)) {
-    event.preventDefault();
-    var deltaY = event.touches[0].clientY - startY; // расстояние перемещения пальца по оси Y
-    waveFrequency = 40;
-    waveAmplitude = deltaY; // использование расстояния перемещения для установки параметров анимации
-    waveSpeed = 0.1; // изменение скорости движения волны
-    isScrolling = true; // установка флага, если есть движение страницы
-  }
-});
+// window.addEventListener("touchmove", function(event) {
+//   if (Math.abs(event.touches[0].clientY - startY) > Math.abs(event.touches[0].clientX - startX)) {
+//     event.preventDefault();
+//     var deltaY = event.touches[0].clientY - startY; // расстояние перемещения пальца по оси Y
+//     waveFrequency = 40;
+//     waveAmplitude = deltaY; // использование расстояния перемещения для установки параметров анимации
+//     waveSpeed = 0.1; // изменение скорости движения волны
+//     isScrolling = true; // установка флага, если есть движение страницы
+//   }
+// });
 
 window.addEventListener("touchend", function(event) {
   waveFrequency = 0;
