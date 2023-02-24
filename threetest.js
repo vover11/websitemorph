@@ -23,7 +23,7 @@ var clock = new THREE.Clock();
 
 
 var camera = new THREE.PerspectiveCamera(75, w / h, 0.1, 1000);
-camera.position.set(0, 160, ); // установить камеру над плоскостью
+camera.position.set(0, 100, ); // установить камеру над плоскостью
 camera.lookAt(0, -1, 0); // направить камеру вниз
 
 var renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -156,12 +156,86 @@ animate2();
 
 
 
+// var numCubes = 900;
+// var minSquareside = Math.ceil(Math.sqrt(numCubes));
+// var cubeSize = 5; // задаем размер куба
+// var squareSize = minSquareside * (cubeSize + 0); // 5 - промежуток между кубами
+// var spacing = squareSize / minSquareside;
+
+// var cubes = [];
+// var waveFrequency = 0;
+// var waveAmplitude = 0;
+// var waveSpeed = 0;
+
+// for (var i = 0; i < numCubes; i++) {
+// var cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
+// cube.userData.initialScale = cube.scale.clone().divideScalar(cubeSize);
+// cube.scale.set(cubeSize, cubeSize, cubeSize);
+// var x = (i % minSquareside) * spacing - squareSize / 2 + spacing / 2;
+// var y = 0; // начальная высота куба
+// var z = Math.floor(i / minSquareside) * spacing - squareSize / 2 + spacing / 2;
+// cube.position.set(x, y, z);
+// scene.add(cube);
+// cubes.push(cube);
+// }
+
+
+// var isScrolling = false; // флаг для проверки наличия движения страницы
+
+// window.addEventListener("wheel", function(event) {
+//   if (event.deltaY > 0) { // проверка направления прокрутки
+//     waveFrequency = 4;
+//     waveAmplitude = 5;
+//     isScrolling = true; // установка флага, если есть движение страницы
+//   }
+// });
+
+// function updateCubes() {
+//   for (var i = 0; i < numCubes; i++) {
+//     var cube = cubes[i];
+//     var x = (i % minSquareside) * spacing - squareSize / 2 + spacing / 2;
+//     var y = 0; // начальная высота куба
+//     var z = Math.floor(i / minSquareside) * spacing - squareSize / 2 + spacing / 2;
+//     var currentY = cube.position.y; // текущая высота куба
+//     var targetY = isScrolling ? Math.sin(i * waveFrequency) * waveAmplitude : 0; // проверка флага движения страницы
+//     var lerpedY = THREE.Math.lerp(currentY, targetY, 0.1); // плавный переход
+//     cube.position.set(x, lerpedY, z); // обновление позиции куба
+//   }
+//   if (isScrolling) { // если есть движение страницы
+//     waveFrequency += 0.0001; // увеличение частоты волны со временем
+//   } else { // если движения нет
+//     waveFrequency = 0; // сброс значений волны
+//     waveAmplitude = 0;
+//   }
+//   isScrolling = false; // обнуление флага движения страницы
+// }
 
 
 
+// Волна анмиация 1
+// var waveFrequency = 0;
+// var waveAmplitude = 0;
 
+// window.addEventListener("wheel", function(event) {
+//   if (event.deltaY > 0) { // проверка направления прокрутки
+//     waveFrequency = 4;
+//     waveAmplitude = 5;
+//   }
+// });
 
-
+// function updateCubes() {
+//   for (var i = 0; i < numCubes; i++) {
+//     var cube = cubes[i];
+//     var x = (i % minSquareside) * spacing - squareSize / 2 + spacing / 2;
+//     var y = 0; // начальная высота куба
+//     var z = Math.floor(i / minSquareside) * spacing - squareSize / 2 + spacing / 2;
+//     var currentY = cube.position.y; // текущая высота куба
+//     var targetY = Math.sin(i * waveFrequency) * waveAmplitude;
+//     var lerpedY = THREE.Math.lerp(currentY, targetY, 0.1); // плавный переход
+//     cube.position.set(x, lerpedY, z); // обновление позиции куба
+//   }
+//   waveFrequency += 0.0001; // увеличение частоты волны со временем
+// }
 
 
 
@@ -200,28 +274,39 @@ var cubeMaterial = new THREE.MeshPhongMaterial({
 
 
 
-var numCubes = 2000;
+var numCubes = 900;
 var minSquareside = Math.ceil(Math.sqrt(numCubes));
-var cubeSize = 5; // задаем размер куба
-var squareSize = minSquareside * (cubeSize + 0.1); // 5 - промежуток между кубами
+var cubeSize = 5;
+var squareSize = minSquareside * (cubeSize + 2);
 var spacing = squareSize / minSquareside;
 
 var cubes = [];
-var waveFrequency = 4;
-var waveAmplitude = 5;
-var waveSpeed = 0.0001; // уменьшенная скорость движения волны
+var waveFrequency = 2;
+var waveAmplitude = 2;
+var waveSpeed = 0.0001;
 
 for (var i = 0; i < numCubes; i++) {
   var cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
   cube.userData.initialScale = cube.scale.clone().divideScalar(cubeSize);
   cube.scale.set(cubeSize, cubeSize, cubeSize);
   var x = (i % minSquareside) * spacing - squareSize / 2 + spacing / 2;
-  var y = 0; // начальная высота куба
+  var y = Math.sin(i * waveFrequency) * waveAmplitude;
   var z = Math.floor(i / minSquareside) * spacing - squareSize / 2 + spacing / 2;
   cube.position.set(x, y, z);
   scene.add(cube);
   cubes.push(cube);
 }
+
+var isScrolling = false;
+
+window.addEventListener("wheel", function(event) {
+  if (event.deltaY > 0) {
+    waveFrequency = 40;
+    waveAmplitude = 200;
+    waveSpeed = 0.1;
+    isScrolling = true;
+  }
+});
 
 function updateCubes() {
   waveFrequency += waveSpeed;
@@ -230,12 +315,22 @@ function updateCubes() {
     var x = (i % minSquareside) * spacing - squareSize / 2 + spacing / 2;
     var y = Math.sin(i * waveFrequency) * waveAmplitude;
     var z = Math.floor(i / minSquareside) * spacing - squareSize / 2 + spacing / 2;
-    var currentY = cube.position.y; // текущая высота куба
+    var currentY = cube.position.y;
     var targetY = y;
-    var lerpedY = THREE.Math.lerp(currentY, targetY, 0.1); // плавный переход
-    cube.position.set(x, lerpedY, z); // обновление позиции куба
+    var lerpedY = THREE.Math.lerp(currentY, targetY, 0.1);
+    cube.position.set(x, lerpedY, z);
+  }
+  if (!isScrolling) {
+    waveFrequency += waveSpeed; // continue animation even when not scrolling
+  }
+  else {
+    waveFrequency = 0;
+    waveAmplitude = 0;
+    waveSpeed = 0;
+    isScrolling = false;
   }
 }
+
 
 function animate() {
   requestAnimationFrame(animate);
@@ -390,36 +485,36 @@ function onTouchStart(event) {
 
 
 
-function animateCubesDown() {
-  cubes.forEach(function (cube) {
-    if (!cube.userData.isAnimating) {
-      cube.userData.initialSize = cubeSize;
-      cube.userData.isAnimating = true;
-      var animationStartTime = clock.getElapsedTime();
-      var scaleFactor = cubeSize * (10 + Math.random() * 10) / cube.userData.initialSize;
-      var initialScale = cube.scale.clone();
-      function animate() {
-        var elapsed = clock.getElapsedTime() - animationStartTime;
-        var animationDuration = 4;
-        var animationProgress = elapsed / animationDuration;
-        if (animationProgress > 1) {
-          animationProgress = 1;
-          cube.userData.isAnimating = false;
-          cube.scale.copy(initialScale).multiplyScalar(1);
-          checkCubeSize(cube);
-        } else {
-          var scale = cube.scale.clone();
-          scale.y = Math.abs(Math.sin(animationProgress * Math.PI)) * cube.userData.initialSize * scaleFactor;
-          cube.scale.copy(scale);
-        }
-        if (cube.userData.isAnimating) {
-          requestAnimationFrame(animate);
-        }
-      }
-      animate();
-    }
-  });
-}
+// function animateCubesDown() {
+//   cubes.forEach(function (cube) {
+//     if (!cube.userData.isAnimating) {
+//       cube.userData.initialSize = cubeSize;
+//       cube.userData.isAnimating = true;
+//       var animationStartTime = clock.getElapsedTime();
+//       var scaleFactor = cubeSize * (10 + Math.random() * 10) / cube.userData.initialSize;
+//       var initialScale = cube.scale.clone();
+//       function animate() {
+//         var elapsed = clock.getElapsedTime() - animationStartTime;
+//         var animationDuration = 4;
+//         var animationProgress = elapsed / animationDuration;
+//         if (animationProgress > 1) {
+//           animationProgress = 1;
+//           cube.userData.isAnimating = false;
+//           cube.scale.copy(initialScale).multiplyScalar(1);
+//           checkCubeSize(cube);
+//         } else {
+//           var scale = cube.scale.clone();
+//           scale.y = Math.abs(Math.sin(animationProgress * Math.PI)) * cube.userData.initialSize * scaleFactor;
+//           cube.scale.copy(scale);
+//         }
+//         if (cube.userData.isAnimating) {
+//           requestAnimationFrame(animate);
+//         }
+//       }
+//       animate();
+//     }
+//   });
+// }
 
 
 function checkCubeSize(cube) {
@@ -430,36 +525,36 @@ function checkCubeSize(cube) {
 
 
 
-function animateCubesUp() {
-  cubes.forEach(function (cube) {
-    if (!cube.userData.isAnimating) {
-      cube.userData.initialSize = cubeSize;
-      cube.userData.isAnimating = true;
-      var animationStartTime = clock.getElapsedTime();
-      var scaleFactor = cubeSize * (10 + Math.random() * 20) / cube.userData.initialSize;
-      var initialScale = cube.scale.clone();
-      function animate() {
-        var elapsed = clock.getElapsedTime() - animationStartTime;
-        var animationDuration = 4;
-        var animationProgress = elapsed / animationDuration;
-        if (animationProgress > 1) {
-          animationProgress = 1;
-          cube.userData.isAnimating = false;
-          cube.scale.copy(initialScale).multiplyScalar(1);
-          checkCubeSize(cube);
-        } else {
-          var scale = cube.scale.clone();
-          scale.y = Math.abs(Math.sin(animationProgress * Math.PI)) * cube.userData.initialSize * scaleFactor;
-          cube.scale.copy(scale);
-        }
-        if (cube.userData.isAnimating) {
-          requestAnimationFrame(animate);
-        }
-      }
-      animate();
-    }
-  });
-}
+// function animateCubesUp() {
+//   cubes.forEach(function (cube) {
+//     if (!cube.userData.isAnimating) {
+//       cube.userData.initialSize = cubeSize;
+//       cube.userData.isAnimating = true;
+//       var animationStartTime = clock.getElapsedTime();
+//       var scaleFactor = cubeSize * (10 + Math.random() * 20) / cube.userData.initialSize;
+//       var initialScale = cube.scale.clone();
+//       function animate() {
+//         var elapsed = clock.getElapsedTime() - animationStartTime;
+//         var animationDuration = 4;
+//         var animationProgress = elapsed / animationDuration;
+//         if (animationProgress > 1) {
+//           animationProgress = 1;
+//           cube.userData.isAnimating = false;
+//           cube.scale.copy(initialScale).multiplyScalar(1);
+//           checkCubeSize(cube);
+//         } else {
+//           var scale = cube.scale.clone();
+//           scale.y = Math.abs(Math.sin(animationProgress * Math.PI)) * cube.userData.initialSize * scaleFactor;
+//           cube.scale.copy(scale);
+//         }
+//         if (cube.userData.isAnimating) {
+//           requestAnimationFrame(animate);
+//         }
+//       }
+//       animate();
+//     }
+//   });
+// }
 
 
 
