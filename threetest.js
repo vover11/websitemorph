@@ -23,7 +23,7 @@ var clock = new THREE.Clock();
 
 
 var camera = new THREE.PerspectiveCamera(75, w / h, 0.1, 1000);
-camera.position.set(0, 150, 0); // установить камеру над плоскостью
+camera.position.set(0, 160, ); // установить камеру над плоскостью
 camera.lookAt(0, -1, 0); // направить камеру вниз
 
 var renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -84,7 +84,7 @@ composer.setSize(w, h);
 window.addEventListener('resize', function() {
   composer.setSize(w, h);
   renderer.setSize(w, h);
-  camera.aspect = width / height;
+  camera.aspect = w / h;
   camera.updateProjectionMatrix();
 });
 
@@ -95,7 +95,7 @@ composer.addPass(renderPass);
 var bokehPass = new BokehPass(scene, camera, {
   focus: 1,
   aperture: 0.025,
-  maxblur: 0,
+  maxblur: 0.09,
   width: w,
   height: h,
   renderTargetDepth: true // добавляем карту глубины
@@ -104,45 +104,46 @@ composer.addPass(bokehPass);
 
 // Создаем объект Clock и сохраняем начальное время
 var clock = new THREE.Clock();
-var effectDuration = 4; // Длительность эффекта в секундах
-var pauseDuration = 4; // Время простоя после окончания эффекта в секундах
-var fadeOutDuration = 3; // Время затухания эффекта в секундах
-var startTime = -effectDuration; // начинаем с простоя
-var fadingOut = false;
+var startTime = clock.getElapsedTime();
+var animationDuration = 2; // Длительность анимации в секундах
+var isAnimationFinished = false;
 
 function update2() {
-  var elapsedTime = clock.getElapsedTime();
-  if (elapsedTime - startTime < effectDuration) {
-    // Эффект включен
-    var timeElapsed = elapsedTime - startTime;
-    bokehPass.uniforms.focus.value = Math.sin(timeElapsed / 2);
-    bokehPass.uniforms.aperture.value = Math.abs(Math.sin(timeElapsed)) / 2 * 0.025 + 0.01;
-    bokehPass.uniforms.maxblur.value = Math.abs(Math.sin(timeElapsed / 1.5)) * 0.03 + 0.002;
-  } else if (!fadingOut && elapsedTime - startTime >= effectDuration + pauseDuration) {
-    // Начало затухания
-    fadingOut = true;
-    startTime = elapsedTime;
-  } else if (fadingOut) {
-    // Эффект затухает
-    var fadeElapsedTime = elapsedTime - startTime;
-    var fadeOutValue = Math.pow(2, -fadeElapsedTime / fadeOutDuration); // экспоненциальное затухание
-    bokehPass.uniforms.focus.value = 1 - fadeOutValue;
-    bokehPass.uniforms.aperture.value = 0.025 * fadeOutValue;
-    bokehPass.uniforms.maxblur.value = 0.015 * fadeOutValue;
-    if (fadeOutValue <= 0.001) {
-      // Конец затухания
-      fadingOut = false;
-      startTime = elapsedTime + pauseDuration; // начинаем простой
-      bokehPass.uniforms.focus.value = 1; // установите значения блюра в 0
-      bokehPass.uniforms.aperture.value = 0;
-      bokehPass.uniforms.maxblur.value = 0;
+  // Изменяем параметры эффекта BokehPass
+  if (!isAnimationFinished) {
+    var elapsedTime = clock.getElapsedTime() - startTime;
+    if (elapsedTime < animationDuration) {
+      // Анимация еще не завершена, изменяем параметры эффекта
+      bokehPass.uniforms.focus.value = Math.sin(elapsedTime / 2);
+      bokehPass.uniforms.aperture.value = Math.abs(Math.sin(elapsedTime) / 2) * 0.025 + 0.01;
+      bokehPass.uniforms.maxblur.value = Math.abs(Math.sin(elapsedTime / 1.5)) * 0.09 + 0.002;
+    } else {
+      // Анимация завершена
+      isAnimationFinished = true;
+      var endTime = clock.getElapsedTime();
+      var fadeOutDuration = 2; // Длительность плавного отключения анимации в секундах
+      var fadeOutStartTime = endTime;
+      var fadeOutEndTime = endTime + fadeOutDuration;
+      var initialMaxBlur = bokehPass.uniforms.maxblur.value;
+      
+      // Постепенно уменьшаем значение параметра maxblur
+      function fadeOut() {
+        var time = clock.getElapsedTime();
+        if (time < fadeOutEndTime) {
+          var fadeOutProgress = (time - fadeOutStartTime) / fadeOutDuration;
+          bokehPass.uniforms.maxblur.value = (1 - fadeOutProgress) * initialMaxBlur;
+          requestAnimationFrame(fadeOut);
+        } else {
+          // Отключаем анимацию полностью
+          bokehPass.uniforms.maxblur.value = 0;
+        }
+      }
+      requestAnimationFrame(fadeOut);
     }
   }
   // Рендеринг сцены
   composer.render();
 }
-
-
 
 
 // Запуск обновления
@@ -503,7 +504,7 @@ function animateLights() {
   // Масштабируем интенсивность света с использованием кривой синуса,
   // чтобы создать пульсацию
   var intensity = Math.abs(Math.sin(animationProgress * Math.PI));
-  pointLight.intensity = intensity * 25;
+  pointLight.intensity = intensity * 50;
 }
 
 
