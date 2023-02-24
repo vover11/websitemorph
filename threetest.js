@@ -277,7 +277,7 @@ var cubeMaterial = new THREE.MeshPhongMaterial({
 var numCubes = 900;
 var minSquareside = Math.ceil(Math.sqrt(numCubes));
 var cubeSize = 5;
-var squareSize = minSquareside * (cubeSize + 2);
+var squareSize = minSquareside * (cubeSize + 0);
 var spacing = squareSize / minSquareside;
 
 var cubes = [];
@@ -298,6 +298,7 @@ for (var i = 0; i < numCubes; i++) {
 }
 
 var isScrolling = false;
+var startY, startX;
 
 window.addEventListener("wheel", function(event) {
   if (event.deltaY > 0) {
@@ -306,6 +307,11 @@ window.addEventListener("wheel", function(event) {
     waveSpeed = 0.1;
     isScrolling = true;
   }
+});
+
+window.addEventListener("touchstart", function(event) {
+  startY = event.touches[0].clientY;
+  startX = event.touches[0].clientX;
 });
 
 window.addEventListener("touchmove", function(event) {
@@ -318,8 +324,6 @@ window.addEventListener("touchmove", function(event) {
   waveSpeed = 0.1; // изменение скорости движения волны
   isScrolling = true; // установка флага, если есть движение страницы
 });
-
-
 
 function updateCubes() {
   waveFrequency += waveSpeed;
@@ -343,6 +347,7 @@ function updateCubes() {
     isScrolling = false;
   }
 }
+
 
 
 function animate() {
