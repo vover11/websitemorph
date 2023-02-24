@@ -331,12 +331,12 @@ window.addEventListener("touchmove", function(event) {
   }
 });
 
-window.addEventListener("touchend", function(event) {
-  waveFrequency = 2;
-  waveAmplitude = 2;
-  waveSpeed = 0.0001;
-  isScrolling = false;
-});
+// window.addEventListener("touchend", function(event) {
+//   waveFrequency = 2;
+//   waveAmplitude = 2;
+//   waveSpeed = 0.0001;
+//   isScrolling = false;
+// });
 
 window.addEventListener("scroll", function(event) {
   scrollY = window.scrollY;
