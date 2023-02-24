@@ -527,36 +527,36 @@ function onTouchStart(event) {
 
 
 
-// function animateCubesDown() {
-//   cubes.forEach(function (cube) {
-//     if (!cube.userData.isAnimating) {
-//       cube.userData.initialSize = cubeSize;
-//       cube.userData.isAnimating = true;
-//       var animationStartTime = clock.getElapsedTime();
-//       var scaleFactor = cubeSize * (10 + Math.random() * 10) / cube.userData.initialSize;
-//       var initialScale = cube.scale.clone();
-//       function animate() {
-//         var elapsed = clock.getElapsedTime() - animationStartTime;
-//         var animationDuration = 4;
-//         var animationProgress = elapsed / animationDuration;
-//         if (animationProgress > 1) {
-//           animationProgress = 1;
-//           cube.userData.isAnimating = false;
-//           cube.scale.copy(initialScale).multiplyScalar(1);
-//           checkCubeSize(cube);
-//         } else {
-//           var scale = cube.scale.clone();
-//           scale.y = Math.abs(Math.sin(animationProgress * Math.PI)) * cube.userData.initialSize * scaleFactor;
-//           cube.scale.copy(scale);
-//         }
-//         if (cube.userData.isAnimating) {
-//           requestAnimationFrame(animate);
-//         }
-//       }
-//       animate();
-//     }
-//   });
-// }
+function animateCubesDown() {
+  cubes.forEach(function (cube) {
+    if (!cube.userData.isAnimating) {
+      cube.userData.initialSize = cubeSize;
+      cube.userData.isAnimating = true;
+      var animationStartTime = clock.getElapsedTime();
+      var scaleFactor = cubeSize * (10 + Math.random() * 3) / cube.userData.initialSize;
+      var initialScale = cube.scale.clone();
+      function animate() {
+        var elapsed = clock.getElapsedTime() - animationStartTime;
+        var animationDuration = 1.2;
+        var animationProgress = elapsed / animationDuration;
+        if (animationProgress > 1) {
+          animationProgress = 1;
+          cube.userData.isAnimating = false;
+          cube.scale.copy(initialScale).multiplyScalar(1);
+          checkCubeSize(cube);
+        } else {
+          var scale = cube.scale.clone();
+          scale.y = Math.abs(Math.sin(animationProgress * Math.PI)) * cube.userData.initialSize * scaleFactor;
+          cube.scale.copy(scale);
+        }
+        if (cube.userData.isAnimating) {
+          requestAnimationFrame(animate);
+        }
+      }
+      animate();
+    }
+  });
+}
 
 
 function checkCubeSize(cube) {
@@ -567,36 +567,36 @@ function checkCubeSize(cube) {
 
 
 
-// function animateCubesUp() {
-//   cubes.forEach(function (cube) {
-//     if (!cube.userData.isAnimating) {
-//       cube.userData.initialSize = cubeSize;
-//       cube.userData.isAnimating = true;
-//       var animationStartTime = clock.getElapsedTime();
-//       var scaleFactor = cubeSize * (10 + Math.random() * 20) / cube.userData.initialSize;
-//       var initialScale = cube.scale.clone();
-//       function animate() {
-//         var elapsed = clock.getElapsedTime() - animationStartTime;
-//         var animationDuration = 4;
-//         var animationProgress = elapsed / animationDuration;
-//         if (animationProgress > 1) {
-//           animationProgress = 1;
-//           cube.userData.isAnimating = false;
-//           cube.scale.copy(initialScale).multiplyScalar(1);
-//           checkCubeSize(cube);
-//         } else {
-//           var scale = cube.scale.clone();
-//           scale.y = Math.abs(Math.sin(animationProgress * Math.PI)) * cube.userData.initialSize * scaleFactor;
-//           cube.scale.copy(scale);
-//         }
-//         if (cube.userData.isAnimating) {
-//           requestAnimationFrame(animate);
-//         }
-//       }
-//       animate();
-//     }
-//   });
-// }
+function animateCubesUp() {
+  cubes.forEach(function (cube) {
+    if (!cube.userData.isAnimating) {
+      cube.userData.initialSize = cubeSize;
+      cube.userData.isAnimating = true;
+      var animationStartTime = clock.getElapsedTime();
+      var scaleFactor = cubeSize * (10 + Math.random() * 3) / cube.userData.initialSize;
+      var initialScale = cube.scale.clone();
+      function animate() {
+        var elapsed = clock.getElapsedTime() - animationStartTime;
+        var animationDuration = 1.2;
+        var animationProgress = elapsed / animationDuration;
+        if (animationProgress > 1) {
+          animationProgress = 1;
+          cube.userData.isAnimating = false;
+          cube.scale.copy(initialScale).multiplyScalar(1);
+          checkCubeSize(cube);
+        } else {
+          var scale = cube.scale.clone();
+          scale.y = Math.abs(Math.sin(animationProgress * Math.PI)) * cube.userData.initialSize * scaleFactor;
+          cube.scale.copy(scale);
+        }
+        if (cube.userData.isAnimating) {
+          requestAnimationFrame(animate);
+        }
+      }
+      animate();
+    }
+  });
+}
 
 
 
