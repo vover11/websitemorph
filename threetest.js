@@ -299,6 +299,7 @@ for (var i = 0; i < numCubes; i++) {
 
 var isScrolling = false;
 var startY, startX;
+var scrollY = 0;
 
 window.addEventListener("wheel", function(event) {
   if (event.deltaY > 0) {
@@ -306,6 +307,11 @@ window.addEventListener("wheel", function(event) {
     waveAmplitude = 200;
     waveSpeed = 0.1;
     isScrolling = true;
+  } else {
+    waveFrequency = 2;
+    waveAmplitude = 2;
+    waveSpeed = 0.0001;
+    isScrolling = false;
   }
 });
 
@@ -316,13 +322,28 @@ window.addEventListener("touchstart", function(event) {
 
 window.addEventListener("touchmove", function(event) {
   if (Math.abs(event.touches[0].clientY - startY) > Math.abs(event.touches[0].clientX - startX)) {
-    return;
+    event.preventDefault();
+    var deltaY = event.touches[0].clientY - startY; // расстояние перемещения пальца по оси Y
+    waveFrequency = 40;
+    waveAmplitude = deltaY; // использование расстояния перемещения для установки параметров анимации
+    waveSpeed = 0.1; // изменение скорости движения волны
+    isScrolling = true; // установка флага, если есть движение страницы
   }
-  var deltaY = event.touches[0].clientY - startY; // расстояние перемещения пальца по оси Y
+});
+
+window.addEventListener("touchend", function(event) {
+  waveFrequency = 2;
+  waveAmplitude = 2;
+  waveSpeed = 0.0001;
+  isScrolling = false;
+});
+
+window.addEventListener("scroll", function(event) {
+  scrollY = window.scrollY;
   waveFrequency = 40;
-  waveAmplitude = deltaY; // использование расстояния перемещения для установки параметров анимации
-  waveSpeed = 0.1; // изменение скорости движения волны
-  isScrolling = true; // установка флага, если есть движение страницы
+  waveAmplitude = scrollY / 2;
+  waveSpeed = 0.1;
+  isScrolling = true;
 });
 
 function updateCubes() {
