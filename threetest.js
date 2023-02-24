@@ -263,13 +263,16 @@ animate2();
 
 
 var cubeGeometry = new THREE.BoxGeometry;
-var cubeMaterial = new THREE.MeshPhongMaterial({
+var cubeMaterial = new THREE.MeshPhysicalMaterial({
   color: 0x3300FF,
+  
   roughness: 1,
   metalness: 2,
   side: THREE.FrontSide,
   // emissive: 0x3300FF,
-  dithering: true
+  dithering: true,
+  
+  
 });
 
 
