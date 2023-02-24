@@ -24,7 +24,7 @@ var clock = new THREE.Clock();
 
 var camera = new THREE.PerspectiveCamera(75, w / h, 0.1, 1000);
 camera.position.set(0, 150, 0); // установить камеру над плоскостью
-camera.lookAt(0, 0, 0); // направить камеру на центр плоскости
+camera.lookAt(0, -1, 0); // направить камеру вниз
 
 var renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.domElement.id = "canvasfirst";
@@ -81,6 +81,13 @@ renderer.toneMappingExposure = 1;
 var composer = new EffectComposer(renderer);
 composer.setSize(w, h);
 
+window.addEventListener('resize', function() {
+  composer.setSize(w, h);
+  renderer.setSize(w, h);
+  camera.aspect = width / height;
+  camera.updateProjectionMatrix();
+});
+
 // Добавляем проход для рендеринга сцены
 var renderPass = new RenderPass(scene, camera);
 composer.addPass(renderPass);
@@ -88,7 +95,7 @@ composer.addPass(renderPass);
 var bokehPass = new BokehPass(scene, camera, {
   focus: 1,
   aperture: 0.025,
-  maxblur: 0.06,
+  maxblur: 0,
   width: w,
   height: h,
   renderTargetDepth: true // добавляем карту глубины
@@ -98,50 +105,45 @@ composer.addPass(bokehPass);
 // Создаем объект Clock и сохраняем начальное время
 var clock = new THREE.Clock();
 var effectDuration = 4; // Длительность эффекта в секундах
-var pauseDuration = 8; // Время простоя после окончания эффекта в секундах
-var fadeOutDuration = 4; // Время затухания эффекта в секундах
-var startTime = clock.getElapsedTime();
+var pauseDuration = 4; // Время простоя после окончания эффекта в секундах
+var fadeOutDuration = 3; // Время затухания эффекта в секундах
+var startTime = -effectDuration; // начинаем с простоя
 var fadingOut = false;
-var fadeStartTime;
 
 function update2() {
   var elapsedTime = clock.getElapsedTime();
-
-  // Изменяем параметры эффекта BokehPass
-  var timeElapsed = (elapsedTime - startTime) % (effectDuration + pauseDuration);
-  
-  if (timeElapsed < effectDuration) {
+  if (elapsedTime - startTime < effectDuration) {
     // Эффект включен
+    var timeElapsed = elapsedTime - startTime;
     bokehPass.uniforms.focus.value = Math.sin(timeElapsed / 2);
     bokehPass.uniforms.aperture.value = Math.abs(Math.sin(timeElapsed)) / 2 * 0.025 + 0.01;
     bokehPass.uniforms.maxblur.value = Math.abs(Math.sin(timeElapsed / 1.5)) * 0.03 + 0.002;
-  } else {
-    // Простой
-    if (!fadingOut) {
-      // Начало затухания
-      fadingOut = true;
-      fadeStartTime = elapsedTime;
-    }
-    var fadeElapsedTime = elapsedTime - fadeStartTime;
-    if (fadeElapsedTime < fadeOutDuration) {
-      // Постепенное затухание
-      var fadeOutProgress = fadeElapsedTime / fadeOutDuration;
-      var fadeOutValue = 1 - fadeOutProgress;
-      bokehPass.uniforms.focus.value = 1 * fadeOutValue;
-      bokehPass.uniforms.aperture.value = 0.025 * fadeOutValue;
-      bokehPass.uniforms.maxblur.value = 0.01 * fadeOutValue;
-    } else {
+  } else if (!fadingOut && elapsedTime - startTime >= effectDuration + pauseDuration) {
+    // Начало затухания
+    fadingOut = true;
+    startTime = elapsedTime;
+  } else if (fadingOut) {
+    // Эффект затухает
+    var fadeElapsedTime = elapsedTime - startTime;
+    var fadeOutValue = Math.pow(2, -fadeElapsedTime / fadeOutDuration); // экспоненциальное затухание
+    bokehPass.uniforms.focus.value = 1 - fadeOutValue;
+    bokehPass.uniforms.aperture.value = 0.025 * fadeOutValue;
+    bokehPass.uniforms.maxblur.value = 0.015 * fadeOutValue;
+    if (fadeOutValue <= 0.001) {
       // Конец затухания
       fadingOut = false;
-      bokehPass.uniforms.focus.value = 0;
-      bokehPass.uniforms.aperture.value = 0.01;
+      startTime = elapsedTime + pauseDuration; // начинаем простой
+      bokehPass.uniforms.focus.value = 1; // установите значения блюра в 0
+      bokehPass.uniforms.aperture.value = 0;
       bokehPass.uniforms.maxblur.value = 0;
     }
   }
-
   // Рендеринг сцены
   composer.render();
 }
+
+
+
 
 // Запуск обновления
 function animate2() {
@@ -186,7 +188,7 @@ animate2();
 
 
 var cubeGeometry = new THREE.BoxGeometry;
-var cubeMaterial = new THREE.MeshPhysicalMaterial({
+var cubeMaterial = new THREE.MeshPhongMaterial({
   color: 0x3300FF,
   roughness: 1,
   metalness: 2,
@@ -473,7 +475,7 @@ window.addEventListener('touchstart', function (event) {
 
 
 
-var light = new THREE.PointLight(0xFFFFFF, 1, 370);
+var light = new THREE.PointLight(0xFFFFFF, 1, 420);
 light.position.set(0, 300, 0);
 light.castShadow = true;
 light.shadow.mapSize.width = 2048;
