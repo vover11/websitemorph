@@ -301,19 +301,19 @@ var isScrolling = false;
 var startY, startX;
 var scrollY = 0;
 
-window.addEventListener("wheel", function(event) {
-  if (event.deltaY > 0) {
-    waveFrequency = 40;
-    waveAmplitude = 200;
-    waveSpeed = 0.1;
-    isScrolling = true;
-  } else {
-    waveFrequency = 2;
-    waveAmplitude = 2;
-    waveSpeed = 0.0001;
-    isScrolling = false;
-  }
-});
+// window.addEventListener("wheel", function(event) {
+//   if (event.deltaY > 0) {
+//     waveFrequency = 40;
+//     waveAmplitude = 200;
+//     waveSpeed = 0.1;
+//     isScrolling = true;
+//   } else {
+//     waveFrequency = 2;
+//     waveAmplitude = 2;
+//     waveSpeed = 0.0001;
+//     isScrolling = false;
+//   }
+// });
 
 window.addEventListener("touchstart", function(event) {
   startY = event.touches[0].clientY;
@@ -340,7 +340,7 @@ window.addEventListener("touchend", function(event) {
 
 window.addEventListener("scroll", function(event) {
   scrollY = window.scrollY;
-  waveFrequency = 40;
+  waveFrequency = 0.5;
   waveAmplitude = scrollY / 2;
   waveSpeed = 0.1;
   isScrolling = true;
