@@ -23,7 +23,7 @@ var clock = new THREE.Clock();
 
 
 var camera = new THREE.PerspectiveCamera(75, w / h, 0.1, 1000);
-camera.position.set(0, 250, 0); // установить камеру над плоскостью
+camera.position.set(0, 150, 0); // установить камеру над плоскостью
 camera.lookAt(0, 0, 0); // направить камеру на центр плоскости
 
 var renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -95,12 +95,50 @@ var bokehPass = new BokehPass(scene, camera, {
 });
 composer.addPass(bokehPass);
 
+// Создаем объект Clock и сохраняем начальное время
+var clock = new THREE.Clock();
+var effectDuration = 4; // Длительность эффекта в секундах
+var pauseDuration = 8; // Время простоя после окончания эффекта в секундах
+var fadeOutDuration = 4; // Время затухания эффекта в секундах
+var startTime = clock.getElapsedTime();
+var fadingOut = false;
+var fadeStartTime;
+
 function update2() {
+  var elapsedTime = clock.getElapsedTime();
+
   // Изменяем параметры эффекта BokehPass
-  bokehPass.uniforms.focus.value = Math.sin(performance.now() / 2000);
-  bokehPass.uniforms.aperture.value = Math.abs(Math.sin(performance.now() / 1000)) * 0.025 + 0.01;
-  bokehPass.uniforms.maxblur.value = Math.abs(Math.sin(performance.now() / 1500)) * 0.03 + 0.002;
+  var timeElapsed = (elapsedTime - startTime) % (effectDuration + pauseDuration);
   
+  if (timeElapsed < effectDuration) {
+    // Эффект включен
+    bokehPass.uniforms.focus.value = Math.sin(timeElapsed / 2);
+    bokehPass.uniforms.aperture.value = Math.abs(Math.sin(timeElapsed)) / 2 * 0.025 + 0.01;
+    bokehPass.uniforms.maxblur.value = Math.abs(Math.sin(timeElapsed / 1.5)) * 0.03 + 0.002;
+  } else {
+    // Простой
+    if (!fadingOut) {
+      // Начало затухания
+      fadingOut = true;
+      fadeStartTime = elapsedTime;
+    }
+    var fadeElapsedTime = elapsedTime - fadeStartTime;
+    if (fadeElapsedTime < fadeOutDuration) {
+      // Постепенное затухание
+      var fadeOutProgress = fadeElapsedTime / fadeOutDuration;
+      var fadeOutValue = 1 - fadeOutProgress;
+      bokehPass.uniforms.focus.value = 1 * fadeOutValue;
+      bokehPass.uniforms.aperture.value = 0.025 * fadeOutValue;
+      bokehPass.uniforms.maxblur.value = 0.01 * fadeOutValue;
+    } else {
+      // Конец затухания
+      fadingOut = false;
+      bokehPass.uniforms.focus.value = 0;
+      bokehPass.uniforms.aperture.value = 0.01;
+      bokehPass.uniforms.maxblur.value = 0;
+    }
+  }
+
   // Рендеринг сцены
   composer.render();
 }
@@ -111,6 +149,12 @@ function animate2() {
   requestAnimationFrame(animate2);
 }
 animate2();
+
+
+
+
+
+
 
 
 
@@ -153,10 +197,10 @@ var cubeMaterial = new THREE.MeshPhysicalMaterial({
 
 
 
-var numCubes = 1000;
+var numCubes = 2000;
 var minSquareside = Math.ceil(Math.sqrt(numCubes));
-var cubeSize = 10; // задаем размер куба
-var squareSize = minSquareside * (cubeSize + 1); // 5 - промежуток между кубами
+var cubeSize = 5; // задаем размер куба
+var squareSize = minSquareside * (cubeSize + 0.1); // 5 - промежуток между кубами
 var spacing = squareSize / minSquareside;
 
 var cubes = [];
