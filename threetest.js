@@ -308,6 +308,19 @@ window.addEventListener("wheel", function(event) {
   }
 });
 
+window.addEventListener("touchmove", function(event) {
+  if (Math.abs(event.touches[0].clientY - startY) > Math.abs(event.touches[0].clientX - startX)) {
+    return;
+  }
+  var deltaY = event.touches[0].clientY - startY; // расстояние перемещения пальца по оси Y
+  waveFrequency = 40;
+  waveAmplitude = deltaY; // использование расстояния перемещения для установки параметров анимации
+  waveSpeed = 0.1; // изменение скорости движения волны
+  isScrolling = true; // установка флага, если есть движение страницы
+});
+
+
+
 function updateCubes() {
   waveFrequency += waveSpeed;
   for (var i = 0; i < numCubes; i++) {
