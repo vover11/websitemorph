@@ -194,6 +194,15 @@
 
 }
 
+.big{
+  position: relative;
+  border-radius: 20px;
+  background-color: rgba(0, 0, 0, 0.76);
+  backdrop-filter: blur(10px);
+  pointer-events: none;
+  align-items: center;
+}
+
 .menu {
   /* background: url(.png), linear-gradient(180deg, #BC2649 27.08%, #BC2649 44.79%, #000000 100%), #B22851; */
   border-radius: 50px 0px 50px 0px;
@@ -203,6 +212,9 @@
   margin-top: 3px;
   position: relative;
   filter: url(#noiseEffect);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
 }
 
@@ -245,7 +257,8 @@
   margin-top: 3px;
   position: relative;
   display: flex;
-  justify-content: flex-end;
+  align-items: center;
+  justify-content: center;
 
 }
 
