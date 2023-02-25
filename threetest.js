@@ -8,6 +8,8 @@ import { EffectComposer } from 'https://cdn.skypack.dev/three@0.131.2/examples/j
 import { RenderPass } from 'https://cdn.skypack.dev/three@0.131.2/examples/jsm/postprocessing/RenderPass.js';
 import { GlitchPass } from 'https://cdn.skypack.dev/three@0.131.2/examples/jsm/postprocessing/GlitchPass.js';
 import { BokehPass } from 'https://cdn.skypack.dev/three@0.131.2/examples/jsm/postprocessing/BokehPass.js';
+import { BloomPass } from 'https://cdn.skypack.dev/three@0.131.2/examples/jsm/postprocessing/BloomPass.js';
+import { UnrealBloomPass } from 'https://cdn.skypack.dev/three@0.131.2/examples/jsm/postprocessing/UnrealBloomPass.js';
 
 
 
@@ -23,7 +25,7 @@ var clock = new THREE.Clock();
 
 
 var camera = new THREE.PerspectiveCamera(75, w / h, 0.1, 1000);
-camera.position.set(0, 100, ); // установить камеру над плоскостью
+camera.position.set(0, 100,); // установить камеру над плоскостью
 camera.lookAt(0, -1, 0); // направить камеру вниз
 
 var renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -66,8 +68,8 @@ renderer.toneMappingExposure = 1;
 //   // Рендеринг сцены
 //   composer.render();
 
-  
-  
+
+
 // }
 
 // // Запуск обновления
@@ -81,7 +83,7 @@ renderer.toneMappingExposure = 1;
 var composer = new EffectComposer(renderer);
 composer.setSize(w, h);
 
-window.addEventListener('resize', function() {
+window.addEventListener('resize', function () {
   composer.setSize(w, h);
   renderer.setSize(w, h);
   camera.aspect = w / h;
@@ -92,6 +94,11 @@ window.addEventListener('resize', function() {
 var renderPass = new RenderPass(scene, camera);
 composer.addPass(renderPass);
 
+// Добавляем эффект bloom pass с UnrealBloomPass
+var bloomPass = new UnrealBloomPass(new THREE.Vector2(w, h), 1.5, 0.4, 0.85);
+composer.addPass(bloomPass);
+
+// Добавляем эффект bokeh pass
 var bokehPass = new BokehPass(scene, camera, {
   focus: 1,
   aperture: 0.025,
@@ -105,17 +112,19 @@ composer.addPass(bokehPass);
 // Создаем объект Clock и сохраняем начальное время
 var clock = new THREE.Clock();
 var startTime = clock.getElapsedTime();
-var animationDuration = 2; // Длительность анимации в секундах
+var animationDuration = 1; // Длительность анимации в секундах
 var isAnimationFinished = false;
 
 function update2() {
-  // Изменяем параметры эффекта BokehPass
+  // Изменяем параметры эффектов bloom pass и bokeh pass
   if (!isAnimationFinished) {
     var elapsedTime = clock.getElapsedTime() - startTime;
     if (elapsedTime < animationDuration) {
-      // Анимация еще не завершена, изменяем параметры эффекта
+      // Анимация еще не завершена, изменяем параметры эффектов
+      bloomPass.strength = Math.sin(elapsedTime / 2) * 2.5;
+      bloomPass.radius = Math.abs(Math.sin(elapsedTime / 1.5)) * 1.5 + 0.1;
       bokehPass.uniforms.focus.value = Math.sin(elapsedTime / 2);
-      bokehPass.uniforms.aperture.value = Math.abs(Math.sin(elapsedTime) / 2) * 0.025 + 0.01;
+      bokehPass.uniforms.aperture.value = Math.abs(Math.sin(elapsedTime)) * 0.025 + 0.01;
       bokehPass.uniforms.maxblur.value = Math.abs(Math.sin(elapsedTime / 1.5)) * 0.09 + 0.002;
     } else {
       // Анимация завершена
@@ -125,7 +134,8 @@ function update2() {
       var fadeOutStartTime = endTime;
       var fadeOutEndTime = endTime + fadeOutDuration;
       var initialMaxBlur = bokehPass.uniforms.maxblur.value;
-      
+
+
       // Постепенно уменьшаем значение параметра maxblur
       function fadeOut() {
         var time = clock.getElapsedTime();
@@ -265,14 +275,14 @@ animate2();
 var cubeGeometry = new THREE.BoxGeometry;
 var cubeMaterial = new THREE.MeshPhysicalMaterial({
   color: 0x3300FF,
-  
+
   roughness: 1,
   metalness: 2,
   side: THREE.FrontSide,
   // emissive: 0x3300FF,
   dithering: true,
-  
-  
+
+
 });
 
 
@@ -318,7 +328,7 @@ var scrollY = 0;
 //   }
 // });
 
-window.addEventListener("touchstart", function(event) {
+window.addEventListener("touchstart", function (event) {
   startY = event.touches[0].clientY;
   startX = event.touches[0].clientX;
 });
@@ -334,14 +344,14 @@ window.addEventListener("touchstart", function(event) {
 //   }
 // });
 
-window.addEventListener("touchend", function(event) {
+window.addEventListener("touchend", function (event) {
   waveFrequency = 0;
   waveAmplitude = 0;
   waveSpeed = 0;
   isScrolling = false;
 });
 
-window.addEventListener("scroll", function(event) {
+window.addEventListener("scroll", function (event) {
   scrollY = window.scrollY;
   waveFrequency = 0.5;
   waveAmplitude = scrollY / 2;
