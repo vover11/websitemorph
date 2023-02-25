@@ -24,30 +24,19 @@
   background-color: rgba(0, 0, 0, 0);
 }
 
-
-.carddd{
-  width: 100%;
-  height: 500px;
-  border-radius: 0px 50px 20px;
-  background-color: rgba(172, 172, 172, 0.048);
-  backdrop-filter: blur(10px);
-  
-  pointer-events: none;
-  color: #ffffff;
-  font-family: 'Sissi display';
-  font-style: normal;
-  font-weight: 300;
-  font-size: 30px;
+#leftcol{
   display: flex;
-  align-items: center;
-  justify-content: center;
+  justify-content: end;
 }
+
+
+
 
 .cardd {
   width: 200px;
-  height: 100px;
+  height: 69px;
   border-radius: 0px 50px 20px;
-  background-color: rgba(172, 172, 172, 0.048);
+  background-color: #3300ff38;
   backdrop-filter: blur(10px);
   position: absolute;
   pointer-events: none;
@@ -55,7 +44,27 @@
   font-family: 'Sissi display';
   font-style: normal;
   font-weight: 300;
-  font-size: 30px;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+}
+
+
+.cardd2 {
+  width: 200px;
+  height: 69px;
+  border-radius: 50px 0px 50px 20px;
+  background-color: #3300ff38;
+  backdrop-filter: blur(10px);
+  position: absolute;
+  pointer-events: none;
+  color: #ffffff;
+  font-family: 'Sissi display';
+  font-style: normal;
+  font-weight: 300;
+  font-size: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -197,7 +206,7 @@
 .big{
   position: relative;
   border-radius: 20px;
-  background-color: rgba(0, 0, 0, 0.76);
+  background-color: #3300ff38;
   backdrop-filter: blur(10px);
   align-items: center;
 }
