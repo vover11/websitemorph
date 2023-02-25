@@ -282,7 +282,7 @@ var cubeMaterial = new THREE.MeshPhysicalMaterial({
   dithering: true,
 });
 
-var numCubes = 9000;
+var numCubes = 1000;
 var minSquareside = Math.ceil(Math.sqrt(numCubes));
 var cubeSize = 3;
 var squareSize = minSquareside * (cubeSize + 0.5);
