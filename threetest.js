@@ -94,7 +94,7 @@ window.addEventListener('resize', function () {
 var renderPass = new RenderPass(scene, camera);
 composer.addPass(renderPass);
 
-// Добавляем эффект bloom pass с UnrealBloomPass
+// // Добавляем эффект bloom pass с UnrealBloomPass
 var bloomPass = new UnrealBloomPass(new THREE.Vector2(w, h), 1.5, 0.4, 0.85);
 composer.addPass(bloomPass);
 
@@ -121,11 +121,11 @@ function update2() {
     var elapsedTime = clock.getElapsedTime() - startTime;
     if (elapsedTime < animationDuration) {
       // Анимация еще не завершена, изменяем параметры эффектов
-      bloomPass.strength = Math.sin(elapsedTime / 2) * 2.5;
-      bloomPass.radius = Math.abs(Math.sin(elapsedTime / 1.5)) * 1.5 + 0.1;
-      bokehPass.uniforms.focus.value = Math.sin(elapsedTime / 2);
-      bokehPass.uniforms.aperture.value = Math.abs(Math.sin(elapsedTime)) * 0.025 + 0.01;
-      bokehPass.uniforms.maxblur.value = Math.abs(Math.sin(elapsedTime / 1.5)) * 0.09 + 0.002;
+      // bloomPass.strength = Math.sin(elapsedTime / 2) * 2.5;
+      // bloomPass.radius = Math.abs(Math.sin(elapsedTime / 1.5)) * 1.5 + 0.1;
+      // bokehPass.uniforms.focus.value = Math.sin(elapsedTime / 2);
+      // bokehPass.uniforms.aperture.value = Math.abs(Math.sin(elapsedTime)) * 0.025 + 0.01;
+      // bokehPass.uniforms.maxblur.value = Math.abs(Math.sin(elapsedTime / 1.5)) * 0.09 + 0.002;
     } else {
       // Анимация завершена
       isAnimationFinished = true;
@@ -272,34 +272,29 @@ animate2();
 
 
 
-var cubeGeometry = new THREE.BoxGeometry;
+var sphereGeometry = new THREE.SphereGeometry();
+
 var cubeMaterial = new THREE.MeshPhysicalMaterial({
   color: 0x3300FF,
-
   roughness: 1,
   metalness: 2,
   side: THREE.FrontSide,
-  // emissive: 0x3300FF,
   dithering: true,
-
-
 });
 
-
-
-var numCubes = 900;
+var numCubes = 9000;
 var minSquareside = Math.ceil(Math.sqrt(numCubes));
-var cubeSize = 5;
-var squareSize = minSquareside * (cubeSize + 0);
+var cubeSize = 3;
+var squareSize = minSquareside * (cubeSize + 0.5);
 var spacing = squareSize / minSquareside;
 
 var cubes = [];
-var waveFrequency = 2;
-var waveAmplitude = 2;
-var waveSpeed = 0.0001;
+var waveFrequency = 20;
+var waveAmplitude = 20;
+var waveSpeed = 0.00001;
 
 for (var i = 0; i < numCubes; i++) {
-  var cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
+  var cube = new THREE.Mesh(sphereGeometry, cubeMaterial);
   cube.userData.initialScale = cube.scale.clone().divideScalar(cubeSize);
   cube.scale.set(cubeSize, cubeSize, cubeSize);
   var x = (i % minSquareside) * spacing - squareSize / 2 + spacing / 2;
@@ -309,6 +304,7 @@ for (var i = 0; i < numCubes; i++) {
   scene.add(cube);
   cubes.push(cube);
 }
+
 
 var isScrolling = false;
 var startY, startX;
