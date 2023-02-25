@@ -312,6 +312,59 @@
   
 }
 
+.prewstart{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  
+}
+
+.prew{
+  margin-top: 74px;
+  width: 100%;
+  height: 593px;
+  background-color: #3300FF;
+  border-radius: 0px 50px 20px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 29px;
+  line-height: 120%;
+
+ 
+}
+
+.prewlogo{
+  position: absolute;
+  top: 99px;
+  left: 10px;
+  min-width: 98px;
+  width: 163px;
+  height: 36px;
+  border-style: solid;
+  border: 1px solid #FFFFFF;
+  border-radius: 50px 0px 100px 50px;
+  color: white;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+  font-family: 'Slack';
+  font-style: normal;
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 19px;
+  text-transform: lowercase;
+}
+
+.prewimage{
+  position: absolute;
+  top: 589px;
+}
+
 
 
 
@@ -532,6 +585,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
 
 }
 
@@ -540,15 +594,75 @@
   height: 300px;
   background-color: #3300FF;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   color: white;
-  font-size: 13px;
+  font-size: 15px;
   text-transform: lowercase;
   text-align: center;
+  
 
 
 }
+
+
+.namecard {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  width: 194px;
+  height: 36px;
+  border: 1px solid #FFFFFF;
+  border-radius: 50px;
+  font-family: 'Catalogue';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 27px;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+
+}
+
+.info{
+  
+  position: absolute;
+  height: 30px;
+  color: #FFFFFF;
+  font-family: 'Sissi Display';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 77px;
+}
+
+.backtxt{
+  width: 248px;
+  height: 36px;
+  border: 1px solid #FFFFFF;
+  border-radius: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 27px;
+  
+}
+
+
+.backtxt2{
+  width: 248px;
+  height: 36px;
+  border: 1px solid #FFFFFF;
+  border-radius: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+  
+}
+
 
 .container3d {
   background-color: #fd020200;
