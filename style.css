@@ -333,6 +333,8 @@
   color: white;
   font-size: 29px;
   line-height: 120%;
+  box-shadow: 5px 5px 10px rgba(255, 255, 255, 0.993); /* тень смещения по горизонтали и вертикали равны 5px */
+  transition: box-shadow 0.5s ease;
 
  
 }

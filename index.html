@@ -129,19 +129,28 @@
     <div class="row g-0">
         <div class="col">
             <div class="prewstart">
+                <script>
+                    window.addEventListener('deviceorientation', function (event) {
+                        var x = event.beta;
+                        var y = event.gamma;
+                        var boxShadow = '0 ' + y / 20 + 'px ' + Math.abs(x) / 10 + 'px rgba(0, 0, 0, 0.5)';
+                        document.querySelector('.prew').style.boxShadow = boxShadow;
+                    });
+                </script>
                 <div class="prew">
                     Работая на опережение <br>
-                    мы создаём<br> 
-                    исключительный<br> 
-                    конкурентноспособный <br> 
-                    продукт, позволяющий<br> 
-                    закрыть все<br> 
-                    потребности бизнеса<br> 
+                    мы создаём<br>
+                    исключительный<br>
+                    конкурентноспособный <br>
+                    продукт, позволяющий<br>
+                    закрыть все<br>
+                    потребности бизнеса<br>
                     в web пространстве </div>
                 <div class="prewlogo"> GLOBAL IT AGENCY</div>
                 <div class="prewimage">
                     <img src="images/button.png" alt="" srcset="">
                 </div>
+
             </div>
         </div>
     </div>
