@@ -1,4 +1,3 @@
-
 import * as THREE from 'https://cdn.skypack.dev/three@0.131.2/build/three.module.js';
 import { OrbitControls } from 'https://cdn.skypack.dev/three@v0.119.0/examples/jsm/controls/OrbitControls.js';
 // import { TWEEN } from '	https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.3/TweenMax.min.js';
@@ -8,14 +7,11 @@ import { EffectComposer } from 'https://cdn.skypack.dev/three@0.131.2/examples/j
 import { RenderPass } from 'https://cdn.skypack.dev/three@0.131.2/examples/jsm/postprocessing/RenderPass.js';
 import { GlitchPass } from 'https://cdn.skypack.dev/three@0.131.2/examples/jsm/postprocessing/GlitchPass.js';
 import { BokehPass } from 'https://cdn.skypack.dev/three@0.131.2/examples/jsm/postprocessing/BokehPass.js';
-// import { BloomPass } from 'https://cdn.skypack.dev/three@0.131.2/examples/jsm/postprocessing/BloomPass.js';
+import { BloomPass } from 'https://cdn.skypack.dev/three@0.131.2/examples/jsm/postprocessing/BloomPass.js';
 import { UnrealBloomPass } from 'https://cdn.skypack.dev/three@0.131.2/examples/jsm/postprocessing/UnrealBloomPass.js';
-import { ShaderPass } from 'https://cdn.skypack.dev/three@0.131.2/examples/jsm/postprocessing/ShaderPass.js';
-import { FXAAShader } from 'https://cdn.skypack.dev/three@0.131.2/examples/jsm/shaders/FXAAShader.js';
-// import { SMAAPass } from 'https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/postprocessing/SMAAPass.js';
-// import { CopyShader } from 'https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/shaders/CopyShader.js';
-// import { DepthLimitedBlurShader } from 'https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/shaders/DepthLimitedBlurShader.js';
-// import { SMAAShader } from 'https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/shaders/SMAAShader.js';
+
+
+
 
 var container3d = document.querySelector('.container3d');
 
@@ -34,8 +30,6 @@ camera.lookAt(0, -1, 0); // направить камеру вниз
 var renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.domElement.id = "canvasfirst";
 renderer.domElement.classList.add("canvasfirst");
-renderer.setPixelRatio( window.devicePixelRatio );
-renderer.gammaOutput = true;
 container3d.appendChild(renderer.domElement);
 const canvas = renderer.domElement;
 renderer.setSize(w, h);
@@ -45,7 +39,6 @@ renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 renderer.outputEncoding = THREE.sRGBEncoding;
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
 renderer.toneMappingExposure = 1;
-
 
 
 // var composer = new EffectComposer(renderer);
@@ -100,16 +93,8 @@ window.addEventListener('resize', function () {
 var renderPass = new RenderPass(scene, camera);
 composer.addPass(renderPass);
 
-// var fxaaPass = new ShaderPass(FXAAShader);
-// fxaaPass.uniforms['resolution'].value.set(w, h); // устанавливает разрешение по ширине и высоте экрана
-// fxaaPass.renderToScreen = true; // рендерит результат на экран
-// composer.addPass(fxaaPass);
-
-
-
-
 // Добавляем эффект bloom pass с UnrealBloomPass
-var bloomPass = new UnrealBloomPass(new THREE.Vector2(w, h), 0.5, 0.1, 0.85);
+var bloomPass = new UnrealBloomPass(new THREE.Vector2(w, h), 0.5, 0.4, 0.85);
 composer.addPass(bloomPass);
 
 // Добавляем эффект bokeh pass
@@ -123,11 +108,6 @@ var bokehPass = new BokehPass(scene, camera, {
 });
 composer.addPass(bokehPass);
 
-
-
-
-
-
 // Создаем объект Clock и сохраняем начальное время
 var clock = new THREE.Clock();
 var startTime = clock.getElapsedTime();
@@ -140,10 +120,11 @@ function update2() {
     var elapsedTime = clock.getElapsedTime() - startTime;
     if (elapsedTime < animationDuration) {
       // Анимация еще не завершена, изменяем параметры эффектов
+      // bloomPass.strength = Math.sin(elapsedTime / 2) * 2.5;
+      // bloomPass.radius = Math.abs(Math.sin(elapsedTime / 1.5)) * 1.5 + 0.1;
       bokehPass.uniforms.focus.value = Math.sin(elapsedTime / 2);
       bokehPass.uniforms.aperture.value = Math.abs(Math.sin(elapsedTime)) * 0.025 + 0.01;
       bokehPass.uniforms.maxblur.value = Math.abs(Math.sin(elapsedTime / 1.5)) * 0.09 + 0.002;
-      // fxaaPass.uniforms['resolution'].value.set(w, h);
     } else {
       // Анимация завершена
       isAnimationFinished = true;
@@ -345,7 +326,6 @@ var scrollY = 0;
 //     isScrolling = false;
 //   }
 // });
-
 
 window.addEventListener("touchstart", function (event) {
   startY = event.touches[0].clientY;
