@@ -10,7 +10,8 @@ import { GlitchPass } from 'https://cdn.skypack.dev/three@0.131.2/examples/jsm/p
 import { BokehPass } from 'https://cdn.skypack.dev/three@0.131.2/examples/jsm/postprocessing/BokehPass.js';
 import { BloomPass } from 'https://cdn.skypack.dev/three@0.131.2/examples/jsm/postprocessing/BloomPass.js';
 import { UnrealBloomPass } from 'https://cdn.skypack.dev/three@0.131.2/examples/jsm/postprocessing/UnrealBloomPass.js';
-
+import { ShaderPass } from 'https://cdn.skypack.dev/three@0.131.2/examples/jsm/postprocessing/ShaderPass.js';
+import { FXAAShader } from 'https://cdn.skypack.dev/three@0.131.2/examples/jsm/shaders/FXAAShader.js';
 
 
 
@@ -31,6 +32,8 @@ camera.lookAt(0, -1, 0); // направить камеру вниз
 var renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.domElement.id = "canvasfirst";
 renderer.domElement.classList.add("canvasfirst");
+renderer.setPixelRatio( window.devicePixelRatio );
+renderer.gammaOutput = true;
 container3d.appendChild(renderer.domElement);
 const canvas = renderer.domElement;
 renderer.setSize(w, h);
@@ -94,7 +97,7 @@ window.addEventListener('resize', function () {
 var renderPass = new RenderPass(scene, camera);
 composer.addPass(renderPass);
 
-// // Добавляем эффект bloom pass с UnrealBloomPass
+// Добавляем эффект bloom pass с UnrealBloomPass
 var bloomPass = new UnrealBloomPass(new THREE.Vector2(w, h), 1.5, 0.4, 0.85);
 composer.addPass(bloomPass);
 
@@ -109,6 +112,12 @@ var bokehPass = new BokehPass(scene, camera, {
 });
 composer.addPass(bokehPass);
 
+var fxaaPass = new ShaderPass(FXAAShader);
+fxaaPass.uniforms['resolution'].value.set(w, h); // устанавливает разрешение по ширине и высоте экрана
+fxaaPass.renderToScreen = true; // рендерит результат на экран
+composer.addPass(fxaaPass);
+
+
 // Создаем объект Clock и сохраняем начальное время
 var clock = new THREE.Clock();
 var startTime = clock.getElapsedTime();
@@ -121,11 +130,12 @@ function update2() {
     var elapsedTime = clock.getElapsedTime() - startTime;
     if (elapsedTime < animationDuration) {
       // Анимация еще не завершена, изменяем параметры эффектов
-      // bloomPass.strength = Math.sin(elapsedTime / 2) * 2.5;
-      // bloomPass.radius = Math.abs(Math.sin(elapsedTime / 1.5)) * 1.5 + 0.1;
-      // bokehPass.uniforms.focus.value = Math.sin(elapsedTime / 2);
-      // bokehPass.uniforms.aperture.value = Math.abs(Math.sin(elapsedTime)) * 0.025 + 0.01;
-      // bokehPass.uniforms.maxblur.value = Math.abs(Math.sin(elapsedTime / 1.5)) * 0.09 + 0.002;
+      bloomPass.strength = Math.sin(elapsedTime / 2) * 2.5;
+      bloomPass.radius = Math.abs(Math.sin(elapsedTime / 1.5)) * 1.5 + 0.1;
+      bokehPass.uniforms.focus.value = Math.sin(elapsedTime / 2);
+      bokehPass.uniforms.aperture.value = Math.abs(Math.sin(elapsedTime)) * 0.025 + 0.01;
+      bokehPass.uniforms.maxblur.value = Math.abs(Math.sin(elapsedTime / 1.5)) * 0.09 + 0.002;
+      fxaaPass.uniforms['resolution'].value.set(w, h);
     } else {
       // Анимация завершена
       isAnimationFinished = true;
@@ -272,29 +282,34 @@ animate2();
 
 
 
-var sphereGeometry = new THREE.SphereGeometry();
-
+var cubeGeometry = new THREE.BoxGeometry;
 var cubeMaterial = new THREE.MeshPhysicalMaterial({
   color: 0x3300FF,
+
   roughness: 1,
   metalness: 2,
   side: THREE.FrontSide,
+  // emissive: 0x3300FF,
   dithering: true,
+
+
 });
 
-var numCubes = 1000;
+
+
+var numCubes = 900;
 var minSquareside = Math.ceil(Math.sqrt(numCubes));
-var cubeSize = 3;
-var squareSize = minSquareside * (cubeSize + 0.5);
+var cubeSize = 5;
+var squareSize = minSquareside * (cubeSize + 0);
 var spacing = squareSize / minSquareside;
 
 var cubes = [];
-var waveFrequency = 20;
-var waveAmplitude = 20;
-var waveSpeed = 0.00001;
+var waveFrequency = 2;
+var waveAmplitude = 2;
+var waveSpeed = 0.0001;
 
 for (var i = 0; i < numCubes; i++) {
-  var cube = new THREE.Mesh(sphereGeometry, cubeMaterial);
+  var cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
   cube.userData.initialScale = cube.scale.clone().divideScalar(cubeSize);
   cube.scale.set(cubeSize, cubeSize, cubeSize);
   var x = (i % minSquareside) * spacing - squareSize / 2 + spacing / 2;
@@ -304,7 +319,6 @@ for (var i = 0; i < numCubes; i++) {
   scene.add(cube);
   cubes.push(cube);
 }
-
 
 var isScrolling = false;
 var startY, startX;
@@ -323,6 +337,7 @@ var scrollY = 0;
 //     isScrolling = false;
 //   }
 // });
+
 
 window.addEventListener("touchstart", function (event) {
   startY = event.touches[0].clientY;
